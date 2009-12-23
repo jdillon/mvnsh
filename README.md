@@ -16,7 +16,8 @@ Features
 * Interactive shell
 * Maven 3.x `mvn` command
 * Colorized Maven output
-* Growl build notifications
+* [Growl][1] build notifications
+* Optional support for ANSI color on Windows (using [JNA][2])
 
 
 Building
@@ -37,3 +38,7 @@ Extract the assembly and execute the shell:
 
     unzip mvnsh-assembly/target/mvnsh-*-bin.zip
     ./mvnsh-*/bin/mvnsh
+
+
+[1]: http://growl.info/
+[2]: https://jna.dev.java.net/
