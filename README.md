@@ -23,8 +23,8 @@ Building
 
 ### Requirements
 
-* [Maven](http://maven.apache.org) 2.x
-* [Java](http://java.sun.com/) 5
+* [Maven](http://maven.apache.org) 2.x+
+* [Java](http://java.sun.com/) 5+
 
 Check-out and build:
 
