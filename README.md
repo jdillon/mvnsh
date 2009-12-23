@@ -3,6 +3,21 @@ Description
 
 Sonatype Maven Shell (`mvnsh`) - OSS Version
 
+
+License
+-------
+
+[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+
+Features
+--------
+
+* Interactive shell
+* Maven 3.x `mvn` command
+* Colorized Maven output
+
+
 Building
 --------
 
