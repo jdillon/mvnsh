@@ -31,12 +31,25 @@
     <version>0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <organization>
+        <name>Sonatype</name>
+        <url>http://sonatype.org</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
     <scm>
         <connection>scm:git:git://github.com/sonatype/mvnsh.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/sonatype/mvnsh.git</developerConnection>
         <url>https://github.com/sonatype/mvnsh</url>
     </scm>
-
+    
     <ciManagement>
         <system>Hudson</system>
         <url>https://grid.sonatype.org/ci/view/Mvnsh</url>
