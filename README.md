@@ -17,7 +17,7 @@ Check-out and build:
     cd mvnsh
     mvn install
 
-After this completes, you can unzip the assembly and have a go with the shell:
+Extract the assembly and execute the shell:
 
     unzip mvnsh-assembly/target/mvnsh-*-bin.zip
     ./mvnsh-*/bin/mvnsh
