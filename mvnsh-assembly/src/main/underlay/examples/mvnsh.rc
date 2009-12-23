@@ -1,0 +1,37 @@
+#
+# Sonatype Maven Shell (TM) Professional Version.
+#
+# Copyright (c) 2009 Sonatype, Inc. All rights reserved.
+# Includes the third-party code listed at http://www.sonatype.com/products/mvnsh/attributions/.
+# "Sonatype" and "Sonatype Nexus" are trademarks of Sonatype, Inc.
+#
+
+#
+# Example ~/.m2/mvnsh.rc
+#
+
+# Some niceties
+alias ? help
+alias ! recall
+alias . source
+alias quit exit
+alias bye exit
+alias print echo
+
+# Some aliases to run common goals
+alias install mvn install
+alias clean mvn clean
+alias compile mvn compile
+alias test mvn test
+
+# Aliases to the mvn help plugin
+alias help-system mvn org.apache.maven.plugins:maven-help-plugin:system
+alias help-allprofiles mvn org.apache.maven.plugins:maven-help-plugin:all-profiles
+alias help-effectivesettings mvn org.apache.maven.plugins:maven-help-plugin:effective-settings
+
+@ Aliases to the mvn dependency plugin
+alias dependency-analyze mvn org.apache.maven.plugins:maven-dependency-plugin:analyze
+alias dependency-resolve mvn org.apache.maven.plugins:maven-dependency-plugin:resolve
+alias dependency-tree mvn org.apache.maven.plugins:maven-dependency-plugin:tree
+alias dependency-purge mvn org.apache.maven.plugins:maven-dependency-plugin:purge-local-repository
+alias dependency-resolve-plugins mvn org.apache.maven.plugins:maven-dependency-plugin:resolve-plugins

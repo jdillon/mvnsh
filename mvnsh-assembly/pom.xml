@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Sonatype Maven Shell (TM) Professional Version.
+  ~
+  ~ Copyright (c) 2009 Sonatype, Inc. All rights reserved.
+  ~ Includes the third-party code listed at http://www.sonatype.com/products/mvnsh/attributions/.
+  ~ "Sonatype" and "Sonatype Nexus" are trademarks of Sonatype, Inc.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.maven.shell</groupId>
+        <artifactId>mvnsh</artifactId>
+        <version>0.9-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>mvnsh-assembly</artifactId>
+    <name>Maven Shell :: Assembly</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-bootstrap</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-core</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-file</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-artifact</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-maven</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.maven.archetype</groupId>
+            <artifactId>archetype-commands</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-embedder</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-file</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-http-lightweight</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gossip</groupId>
+            <artifactId>gossip</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>fetch-bootstrap</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <silent>true</silent>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.sonatype.gshell</groupId>
+                                    <artifactId>gshell-bootstrap</artifactId>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/bootstrap</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>bootstrap</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/bootstrap.xml</descriptor>
+                            </descriptors>
+                            <finalName>mvnsh</finalName>
+                            <archive>
+                                <manifestFile>${project.build.directory}/bootstrap/META-INF/MANIFEST.MF</manifestFile>
+                            </archive>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>bin</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/bin.xml</descriptor>
+                            </descriptors>
+                            <finalName>mvnsh-${project.version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
