@@ -16,6 +16,7 @@ Features
 * Interactive shell
 * Maven 3.x `mvn` command
 * Colorized Maven output
+* Growl build notifications
 
 
 Building
