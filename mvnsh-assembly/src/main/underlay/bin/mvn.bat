@@ -1,9 +1,17 @@
 @rem .
-@rem Sonatype Maven Shell (TM) Professional Version.
+@rem Copyright (C) 2009 the original author or authors.
 @rem .
-@rem Copyright (c) 2009 Sonatype, Inc. All rights reserved.
-@rem Includes the third-party code listed at http://www.sonatype.com/products/mvnsh/attributions/.
-@rem "Sonatype" and "Sonatype Nexus" are trademarks of Sonatype, Inc.
+@rem Licensed under the Apache License, Version 2.0 (the "License");
+@rem you may not use this file except in compliance with the License.
+@rem You may obtain a copy of the License at
+@rem .
+@rem http://www.apache.org/licenses/LICENSE-2.0
+@rem .
+@rem Unless required by applicable law or agreed to in writing, software
+@rem distributed under the License is distributed on an "AS IS" BASIS,
+@rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+@rem See the License for the specific language governing permissions and
+@rem limitations under the License.
 @rem .
 
 @if "%DEBUG%" == "" @echo off
