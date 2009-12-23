@@ -16,7 +16,7 @@ Features
 * Interactive shell
 * Maven 3.x `mvn` command
 * Colorized Maven output
-* [Growl][1] build notifications
+* [Growl][1] build notifications (Using AppleScript or [JNA][2])
 * Optional support for ANSI color on Windows (using [JNA][2])
 
 
