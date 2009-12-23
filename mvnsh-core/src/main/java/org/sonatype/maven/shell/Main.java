@@ -19,7 +19,6 @@ package org.sonatype.maven.shell;
 import org.sonatype.gshell.MainSupport;
 import org.sonatype.gshell.branding.Branding;
 import org.sonatype.gshell.builder.guice.GuiceShellBuilder;
-import org.sonatype.gshell.registry.CommandRegistrar;
 import org.sonatype.gshell.shell.Shell;
 import org.sonatype.gshell.shell.ShellErrorHandler;
 import org.sonatype.gshell.shell.ShellPrompt;
@@ -41,13 +40,6 @@ public class Main
     @Override
     protected Shell createShell() throws Exception {
         GuiceShellBuilder builder = new GuiceShellBuilder();
-
-        // Use a custom location for the commands descriptor, since we shade all commands into one single descriptor
-        CommandRegistrar registrar = builder.getInjector().getInstance(CommandRegistrar.class);
-        registrar.setDescriptorSearchPath(
-            "META-INF/mvnsh/commands.xml",
-            CommandRegistrar.DEFAULT_DESCRIPTOR_LOCATION
-        );
 
         return builder
                 .setBranding(getBranding())
