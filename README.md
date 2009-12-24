@@ -7,8 +7,7 @@ Sonatype Maven Shell (`mvnsh`) - OSS Version
 License
 -------
 
-[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-
+[Eclipse Public License 1.0](http://www.eclipse.org/org/documents/epl-v10.html)
 
 Features
 --------
