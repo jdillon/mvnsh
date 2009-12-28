@@ -8,3 +8,6 @@
 alias ? help
 alias . source
 alias dir ls
+
+# OS Helpers
+alias install-jna -- wget http://download.java.net/maven/2/net/java/dev/jna/jna/3.2.4/jna-3.2.4.jar -o ${shell.home}/lib/jna.jar
