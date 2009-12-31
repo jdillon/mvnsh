@@ -5,7 +5,7 @@
 @rem which accompanies this distribution and is available at http://www.eclipse.org/legal/epl-v10.html.
 @rem .
 
-@if "%DEBUG%" == "" @echo off
+@if "%SHELL_DEBUG%" == "" @echo off
 
 if "%OS%"=="Windows_NT" setlocal enableextensions
 
@@ -13,6 +13,11 @@ if "%OS%"=="Windows_NT" setlocal enableextensions
 
 set DIRNAME=%~dp0
 if "%DIRNAME%" == "" set DIRNAME=.\
+
+if "%HOME%" == "" (set "HOME=%HOMEDRIVE%%HOMEPATH%")
+
+set BOOTSCRIPT="%HOME%\.m2\mvnsh.boot.bat"
+if exist "%BOOTSCRIPT%" call "%BOOTSCRIPT%"
 
 :check_JAVACMD
 if not "%JAVACMD%" == "" goto check_SHELL_HOME
