@@ -9,5 +9,5 @@ alias ? help
 alias . source
 alias dir ls
 
-# OS Helpers
+# Helper to install JNA (for enhanced Windows support)
 alias install-jna source ${shell.home}/scripts/install-jna.msh
