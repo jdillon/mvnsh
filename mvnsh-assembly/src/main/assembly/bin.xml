@@ -21,6 +21,7 @@
                 <include>*.txt</include>
                 <include>etc/**</include>
                 <include>examples/**</include>
+                <include>scripts/**</include>
             </includes>
         </fileSet>
 
