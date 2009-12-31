@@ -103,6 +103,9 @@ public class ColorizingStream
 
             line = buff.toString();
         }
+        else if (line.startsWith("Downloading:")) {
+            line = ansi().a(INTENSITY_BOLD).fg(GREEN).a(line).reset().toString();
+        }
 
         byte[] bytes = line.getBytes();
         super.write(bytes, 0, bytes.length);
