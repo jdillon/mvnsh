@@ -81,11 +81,20 @@ public class ColorizingStream
             state = State.DEFAULT;
         }
 
-        if (line.startsWith("ERROR") || line.contains("FAILURE")) {
+        if (line.startsWith("[WARNING]")) {
+            line = ansi().fg(RED).a(line).reset().toString();
+        }
+        else if (line.startsWith("ERROR") || line.contains("FAILURE") || line.contains("FAILED")) {
             line = ansi().a(INTENSITY_BOLD).fg(RED).a(line).reset().toString();
         }
-        else if (line.contains("SUCCESS") || line.contains(".OK (")) {
+        else if (line.startsWith("[ERROR]")) {
+            line = ansi().a(INTENSITY_BOLD).fg(RED).a(line).reset().toString();
+        }
+        else if (line.contains("BUILD SUCCESS") || line.contains(".OK (")) {
             line = ansi().a(INTENSITY_BOLD).fg(GREEN).a(line).reset().toString();
+        }
+        else if (line.contains("SUCCESS") || line.contains(".OK (")) {
+            line = ansi().fg(GREEN).a(line).reset().toString();
         }
         else if (line.startsWith("[INFO] ---") && line.trim().endsWith(" ---")) {
             String[] items = line.split("\\s");
@@ -104,7 +113,20 @@ public class ColorizingStream
             line = buff.toString();
         }
         else if (line.startsWith("Downloading:")) {
-            line = ansi().a(INTENSITY_BOLD).fg(GREEN).a(line).reset().toString();
+            line = ansi().fg(CYAN).a(line).reset().toString();
+        }
+        else if (line.startsWith("Tests run:")) {
+            if (line.contains("Errors: 0") && line.contains("Failures: 0")) {
+                line = ansi().fg(GREEN).a(line).reset().toString();
+            }
+        }
+        else if (line.contains("Errors: ") || line.contains("Failures: ")) {
+            if (line.contains("Errors: 0") && line.contains("Failures: 0")) {
+                line = ansi().fg(GREEN).a(line).reset().toString();
+            }
+            else {
+                line = ansi().fg(RED).a(line).reset().toString();
+            }
         }
 
         byte[] bytes = line.getBytes();
