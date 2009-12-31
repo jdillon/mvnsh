@@ -28,7 +28,7 @@ alias help-system mvn org.apache.maven.plugins:maven-help-plugin:system
 alias help-allprofiles mvn org.apache.maven.plugins:maven-help-plugin:all-profiles
 alias help-effectivesettings mvn org.apache.maven.plugins:maven-help-plugin:effective-settings
 
-@ Aliases to the mvn dependency plugin
+# Aliases to the mvn dependency plugin
 alias dependency-analyze mvn org.apache.maven.plugins:maven-dependency-plugin:analyze
 alias dependency-resolve mvn org.apache.maven.plugins:maven-dependency-plugin:resolve
 alias dependency-tree mvn org.apache.maven.plugins:maven-dependency-plugin:tree
