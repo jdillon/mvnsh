@@ -225,6 +225,7 @@ public class MavenCommand
             .setGoals(goals);
 
         File userDir = vars.get(SHELL_USER_DIR, File.class);
+        // TODO: See if we can omit setting this property here, otherwise may need to hijack system properties :-(
         System.setProperty("user.dir", userDir.getAbsolutePath());
         request.setWorkingDirectory(userDir);
 

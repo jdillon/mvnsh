@@ -20,10 +20,15 @@ import org.apache.maven.cli.AbstractMavenTransferListener;
 
 import java.io.PrintStream;
 
+/**
+ * Batch console transfer listener.
+ *
+ * @since 0.9
+ */
 public class BatchModeMavenTransferListener
     extends AbstractMavenTransferListener
 {
-    public BatchModeMavenTransferListener(PrintStream out) {
+    public BatchModeMavenTransferListener(final PrintStream out) {
         super(out);
     }
 }

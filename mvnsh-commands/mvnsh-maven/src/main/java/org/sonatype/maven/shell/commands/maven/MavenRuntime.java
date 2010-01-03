@@ -36,17 +36,6 @@ import java.util.Properties;
  */
 public interface MavenRuntime
 {
-//    String LOCAL_REPO_PROPERTY = "maven.repo.local";
-//
-//    String USER_HOME = System.getProperty("user.home");
-//
-//    File USER_MAVEN_CONFIG_HOME = new File(USER_HOME, ".m2");
-//
-//    File DEFAULT_USER_SETTINGS_FILE = new File(USER_MAVEN_CONFIG_HOME, "settings.xml");
-//
-//    File DEFAULT_GLOBAL_SETTINGS_FILE = new File(System.getProperty("maven.home", System.getProperty("user.dir", "")), "conf/settings.xml");
-//
-//    File DEFAULT_USER_TOOLCHAINS_FILE = new File(USER_MAVEN_CONFIG_HOME, "toolchains.xml");
 
     Request create();
 
@@ -66,7 +55,7 @@ public interface MavenRuntime
 
         private PrintStream fileStream;
 
-        private MavenExecutionRequest request = new DefaultMavenExecutionRequest();
+        private final MavenExecutionRequest request = new DefaultMavenExecutionRequest();
 
         public StreamSet getStreams() {
             return streams;
@@ -115,11 +104,6 @@ public interface MavenRuntime
 
         public MavenExecutionRequest getRequest() {
             return request;
-        }
-
-        public Request setRequest(final MavenExecutionRequest request) {
-            this.request = request;
-            return this;
         }
 
 

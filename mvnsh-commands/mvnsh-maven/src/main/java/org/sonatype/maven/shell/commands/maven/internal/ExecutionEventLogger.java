@@ -36,6 +36,7 @@ import java.util.TimeZone;
  * Logs execution events to a user-supplied logger.
  *
  * @author Benjamin Bentmann
+ * @since 0.9
  */
 public class ExecutionEventLogger
     extends AbstractExecutionListener

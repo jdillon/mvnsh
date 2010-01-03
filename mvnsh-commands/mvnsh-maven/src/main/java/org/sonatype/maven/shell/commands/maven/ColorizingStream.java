@@ -19,9 +19,11 @@ package org.sonatype.maven.shell.commands.maven;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import static org.fusesource.jansi.Ansi.Attribute.INTENSITY_BOLD;
+import static org.fusesource.jansi.Ansi.Color.CYAN;
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.ansi;
-import static org.fusesource.jansi.Ansi.Color.*;
-import static org.fusesource.jansi.Ansi.Attribute.*;
 
 /**
  * Adds ANSI color to Maven output.

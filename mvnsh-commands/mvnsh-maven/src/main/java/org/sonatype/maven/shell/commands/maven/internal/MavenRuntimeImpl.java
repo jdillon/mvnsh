@@ -42,11 +42,6 @@ import org.slf4j.LoggerFactory;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.plexus.PlexusRuntime;
 import org.sonatype.maven.shell.commands.maven.MavenRuntime;
-//import org.sonatype.plexus.components.cipher.DefaultPlexusCipher;
-//import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
-//import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
-//import org.sonatype.plexus.components.sec.dispatcher.SecUtil;
-//import org.sonatype.plexus.components.sec.dispatcher.model.SettingsSecurity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -274,13 +269,14 @@ public class MavenRuntimeImpl
         }
 
         request.getRequest().setExecutionListener(new ExecutionEventLogger(logger));
+
+        request.getRequest().setShowErrors(request.isShowErrors());
     }
 
     private void configureSettings(final Request request) throws Exception {
         assert request != null;
 
         File userSettingsFile = request.getSettings();
-
         if (userSettingsFile != null) {
             userSettingsFile = resolveFile(userSettingsFile, request.getWorkingDirectory());
             if (!userSettingsFile.isFile()) {
@@ -292,9 +288,9 @@ public class MavenRuntimeImpl
         }
 
         log.debug("Reading user settings from: {}", userSettingsFile);
+        request.getRequest().setUserSettingsFile(userSettingsFile);
 
         File globalSettingsFile = request.getGlobalSettings();
-
         if (globalSettingsFile != null) {
             globalSettingsFile = resolveFile(globalSettingsFile, request.getWorkingDirectory());
             if (!globalSettingsFile.isFile()) {
@@ -306,9 +302,7 @@ public class MavenRuntimeImpl
         }
 
         log.debug("Reading global settings from: {}", globalSettingsFile);
-
         request.getRequest().setGlobalSettingsFile(globalSettingsFile);
-        request.getRequest().setUserSettingsFile(userSettingsFile);
 
         configureProperties(request);
 
@@ -362,79 +356,56 @@ public class MavenRuntimeImpl
 
         MavenExecutionRequest req = request.getRequest();
 
-        // ----------------------------------------------------------------------
-        // Now that we have everything that we need we will fire up plexus and
-        // bring the maven component to life for use.
-        // ----------------------------------------------------------------------
-
-        if (request.isBatch()) {
-            req.setInteractiveMode(false);
-        }
-
-        boolean pluginUpdateOverride = false;
+        req.setInteractiveMode(!request.isBatch());
 
         if (request.isCheckPluginUpdates() || request.isUpdatePlugins()) {
-            pluginUpdateOverride = true;
+            req.setUsePluginUpdateOverride(true);
         }
         else if (request.isNoPluginUpdates()) {
-            pluginUpdateOverride = false;
+            req.setUsePluginUpdateOverride(false);
         }
 
-        boolean noSnapshotUpdates = false;
-        if (request.isNoSnapshotUpdates()) {
-            noSnapshotUpdates = true;
-        }
+        req.setNoSnapshotUpdates(request.isNoSnapshotUpdates());
 
-        // ----------------------------------------------------------------------
-        //
-        // ----------------------------------------------------------------------
+        req.setGoals(request.getGoals());
 
-        List<String> goals = request.getGoals();
+        req.setRecursive(!request.isNonRecursive());
 
-        boolean recursive = true;
-        if (request.isNonRecursive()) {
-            recursive = false;
-        }
-
-        String reactorFailureBehaviour = MavenExecutionRequest.REACTOR_FAIL_FAST;
         if (request.isFailFast()) {
-            reactorFailureBehaviour = MavenExecutionRequest.REACTOR_FAIL_FAST;
+            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
         }
         else if (request.isFailAtEnd()) {
-            reactorFailureBehaviour = MavenExecutionRequest.REACTOR_FAIL_AT_END;
+            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_AT_END);
         }
         else if (request.isFailNever()) {
-            reactorFailureBehaviour = MavenExecutionRequest.REACTOR_FAIL_NEVER;
+            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
+        }
+        else {
+            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
         }
 
-        if (request.isOffline()) {
-            req.setOffline(true);
-        }
+        req.setOffline(request.isOffline());
 
-        boolean updateSnapshots = false;
-        if (request.isUpdateSnapshots()) {
-            updateSnapshots = true;
-        }
+        req.setUpdateSnapshots(request.isUpdateSnapshots());
 
-        String globalChecksumPolicy = null;
         if (request.isStrictChecksums()) {
-            globalChecksumPolicy = MavenExecutionRequest.CHECKSUM_POLICY_FAIL;
+            req.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_FAIL);
         }
         else if (request.isLaxChecksums()) {
-            globalChecksumPolicy = MavenExecutionRequest.CHECKSUM_POLICY_WARN;
+            req.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_WARN);
         }
 
         File baseDirectory = new File(request.getWorkingDirectory(), "").getAbsoluteFile();
+        req.setBaseDirectory(baseDirectory);
 
         // ----------------------------------------------------------------------
         // Profile Activation
         // ----------------------------------------------------------------------
 
-        List<String> activeProfiles = new ArrayList<String>();
-
-        List<String> inactiveProfiles = new ArrayList<String>();
-
         if (request.getActivateProfiles() != null) {
+            List<String> activeProfiles = new ArrayList<String>();
+            List<String> inactiveProfiles = new ArrayList<String>();
+
             // TODO: Check if gshell cli actually handles this for us or not
             String[] profileOptionValues = request.getActivateProfiles().split(",");
             if (profileOptionValues != null) {
@@ -456,6 +427,9 @@ public class MavenRuntimeImpl
                     }
                 }
             }
+
+            req.addActiveProfiles(activeProfiles);
+            req.addInactiveProfiles(inactiveProfiles);
         }
 
         ArtifactTransferListener transferListener;
@@ -466,17 +440,7 @@ public class MavenRuntimeImpl
             transferListener = new BatchModeMavenTransferListener(request.getStreams().out);
         }
         transferListener.setShowChecksumEvents(false);
-
-        int loggingLevel;
-        if (request.isDebug()) {
-            loggingLevel = MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
-        }
-        else if (request.isQuiet()) {
-            loggingLevel = MavenExecutionRequest.LOGGING_LEVEL_ERROR;
-        }
-        else {
-            loggingLevel = MavenExecutionRequest.LOGGING_LEVEL_INFO;
-        }
+        req.setTransferListener(transferListener);
 
         File userToolchainsFile = request.getToolChains();
         if (userToolchainsFile != null) {
@@ -485,21 +449,7 @@ public class MavenRuntimeImpl
         else {
             userToolchainsFile = DEFAULT_USER_TOOLCHAINS_FILE;
         }
-
-        req.setBaseDirectory(baseDirectory)
-            .setGoals(goals)
-            .setReactorFailureBehavior(reactorFailureBehaviour) // default: fail fast
-            .setRecursive(recursive) // default: true
-            .setShowErrors(request.isShowErrors()) // default: false
-            .setUsePluginUpdateOverride(pluginUpdateOverride)
-            .addActiveProfiles(activeProfiles) // optional
-            .addInactiveProfiles(inactiveProfiles) // optional
-            .setLoggingLevel(loggingLevel) // default: info
-            .setTransferListener(transferListener) // default: batch mode which goes along with interactive
-            .setUpdateSnapshots(updateSnapshots) // default: false
-            .setNoSnapshotUpdates(noSnapshotUpdates) // default: false
-            .setGlobalChecksumPolicy(globalChecksumPolicy) // default: warn
-            .setUserToolchainsFile(userToolchainsFile);
+        req.setUserToolchainsFile(userToolchainsFile);
 
         File alternatePomFile = request.getFile();
 
@@ -623,6 +573,7 @@ public class MavenRuntimeImpl
         }
 
         if (showErrors) {
+            //noinspection ThrowableResultOfMethodCallIgnored
             log.error(msg, summary.getException());
         }
         else {

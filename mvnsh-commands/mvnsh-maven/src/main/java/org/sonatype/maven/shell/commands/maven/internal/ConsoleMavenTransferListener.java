@@ -25,20 +25,20 @@ import java.io.PrintStream;
  * Console download progress meter.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @since 0.9
  */
 public class ConsoleMavenTransferListener
     extends AbstractMavenTransferListener
 {
-    public ConsoleMavenTransferListener(PrintStream out) {
+    public ConsoleMavenTransferListener(final PrintStream out) {
         super(out);
     }
 
     @Override
-    protected void doProgress(ArtifactTransferEvent transferEvent) {
-        long total = transferEvent.getResource().getContentLength();
-        long complete = transferEvent.getTransferredBytes();
+    protected void doProgress(final ArtifactTransferEvent event) {
+        long total = event.getResource().getContentLength();
+        long complete = event.getTransferredBytes();
 
-        // TODO [BP]: Sys.out may no longer be appropriate, but will \r work with getLogger()?
         if (total >= 1024) {
             out.print(toKB(complete) + "/" + toKB(total) + " KB " + "\r");
         }
