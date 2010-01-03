@@ -35,7 +35,7 @@ import org.sonatype.plexus.components.sec.dispatcher.model.SettingsSecurity;
  * Encrypt passwords.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
- * @since 0.7
+ * @since 0.9
  */
 @Command(name = "encrypt-password")
 @Preferences(path = "commands/encrypt-password")

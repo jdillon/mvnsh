@@ -193,21 +193,19 @@ public class MavenCommand
             .setQuiet(quiet)
             .setDebug(debug)
             .setShowErrors(showErrors)
-            .setNonRecursive(nonRecursive)
-            .setUpdateSnapshots(updateSnapshots)
             .setActivateProfiles(activateProfiles)
             .setBatch(batch)
-            .setNoSnapshotUpdates(noSnapshotUpdates)
             .setSettings(settings)
             .setGlobalSettings(globalSettings)
             .setToolChains(toolChains)
-            .setAlsoMake(alsoMake)
-            .setAlsoMakeDependents(alsoMakeDependents)
             .setLogFile(logFile)
             .setShowVersion(showVersion)
             .setNoPluginRegistry(noPluginRegistry);
 
         request.getRequest().setGoals(goals);
+        request.getRequest().setRecursive(!nonRecursive);
+        request.getRequest().setUpdateSnapshots(updateSnapshots);
+        request.getRequest().setNoSnapshotUpdates(noSnapshotUpdates);
 
         if (checkPluginUpdates || updatePlugins) {
             request.getRequest().setUsePluginUpdateOverride(true);
@@ -235,6 +233,16 @@ public class MavenCommand
 
         if (selectedProjects != null) {
             request.getRequest().setSelectedProjects(selectedProjects);
+        }
+
+        if (alsoMake && !alsoMakeDependents) {
+            request.getRequest().setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);
+        }
+        else if (!alsoMake && alsoMakeDependents) {
+            request.getRequest().setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM);
+        }
+        else if (alsoMake && alsoMakeDependents) {
+            request.getRequest().setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_BOTH);
         }
 
         request.getRequest().setResumeFrom(resumeFrom);
@@ -283,13 +291,13 @@ public class MavenCommand
                 growler.growl(
                     Notifications.BUILD_PASSED,
                     "Build Passed",
-                    "Build was successful: " + getName()); // FIXME: + " " + Strings.join(args, " "));
+                    "Build was successful: " + getName());
             }
             else {
                 growler.growl(
                     Notifications.BUILD_FAILED,
                     "Build Failed",
-                    "Build has failed: " + getName()); // FIXME:  + " " + Strings.join(args, " "));
+                    "Build has failed: " + getName());
             }
         }
 

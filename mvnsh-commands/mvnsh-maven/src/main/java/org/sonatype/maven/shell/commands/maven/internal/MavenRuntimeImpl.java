@@ -370,7 +370,6 @@ public class MavenRuntimeImpl
         req.setUserToolchainsFile(userToolchainsFile);
 
         File alternatePomFile = request.getFile();
-
         if (alternatePomFile != null) {
             req.setPom(resolveFile(alternatePomFile, request.getWorkingDirectory()));
         }
@@ -381,7 +380,7 @@ public class MavenRuntimeImpl
         if ((req.getPom() != null) && (req.getPom().getParentFile() != null)) {
             req.setBaseDirectory(req.getPom().getParentFile());
         }
-        else if ((req.getPom() == null) && (req.getBaseDirectory() != null)) {
+        else if (req.getPom() == null && req.getBaseDirectory() != null) {
             ModelProcessor modelProcessor = plexus.lookup(ModelProcessor.class);
             File pom = modelProcessor.locatePom(new File(req.getBaseDirectory()));
             req.setPom(pom);
@@ -390,28 +389,16 @@ public class MavenRuntimeImpl
             req.setBaseDirectory(request.getWorkingDirectory());
         }
 
-        if (request.isAlsoMake() && !request.isAlsoMakeDependents()) {
-            req.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);
-        }
-        else if (!request.isAlsoMake() && request.isAlsoMakeDependents()) {
-            req.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM);
-        }
-        else if (request.isAlsoMake() && request.isAlsoMakeDependents()) {
-            req.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_BOTH);
-        }
-
         String localRepoProperty = req.getUserProperties().getProperty(LOCAL_REPO_PROPERTY);
-
         if (localRepoProperty == null) {
             localRepoProperty = req.getSystemProperties().getProperty(LOCAL_REPO_PROPERTY);
         }
-
         if (localRepoProperty != null) {
             req.setLocalRepositoryPath(localRepoProperty);
         }
     }
 
-    private void logSummary(ExceptionSummary summary, Map<String, String> references, String indent, boolean showErrors) {
+    private void logSummary(final ExceptionSummary summary, final Map<String, String> references, String indent, final boolean showErrors) {
         assert summary != null;
         
         String referenceKey = "";

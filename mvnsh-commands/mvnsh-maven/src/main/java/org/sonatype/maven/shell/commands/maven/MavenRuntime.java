@@ -25,7 +25,6 @@ import org.sonatype.gshell.notification.Notification;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -108,11 +107,6 @@ public interface MavenRuntime
             return request;
         }
 
-
-        //
-        // NOTE: The following map to mvn command-line options
-        //
-
         private File file;
 
         private Properties properties = new Properties();
@@ -126,10 +120,6 @@ public interface MavenRuntime
         private File globalSettings;
 
         private File toolChains;
-
-        private boolean alsoMake;
-
-        private boolean alsoMakeDependents;
 
         private File logFile;
 
@@ -182,25 +172,7 @@ public interface MavenRuntime
         }
 
         public Request setShowErrors(final boolean showErrors) {
-            getRequest().setShowErrors(true);
-            return this;
-        }
-
-        public boolean isNonRecursive() {
-            return !getRequest().isRecursive();
-        }
-
-        public Request setNonRecursive(final boolean nonRecursive) {
-            getRequest().setRecursive(!nonRecursive);
-            return this;
-        }
-
-        public boolean isUpdateSnapshots() {
-            return getRequest().isUpdateSnapshots();
-        }
-
-        public Request setUpdateSnapshots(final boolean updateSnapshots) {
-            getRequest().setUpdateSnapshots(updateSnapshots);
+            getRequest().setShowErrors(showErrors);
             return this;
         }
 
@@ -209,25 +181,19 @@ public interface MavenRuntime
                 return this;
             }
 
-            List<String> activeProfiles = new ArrayList<String>();
-            List<String> inactiveProfiles = new ArrayList<String>();
-
             for (String profileAction : profiles) {
                 profileAction = profileAction.trim();
 
                 if (profileAction.startsWith("-") || profileAction.startsWith("!")) {
-                    inactiveProfiles.add(profileAction.substring(1));
+                    getRequest().addInactiveProfile(profileAction.substring(1));
                 }
                 else if (profileAction.startsWith("+")) {
-                    activeProfiles.add(profileAction.substring(1));
+                    getRequest().addActiveProfile(profileAction.substring(1));
                 }
                 else {
-                    activeProfiles.add(profileAction);
+                    getRequest().addActiveProfile(profileAction);
                 }
             }
-
-            getRequest().addActiveProfiles(activeProfiles);
-            getRequest().addInactiveProfiles(inactiveProfiles);
 
             return this;
         }
@@ -238,15 +204,6 @@ public interface MavenRuntime
 
         public Request setBatch(final boolean batch) {
             getRequest().setInteractiveMode(!batch);
-            return this;
-        }
-
-        public boolean isNoSnapshotUpdates() {
-            return getRequest().isNoSnapshotUpdates();
-        }
-
-        public Request setNoSnapshotUpdates(final boolean noSnapshotUpdates) {
-            getRequest().setNoSnapshotUpdates(noSnapshotUpdates);
             return this;
         }
 
@@ -274,24 +231,6 @@ public interface MavenRuntime
 
         public Request setToolChains(final File toolChains) {
             this.toolChains = toolChains;
-            return this;
-        }
-
-        public boolean isAlsoMake() {
-            return alsoMake;
-        }
-
-        public Request setAlsoMake(final boolean alsoMake) {
-            this.alsoMake = alsoMake;
-            return this;
-        }
-
-        public boolean isAlsoMakeDependents() {
-            return alsoMakeDependents;
-        }
-
-        public Request setAlsoMakeDependents(final boolean alsoMakeDependents) {
-            this.alsoMakeDependents = alsoMakeDependents;
             return this;
         }
 
@@ -338,8 +277,6 @@ public interface MavenRuntime
                 ",\n    settings=" + settings +
                 ",\n    globalSettings=" + globalSettings +
                 ",\n    toolChains=" + toolChains +
-                ",\n    alsoMake=" + alsoMake +
-                ",\n    alsoMakeDependents=" + alsoMakeDependents +
                 ",\n    logFile=" + logFile +
                 ",\n    showVersion=" + showVersion +
                 ",\n    noPluginRegistry=" + noPluginRegistry +
