@@ -7,11 +7,14 @@
 
 package org.sonatype.maven.shell.commands.maven;
 
+import com.google.inject.Module;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.sonatype.gshell.commands.CommandTestSupport;
+import org.sonatype.maven.shell.commands.maven.internal.MavenModule;
 
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -20,11 +23,19 @@ import static org.junit.Assert.assertNotNull;
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
+@Ignore
 public class MavenCommandTest
     extends CommandTestSupport
 {
     public MavenCommandTest() {
         super(MavenCommand.class);
+    }
+
+    @Override
+    protected void configureModules(final List<Module> modules) {
+        assert modules != null;
+        super.configureModules(modules);
+        modules.add(new MavenModule());
     }
 
     @Override

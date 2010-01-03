@@ -7,14 +7,17 @@
   ~ which accompanies this distribution and is available at http://www.eclipse.org/legal/epl-v10.html.
   -->
 
-<commands xmlns="http://sonatype.org/gshell-commands/1.0.0"
+<commands xmlns="http://sonatype.org/gshell-commands/1.1.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://sonatype.org/gshell-commands/1.0.0 http://sonatype.org/xsd/gshell-commands-1.0.0.xsd"
-          version="1.0.0">
+          xsi:schemaLocation="http://sonatype.org/gshell-commands/1.1.0 http://sonatype.org/xsd/gshell-commands-1.1.0.xsd"
+          version="1.1.0">
 
     <command-set id="maven">
         <enabled>true</enabled>
         <autoRegisterPriority>50</autoRegisterPriority>
+        <module>
+            <type>org.sonatype.maven.shell.commands.maven.internal.MavenModule</type>
+        </module>
         <command>
             <action>org.sonatype.maven.shell.commands.maven.MavenCommand</action>
         </command>

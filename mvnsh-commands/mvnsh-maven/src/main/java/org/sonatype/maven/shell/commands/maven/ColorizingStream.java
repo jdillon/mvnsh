@@ -1,8 +1,17 @@
 /*
- * Copyright (c) 2007-2009 Sonatype, Inc. All rights reserved.
+ * Copyright (C) 2010 the original author or authors.
  *
- * This program and the accompanying materials are made available under the terms of the Eclipse Public License Version 1.0,
- * which accompanies this distribution and is available at http://www.eclipse.org/legal/epl-v10.html.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.sonatype.maven.shell.commands.maven;
@@ -31,7 +40,7 @@ public class ColorizingStream
 
     @Override
     public void write(final int b) {
-        buff.append((char)b);
+        buff.append((char) b);
         if (b == '\n') {
             writeBuffer();
         }
@@ -39,7 +48,7 @@ public class ColorizingStream
 
     @Override
     public void write(final byte buf[], final int off, final int len) {
-        for (int i=off; i < off + len; i++) {
+        for (int i = off; i < off + len; i++) {
             write(buf[i]);
         }
     }
