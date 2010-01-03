@@ -47,14 +47,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 /**
  * {@link MavenRuntime} implementation.
@@ -109,11 +105,13 @@ public class MavenRuntimeImpl
         setupDefaults(request);
         setupLogging(request);
 
+        configureSettings(request);
+        configureRequest(request);
+
         if (request.isDebug() || request.isShowVersion()) {
             CLIReportingUtils.showVersion(request.getStreams().out);
         }
 
-        // Show some details/warnings
         if (request.isShowErrors()) {
             log.info("Error stack-traces are turned on.");
         }
@@ -124,17 +122,12 @@ public class MavenRuntimeImpl
             log.info("Enabling strict checksum verification on all artifact downloads.");
         }
 
-        configureSettings(request);
-        configureRequest(request);
-
         Maven maven = plexus.lookup(Maven.class);
         MavenExecutionResult result = maven.execute(request.getRequest());
 
         if (result.hasExceptions()) {
             ExceptionHandler handler = new DefaultExceptionHandler();
-
             Map<String, String> references = new LinkedHashMap<String, String>();
-
             MavenProject project = null;
 
             for (Throwable exception : result.getExceptions()) {
@@ -269,8 +262,6 @@ public class MavenRuntimeImpl
         }
 
         request.getRequest().setExecutionListener(new ExecutionEventLogger(logger));
-
-        request.getRequest().setShowErrors(request.isShowErrors());
     }
 
     private void configureSettings(final Request request) throws Exception {
@@ -337,7 +328,7 @@ public class MavenRuntimeImpl
         systemProperties.putAll(System.getProperties());
 
         Properties userProperties = new Properties();
-        // NOTE: Not setting to System here, this may or may not cause problems, as mvn3 does set user props as system
+        // TODO: Not setting to System here, this may or may not cause problems, as mvn3 does set user props as system
         userProperties.putAll(request.getProperties());
 
         // add the env vars to the property set, with the "env." prefix
@@ -356,81 +347,8 @@ public class MavenRuntimeImpl
 
         MavenExecutionRequest req = request.getRequest();
 
-        req.setInteractiveMode(!request.isBatch());
-
-        if (request.isCheckPluginUpdates() || request.isUpdatePlugins()) {
-            req.setUsePluginUpdateOverride(true);
-        }
-        else if (request.isNoPluginUpdates()) {
-            req.setUsePluginUpdateOverride(false);
-        }
-
-        req.setNoSnapshotUpdates(request.isNoSnapshotUpdates());
-
-        req.setGoals(request.getGoals());
-
-        req.setRecursive(!request.isNonRecursive());
-
-        if (request.isFailFast()) {
-            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
-        }
-        else if (request.isFailAtEnd()) {
-            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_AT_END);
-        }
-        else if (request.isFailNever()) {
-            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
-        }
-        else {
-            req.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
-        }
-
-        req.setOffline(request.isOffline());
-
-        req.setUpdateSnapshots(request.isUpdateSnapshots());
-
-        if (request.isStrictChecksums()) {
-            req.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_FAIL);
-        }
-        else if (request.isLaxChecksums()) {
-            req.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_WARN);
-        }
-
         File baseDirectory = new File(request.getWorkingDirectory(), "").getAbsoluteFile();
         req.setBaseDirectory(baseDirectory);
-
-        // ----------------------------------------------------------------------
-        // Profile Activation
-        // ----------------------------------------------------------------------
-
-        if (request.getActivateProfiles() != null) {
-            List<String> activeProfiles = new ArrayList<String>();
-            List<String> inactiveProfiles = new ArrayList<String>();
-
-            // TODO: Check if gshell cli actually handles this for us or not
-            String[] profileOptionValues = request.getActivateProfiles().split(",");
-            if (profileOptionValues != null) {
-                for (String profileOptionValue : profileOptionValues) {
-                    StringTokenizer profileTokens = new StringTokenizer(profileOptionValue, ",");
-
-                    while (profileTokens.hasMoreTokens()) {
-                        String profileAction = profileTokens.nextToken().trim();
-
-                        if (profileAction.startsWith("-") || profileAction.startsWith("!")) {
-                            inactiveProfiles.add(profileAction.substring(1));
-                        }
-                        else if (profileAction.startsWith("+")) {
-                            activeProfiles.add(profileAction.substring(1));
-                        }
-                        else {
-                            activeProfiles.add(profileAction);
-                        }
-                    }
-                }
-            }
-
-            req.addActiveProfiles(activeProfiles);
-            req.addInactiveProfiles(inactiveProfiles);
-        }
 
         ArtifactTransferListener transferListener;
         if (req.isInteractiveMode()) {
@@ -472,14 +390,6 @@ public class MavenRuntimeImpl
             req.setBaseDirectory(request.getWorkingDirectory());
         }
 
-        req.setResumeFrom(request.getResumeFrom());
-
-        if (request.getProjects() != null) {
-            String projectList = request.getProjects();
-            String[] projects = StringUtils.split(projectList, ",");
-            req.setSelectedProjects(Arrays.asList(projects));
-        }
-
         if (request.isAlsoMake() && !request.isAlsoMakeDependents()) {
             req.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);
         }
@@ -500,53 +410,6 @@ public class MavenRuntimeImpl
             req.setLocalRepositoryPath(localRepoProperty);
         }
     }
-
-//    //
-//    // TODO: Move this to a separate command, no need to have it included here
-//    //
-//
-//    private void encryption(final Request request) throws Exception {
-//        assert request != null;
-//
-//        DefaultSecDispatcher dispatcher = (DefaultSecDispatcher) plexus.lookup(SecDispatcher.class);
-//
-//        String passwd = request.getEncryptMasterPassword();
-//        if (passwd != null) {
-//            DefaultPlexusCipher cipher = new DefaultPlexusCipher();
-//
-//            request.getStreams().out.println(cipher.encryptAndDecorate(passwd, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION));
-//
-//            throw new ExitNotification(0);
-//        }
-//
-//        passwd = request.getEncryptPassword();
-//        if (passwd != null) {
-//            String configurationFile = dispatcher.getConfigurationFile();
-//
-//            if (configurationFile.startsWith("~")) {
-//                configurationFile = System.getProperty("user.home") + configurationFile.substring(1);
-//            }
-//
-//            String file = System.getProperty(DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION, configurationFile);
-//
-//            String master = null;
-//
-//            SettingsSecurity sec = SecUtil.read(file, true);
-//            if (sec != null) {
-//                master = sec.getMaster();
-//            }
-//
-//            if (master == null) {
-//                throw new IllegalStateException("Master password is not set in the setting security file: " + file);
-//            }
-//
-//            DefaultPlexusCipher cipher = new DefaultPlexusCipher();
-//            String masterPasswd = cipher.decryptDecorated(master, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION);
-//            request.getStreams().out.println(cipher.encryptAndDecorate(passwd, masterPasswd));
-//
-//            throw new ExitNotification(0);
-//        }
-//    }
 
     private void logSummary(ExceptionSummary summary, Map<String, String> references, String indent, boolean showErrors) {
         assert summary != null;

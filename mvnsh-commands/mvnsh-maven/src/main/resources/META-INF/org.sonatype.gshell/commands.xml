@@ -21,6 +21,9 @@
         <command>
             <action>org.sonatype.maven.shell.commands.maven.MavenCommand</action>
         </command>
+        <command>
+            <action>org.sonatype.maven.shell.commands.maven.EncryptPasswordCommand</action>
+        </command>
     </command-set>
 
 </commands>

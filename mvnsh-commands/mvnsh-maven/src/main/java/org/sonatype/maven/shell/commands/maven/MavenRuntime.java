@@ -25,6 +25,7 @@ import org.sonatype.gshell.notification.Notification;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -36,7 +37,6 @@ import java.util.Properties;
  */
 public interface MavenRuntime
 {
-
     Request create();
 
     String getVersion();
@@ -45,11 +45,11 @@ public interface MavenRuntime
 
     class Request
     {
-        private StreamSet streams;
+        private StreamSet streams = StreamSet.system();
 
         private ClassWorld classWorld;
 
-        private File workingDirectory;
+        private File workingDirectory = new File(System.getProperty("user.dir"));
 
         private PrintStreamLogger logger;
 
@@ -62,6 +62,7 @@ public interface MavenRuntime
         }
 
         public Request setStreams(final StreamSet streams) {
+            assert streams != null;
             this.streams = streams;
             return this;
         }
@@ -79,8 +80,9 @@ public interface MavenRuntime
             return workingDirectory;
         }
 
-        public Request setWorkingDirectory(final File workingDirectory) {
-            this.workingDirectory = workingDirectory;
+        public Request setWorkingDirectory(final File dir) {
+            assert dir != null;
+            this.workingDirectory = dir;
             return this;
         }
 
@@ -115,51 +117,15 @@ public interface MavenRuntime
 
         private Properties properties = new Properties();
 
-        private boolean offline;
-
-//        private boolean version;
-
         private boolean quiet;
 
         private boolean debug;
-
-        private boolean showErrors;
-
-        private boolean nonRecursive;
-
-        private boolean updateSnapshots;
-
-        private String activateProfiles;
-
-        private boolean batch;
-
-        private boolean checkPluginUpdates;
-
-        private boolean updatePlugins;
-
-        private boolean noPluginUpdates;
-
-        private boolean noSnapshotUpdates;
-
-        private boolean strictChecksums;
-
-        private boolean laxChecksums;
 
         private File settings;
 
         private File globalSettings;
 
         private File toolChains;
-
-        private boolean failFast;
-
-        private boolean failAtEnd;
-
-        private boolean failNever;
-
-        private String resumeFrom;
-
-        private String projects;
 
         private boolean alsoMake;
 
@@ -169,13 +135,7 @@ public interface MavenRuntime
 
         private boolean showVersion;
 
-        private String encryptMasterPassword;
-
-        private String encryptPassword;
-
         private boolean noPluginRegistry;
-
-        private List<String> goals;
 
         public File getFile() {
             return file;
@@ -190,28 +150,14 @@ public interface MavenRuntime
             return properties;
         }
 
-        public Request setProperties(final Properties properties) {
-            this.properties = properties;
-            return this;
-        }
-
         public boolean isOffline() {
-            return offline;
+            return getRequest().isOffline();
         }
 
         public Request setOffline(final boolean offline) {
-            this.offline = offline;
+            getRequest().setOffline(offline);
             return this;
         }
-
-//        public boolean isVersion() {
-//            return version;
-//        }
-//
-//        public Request setVersion(final boolean version) {
-//            this.version = version;
-//            return this;
-//        }
 
         public boolean isQuiet() {
             return quiet;
@@ -232,101 +178,75 @@ public interface MavenRuntime
         }
 
         public boolean isShowErrors() {
-            return showErrors;
+            return getRequest().isShowErrors();
         }
 
         public Request setShowErrors(final boolean showErrors) {
-            this.showErrors = showErrors;
+            getRequest().setShowErrors(true);
             return this;
         }
 
         public boolean isNonRecursive() {
-            return nonRecursive;
+            return !getRequest().isRecursive();
         }
 
         public Request setNonRecursive(final boolean nonRecursive) {
-            this.nonRecursive = nonRecursive;
+            getRequest().setRecursive(!nonRecursive);
             return this;
         }
 
         public boolean isUpdateSnapshots() {
-            return updateSnapshots;
+            return getRequest().isUpdateSnapshots();
         }
 
         public Request setUpdateSnapshots(final boolean updateSnapshots) {
-            this.updateSnapshots = updateSnapshots;
+            getRequest().setUpdateSnapshots(updateSnapshots);
             return this;
         }
 
-        public String getActivateProfiles() {
-            return activateProfiles;
-        }
+        public Request setActivateProfiles(final List<String> profiles) {
+            if (profiles == null) {
+                return this;
+            }
 
-        public Request setActivateProfiles(final String activateProfiles) {
-            this.activateProfiles = activateProfiles;
+            List<String> activeProfiles = new ArrayList<String>();
+            List<String> inactiveProfiles = new ArrayList<String>();
+
+            for (String profileAction : profiles) {
+                profileAction = profileAction.trim();
+
+                if (profileAction.startsWith("-") || profileAction.startsWith("!")) {
+                    inactiveProfiles.add(profileAction.substring(1));
+                }
+                else if (profileAction.startsWith("+")) {
+                    activeProfiles.add(profileAction.substring(1));
+                }
+                else {
+                    activeProfiles.add(profileAction);
+                }
+            }
+
+            getRequest().addActiveProfiles(activeProfiles);
+            getRequest().addInactiveProfiles(inactiveProfiles);
+
             return this;
         }
 
         public boolean isBatch() {
-            return batch;
+            return !getRequest().isInteractiveMode();
         }
 
         public Request setBatch(final boolean batch) {
-            this.batch = batch;
-            return this;
-        }
-
-        public boolean isCheckPluginUpdates() {
-            return checkPluginUpdates;
-        }
-
-        public Request setCheckPluginUpdates(final boolean checkPluginUpdates) {
-            this.checkPluginUpdates = checkPluginUpdates;
-            return this;
-        }
-
-        public boolean isUpdatePlugins() {
-            return updatePlugins;
-        }
-
-        public Request setUpdatePlugins(final boolean updatePlugins) {
-            this.updatePlugins = updatePlugins;
-            return this;
-        }
-
-        public boolean isNoPluginUpdates() {
-            return noPluginUpdates;
-        }
-
-        public Request setNoPluginUpdates(final boolean noPluginUpdates) {
-            this.noPluginUpdates = noPluginUpdates;
+            getRequest().setInteractiveMode(!batch);
             return this;
         }
 
         public boolean isNoSnapshotUpdates() {
-            return noSnapshotUpdates;
+            return getRequest().isNoSnapshotUpdates();
         }
 
         public Request setNoSnapshotUpdates(final boolean noSnapshotUpdates) {
-            this.noSnapshotUpdates = noSnapshotUpdates;
-            return this;
-        }
-
-        public boolean isStrictChecksums() {
-            return strictChecksums;
-        }
-
-        public Request setStrictChecksums(final boolean strictChecksums) {
-            this.strictChecksums = strictChecksums;
-            return this;
-        }
-
-        public boolean isLaxChecksums() {
-            return laxChecksums;
-        }
-
-        public Request setLaxChecksums(final boolean laxChecksums) {
-            this.laxChecksums = laxChecksums;
+            getRequest().setNoSnapshotUpdates(noSnapshotUpdates);
             return this;
         }
 
@@ -354,51 +274,6 @@ public interface MavenRuntime
 
         public Request setToolChains(final File toolChains) {
             this.toolChains = toolChains;
-            return this;
-        }
-
-        public boolean isFailFast() {
-            return failFast;
-        }
-
-        public Request setFailFast(final boolean failFast) {
-            this.failFast = failFast;
-            return this;
-        }
-
-        public boolean isFailAtEnd() {
-            return failAtEnd;
-        }
-
-        public Request setFailAtEnd(final boolean failAtEnd) {
-            this.failAtEnd = failAtEnd;
-            return this;
-        }
-
-        public boolean isFailNever() {
-            return failNever;
-        }
-
-        public Request setFailNever(final boolean failNever) {
-            this.failNever = failNever;
-            return this;
-        }
-
-        public String getResumeFrom() {
-            return resumeFrom;
-        }
-
-        public Request setResumeFrom(final String resumeFrom) {
-            this.resumeFrom = resumeFrom;
-            return this;
-        }
-
-        public String getProjects() {
-            return projects;
-        }
-
-        public Request setProjects(final String projects) {
-            this.projects = projects;
             return this;
         }
 
@@ -438,39 +313,12 @@ public interface MavenRuntime
             return this;
         }
 
-        public String getEncryptMasterPassword() {
-            return encryptMasterPassword;
-        }
-
-        public Request setEncryptMasterPassword(final String encryptMasterPassword) {
-            this.encryptMasterPassword = encryptMasterPassword;
-            return this;
-        }
-
-        public String getEncryptPassword() {
-            return encryptPassword;
-        }
-
-        public Request setEncryptPassword(final String encryptPassword) {
-            this.encryptPassword = encryptPassword;
-            return this;
-        }
-
         public boolean isNoPluginRegistry() {
             return noPluginRegistry;
         }
 
         public Request setNoPluginRegistry(final boolean noPluginRegistry) {
             this.noPluginRegistry = noPluginRegistry;
-            return this;
-        }
-
-        public List<String> getGoals() {
-            return goals;
-        }
-
-        public Request setGoals(final List<String> goals) {
-            this.goals = goals;
             return this;
         }
 
@@ -485,36 +333,16 @@ public interface MavenRuntime
                 ",\n    request=" + request +
                 ",\n    file=" + file +
                 ",\n    properties=" + properties +
-                ",\n    offline=" + offline +
                 ",\n    quiet=" + quiet +
                 ",\n    debug=" + debug +
-                ",\n    showErrors=" + showErrors +
-                ",\n    nonRecursive=" + nonRecursive +
-                ",\n    updateSnapshots=" + updateSnapshots +
-                ",\n    activateProfiles='" + activateProfiles + '\'' +
-                ",\n    batch=" + batch +
-                ",\n    checkPluginUpdates=" + checkPluginUpdates +
-                ",\n    updatePlugins=" + updatePlugins +
-                ",\n    noPluginUpdates=" + noPluginUpdates +
-                ",\n    noSnapshotUpdates=" + noSnapshotUpdates +
-                ",\n    strictChecksums=" + strictChecksums +
-                ",\n    laxChecksums=" + laxChecksums +
                 ",\n    settings=" + settings +
                 ",\n    globalSettings=" + globalSettings +
                 ",\n    toolChains=" + toolChains +
-                ",\n    failFast=" + failFast +
-                ",\n    failAtEnd=" + failAtEnd +
-                ",\n    failNever=" + failNever +
-                ",\n    resumeFrom='" + resumeFrom + '\'' +
-                ",\n    projects='" + projects + '\'' +
                 ",\n    alsoMake=" + alsoMake +
                 ",\n    alsoMakeDependents=" + alsoMakeDependents +
                 ",\n    logFile=" + logFile +
                 ",\n    showVersion=" + showVersion +
-                ",\n    encryptMasterPassword='" + encryptMasterPassword + '\'' +
-                ",\n    encryptPassword='" + encryptPassword + '\'' +
                 ",\n    noPluginRegistry=" + noPluginRegistry +
-                ",\n    goals=" + goals +
                 "\n}";
         }
     }

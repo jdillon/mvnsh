@@ -18,6 +18,7 @@ package org.sonatype.maven.shell.commands.maven;
 
 import com.google.inject.Inject;
 import jline.Terminal;
+import org.apache.maven.execution.MavenExecutionRequest;
 import org.sonatype.grrrowl.Growler;
 import org.sonatype.gshell.command.Command;
 import org.sonatype.gshell.command.CommandActionSupport;
@@ -87,7 +88,7 @@ public class MavenCommand
     private boolean updateSnapshots;
 
     @Option(name = "-P", aliases = {"--activate-profiles"}, argumentRequired = true)
-    private String activateProfiles;
+    private List<String> activateProfiles;
 
     @Preference
     @Option(name = "-B", aliases = {"--batch-mode"})
@@ -136,7 +137,7 @@ public class MavenCommand
     private String resumeFrom;
 
     @Option(name = "-pl", aliases = {"--projects"}, argumentRequired = true)
-    private String projects;
+    private List<String> selectedProjects;
 
     @Option(name = "-am", aliases = {"--also-make"})
     private boolean alsoMake;
@@ -150,12 +151,6 @@ public class MavenCommand
     @Preference
     @Option(name = "-V", aliases = {"--show-version"})
     private boolean showVersion;
-
-//    @Option(name = "-emp", aliases = {"--encrypt-master-password"}, argumentRequired = true)
-//    private String encryptMasterPassword;
-//
-//    @Option(name = "-ep", aliases = {"--encrypt-password"}, argumentRequired = true)
-//    private String encryptPassword;
 
     @Option(name = "-npr", aliases = {"--no-plugin-registry"})
     private boolean noPluginRegistry;
@@ -191,10 +186,9 @@ public class MavenCommand
 
         File homeDir = vars.get(SHELL_HOME, File.class);
         System.setProperty("maven.home", homeDir.getAbsolutePath());
-
+        
         MavenRuntime.Request request = maven.create()
             .setFile(file)
-            .setProperties(props)
             .setOffline(offline)
             .setQuiet(quiet)
             .setDebug(debug)
@@ -203,26 +197,49 @@ public class MavenCommand
             .setUpdateSnapshots(updateSnapshots)
             .setActivateProfiles(activateProfiles)
             .setBatch(batch)
-            .setCheckPluginUpdates(checkPluginUpdates)
-            .setUpdatePlugins(updatePlugins)
-            .setNoPluginUpdates(noPluginUpdates)
             .setNoSnapshotUpdates(noSnapshotUpdates)
-            .setStrictChecksums(strictChecksums)
-            .setLaxChecksums(laxChecksums)
             .setSettings(settings)
             .setGlobalSettings(globalSettings)
             .setToolChains(toolChains)
-            .setFailFast(failFast)
-            .setFailAtEnd(failAtEnd)
-            .setFailNever(failNever)
-            .setResumeFrom(resumeFrom)
-            .setProjects(projects)
             .setAlsoMake(alsoMake)
             .setAlsoMakeDependents(alsoMakeDependents)
             .setLogFile(logFile)
             .setShowVersion(showVersion)
-            .setNoPluginRegistry(noPluginRegistry)
-            .setGoals(goals);
+            .setNoPluginRegistry(noPluginRegistry);
+
+        request.getRequest().setGoals(goals);
+
+        if (checkPluginUpdates || updatePlugins) {
+            request.getRequest().setUsePluginUpdateOverride(true);
+        }
+        else if (noPluginUpdates) {
+            request.getRequest().setUsePluginUpdateOverride(false);
+        }
+
+        if (strictChecksums) {
+            request.getRequest().setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_FAIL);
+        }
+        if (laxChecksums) {
+            request.getRequest().setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_WARN);
+        }
+
+        if (failFast) {
+            request.getRequest().setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
+        }
+        else if (failAtEnd) {
+            request.getRequest().setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_AT_END);
+        }
+        else if (failNever) {
+            request.getRequest().setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
+        }
+
+        if (selectedProjects != null) {
+            request.getRequest().setSelectedProjects(selectedProjects);
+        }
+
+        request.getRequest().setResumeFrom(resumeFrom);
+
+        request.getProperties().putAll(props);
 
         File userDir = vars.get(SHELL_USER_DIR, File.class);
         // TODO: See if we can omit setting this property here, otherwise may need to hijack system properties :-(
