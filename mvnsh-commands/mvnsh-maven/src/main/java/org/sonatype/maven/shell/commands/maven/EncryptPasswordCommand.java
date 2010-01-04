@@ -48,7 +48,7 @@ public class EncryptPasswordCommand
     private boolean master;
 
     @Argument(required=true)
-    private String passwd;
+    private String password;
 
     @Inject
     public EncryptPasswordCommand(final PlexusRuntime plexus) {
@@ -65,7 +65,7 @@ public class EncryptPasswordCommand
 
         if (master) {
             DefaultPlexusCipher cipher = new DefaultPlexusCipher();
-            result = cipher.encryptAndDecorate(passwd, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION);
+            result = cipher.encryptAndDecorate(password, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION);
         }
         else {
             String configurationFile = dispatcher.getConfigurationFile();
@@ -90,7 +90,7 @@ public class EncryptPasswordCommand
             DefaultPlexusCipher cipher = new DefaultPlexusCipher();
             String masterPasswd = cipher.decryptDecorated(master, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION);
 
-            result = cipher.encryptAndDecorate(passwd, masterPasswd);
+            result = cipher.encryptAndDecorate(password, masterPasswd);
         }
 
         io.out.println(result);
