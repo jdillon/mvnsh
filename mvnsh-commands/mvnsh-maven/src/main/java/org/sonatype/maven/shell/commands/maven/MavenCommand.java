@@ -195,19 +195,19 @@ public class MavenCommand
         
         MavenRuntime.Request request = maven.create()
             .setFile(file)
-            .setOffline(offline)
             .setQuiet(quiet)
             .setDebug(debug)
-            .setShowErrors(showErrors)
             .setActivateProfiles(activateProfiles)
-            .setBatch(batch)
             .setSettings(settings)
             .setGlobalSettings(globalSettings)
             .setToolChains(toolChains)
             .setLogFile(logFile)
             .setShowVersion(showVersion);
 
+        request.getRequest().setOffline(offline);
         request.getRequest().setGoals(goals);
+        request.getRequest().setInteractiveMode(!batch);
+        request.getRequest().setShowErrors(showErrors);
         request.getRequest().setRecursive(!nonRecursive);
         request.getRequest().setUpdateSnapshots(updateSnapshots);
         request.getRequest().setNoSnapshotUpdates(noSnapshotUpdates);
@@ -266,9 +266,6 @@ public class MavenCommand
         MavenRuntime.Result result = null;
         try {
             result = maven.execute(request);
-        }
-        catch (MavenRuntime.ExitNotification n) {
-            return n.code;
         }
         finally {
             StreamJack.deregister();

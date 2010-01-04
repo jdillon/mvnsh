@@ -44,6 +44,7 @@ import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonatype.gshell.io.Closer;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.plexus.PlexusRuntime;
 import org.sonatype.gshell.util.yarn.Yarn;
@@ -125,6 +126,27 @@ public class MavenRuntimeImpl
         configureSettings(request);
         configureRequest(request);
 
+        try {
+            return doExecute(request);
+        }
+        catch (ExitNotification e) {
+            return new Result(e.code);
+        }
+        catch (Exception e) {
+            CLIReportingUtils.showError(request.getLogger(), "Error executing Maven.", e, request.getRequest().isShowErrors()); // TODO: i81n
+            return new Result(1);
+        }
+        finally {
+            PrintStream fs = request.getFileStream();
+            if (fs != null) {
+                Closer.close(fs);
+            }
+        }
+    }
+
+    private Result doExecute(final Request request) throws Exception {
+        assert request != null;
+
         if (request.isDebug() || request.isShowVersion()) {
             CLIReportingUtils.showVersion(request.getStreams().out);
         }
@@ -132,8 +154,8 @@ public class MavenRuntimeImpl
         //
         // TODO: i18n all of this
         //
-        
-        if (request.isShowErrors()) {
+
+        if (request.getRequest().isShowErrors()) {
             logger.info("Error stack-traces are turned on.");
         }
         if (MavenExecutionRequest.CHECKSUM_POLICY_WARN.equals(request.getRequest().getGlobalChecksumPolicy())) {
@@ -143,9 +165,8 @@ public class MavenRuntimeImpl
             logger.info("Enabling strict checksum verification on all artifact downloads.");
         }
 
-
         log.debug("Executing request: {}", Yarn.render(request.getRequest(), Yarn.Style.MULTI));
-        
+
         Maven maven = container.lookup(Maven.class);
         MavenExecutionResult result = maven.execute(request.getRequest());
 
@@ -157,7 +178,7 @@ public class MavenRuntimeImpl
             for (Throwable exception : result.getExceptions()) {
                 ExceptionSummary summary = handler.handleException(exception);
 
-                logSummary(summary, references, "", request.isShowErrors());
+                logSummary(summary, references, "", request.getRequest().isShowErrors());
 
                 if (project == null && exception instanceof LifecycleExecutionException) {
                     project = ((LifecycleExecutionException) exception).getProject();
@@ -166,7 +187,7 @@ public class MavenRuntimeImpl
 
             logger.error("");
 
-            if (!request.isShowErrors()) {
+            if (!request.getRequest().isShowErrors()) {
                 logger.error("To see the full stack-trace of the errors, re-run Maven with the -e switch.");
             }
             if (!logger.isDebugEnabled()) {
@@ -309,7 +330,7 @@ public class MavenRuntimeImpl
         if (userSettingsFile != null) {
             userSettingsFile = resolveFile(userSettingsFile, request.getWorkingDirectory());
             if (!userSettingsFile.isFile()) {
-                throw new FileNotFoundException("The specified user settings file does not exist: " + userSettingsFile);
+                throw new FileNotFoundException("The specified user settings file does not exist: " + userSettingsFile); // TODO: i18n
             }
         }
         else {
@@ -323,7 +344,7 @@ public class MavenRuntimeImpl
         if (globalSettingsFile != null) {
             globalSettingsFile = resolveFile(globalSettingsFile, request.getWorkingDirectory());
             if (!globalSettingsFile.isFile()) {
-                throw new FileNotFoundException("The specified global settings file does not exist: " + globalSettingsFile);
+                throw new FileNotFoundException("The specified global settings file does not exist: " + globalSettingsFile); // TODO: i18n
             }
         }
         else {
@@ -356,10 +377,10 @@ public class MavenRuntimeImpl
         
         if (!settingsResult.getProblems().isEmpty() && logger.isWarnEnabled()) {
             logger.warn("");
-            logger.warn("Some problems were encountered while building the effective settings");
+            logger.warn("Some problems were encountered while building the effective settings"); // TODO: i18n
 
             for (SettingsProblem problem : settingsResult.getProblems()) {
-                logger.warn(problem.getMessage() + " @ " + problem.getLocation());
+                logger.warn(problem.getMessage() + " @ " + problem.getLocation()); // TODO: i18n
             }
 
             logger.warn("");
@@ -450,6 +471,8 @@ public class MavenRuntimeImpl
         
         String referenceKey = "";
 
+        // TODO: i18n
+        
         if (StringUtils.isNotEmpty(summary.getReference())) {
             referenceKey = references.get(summary.getReference());
             if (referenceKey == null) {

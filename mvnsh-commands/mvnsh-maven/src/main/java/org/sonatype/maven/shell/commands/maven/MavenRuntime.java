@@ -22,7 +22,6 @@ import org.apache.maven.execution.MavenExecutionRequest;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.notification.Notification;
-import org.sonatype.gshell.util.yarn.Yarn;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -143,15 +142,6 @@ public interface MavenRuntime
             return properties;
         }
 
-        public boolean isOffline() {
-            return getRequest().isOffline();
-        }
-
-        public Request setOffline(final boolean offline) {
-            getRequest().setOffline(offline);
-            return this;
-        }
-
         public boolean isQuiet() {
             return quiet;
         }
@@ -167,15 +157,6 @@ public interface MavenRuntime
 
         public Request setDebug(final boolean debug) {
             this.debug = debug;
-            return this;
-        }
-
-        public boolean isShowErrors() {
-            return getRequest().isShowErrors();
-        }
-
-        public Request setShowErrors(final boolean showErrors) {
-            getRequest().setShowErrors(showErrors);
             return this;
         }
 
@@ -198,15 +179,6 @@ public interface MavenRuntime
                 }
             }
 
-            return this;
-        }
-
-        public boolean isBatch() {
-            return !getRequest().isInteractiveMode();
-        }
-
-        public Request setBatch(final boolean batch) {
-            getRequest().setInteractiveMode(!batch);
             return this;
         }
 
@@ -243,7 +215,7 @@ public interface MavenRuntime
 
         public Request setLogFile(final File logFile) {
             this.logFile = logFile;
-        return this;
+            return this;
         }
 
         public boolean isShowVersion() {
@@ -263,14 +235,6 @@ public interface MavenRuntime
         public Result(final int code) {
             this.code = code;
         }
-
-
-//        @Override
-//        public String toString() {
-//            return "Result{" +
-//                "code=" + code +
-//                '}';
-//        }
     }
 
     class ExitNotification
