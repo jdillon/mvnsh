@@ -127,6 +127,10 @@ public class MavenRuntimeImpl
             CLIReportingUtils.showVersion(request.getStreams().out);
         }
 
+        //
+        // TODO: i18n all of this
+        //
+        
         if (request.isShowErrors()) {
             logger.info("Error stack-traces are turned on.");
         }
@@ -158,7 +162,7 @@ public class MavenRuntimeImpl
             logger.error("");
 
             if (!request.isShowErrors()) {
-                logger.error("To see the full stack trace of the errors, re-run Maven with the -e switch.");
+                logger.error("To see the full stack-trace of the errors, re-run Maven with the -e switch.");
             }
             if (!logger.isDebugEnabled()) {
                 logger.error("Re-run Maven using the -X switch to enable full debug logging.");

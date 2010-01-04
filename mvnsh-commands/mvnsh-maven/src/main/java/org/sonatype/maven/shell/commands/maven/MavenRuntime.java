@@ -42,6 +42,10 @@ public interface MavenRuntime
 
     Result execute(Request request) throws Exception;
 
+    //
+    // TODO: Sub-class DefaultMavenExecutionRequest, only add methods to augment what additional muck is needed
+    //
+
     class Request
     {
         private StreamSet streams = StreamSet.system();
@@ -124,8 +128,6 @@ public interface MavenRuntime
         private File logFile;
 
         private boolean showVersion;
-
-        private boolean noPluginRegistry;
 
         public File getFile() {
             return file;
@@ -252,15 +254,6 @@ public interface MavenRuntime
             return this;
         }
 
-        public boolean isNoPluginRegistry() {
-            return noPluginRegistry;
-        }
-
-        public Request setNoPluginRegistry(final boolean noPluginRegistry) {
-            this.noPluginRegistry = noPluginRegistry;
-            return this;
-        }
-
         @Override
         public String toString() {
             return "Request" +
@@ -279,7 +272,6 @@ public interface MavenRuntime
                 ",\n    toolChains=" + toolChains +
                 ",\n    logFile=" + logFile +
                 ",\n    showVersion=" + showVersion +
-                ",\n    noPluginRegistry=" + noPluginRegistry +
                 "\n}";
         }
     }

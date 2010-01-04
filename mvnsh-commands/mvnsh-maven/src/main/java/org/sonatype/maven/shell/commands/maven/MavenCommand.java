@@ -153,8 +153,9 @@ public class MavenCommand
     @Option(name = "-V", aliases = {"--show-version"})
     private boolean showVersion;
 
-    @Option(name = "-npr", aliases = {"--no-plugin-registry"})
-    private boolean noPluginRegistry;
+    // FIXME: Remove if not needed, since it does not actually do anything
+//    @Option(name = "-npr", aliases = {"--no-plugin-registry"})
+//    private boolean noPluginRegistry;
 
     @Argument
     private List<String> goals;
@@ -187,7 +188,6 @@ public class MavenCommand
             return Result.SUCCESS;
         }
 
-
         File homeDir = vars.get(SHELL_HOME, File.class);
         System.setProperty("maven.home", homeDir.getAbsolutePath());
         
@@ -203,8 +203,7 @@ public class MavenCommand
             .setGlobalSettings(globalSettings)
             .setToolChains(toolChains)
             .setLogFile(logFile)
-            .setShowVersion(showVersion)
-            .setNoPluginRegistry(noPluginRegistry);
+            .setShowVersion(showVersion);
 
         request.getRequest().setGoals(goals);
         request.getRequest().setRecursive(!nonRecursive);
@@ -306,6 +305,6 @@ public class MavenCommand
             }
         }
 
-        return result;
+        return result.code;
     }
 }
