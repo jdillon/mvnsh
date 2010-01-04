@@ -27,6 +27,7 @@ import org.sonatype.gshell.command.IO;
 import org.sonatype.gshell.io.StreamJack;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.util.NameValue;
+import org.sonatype.gshell.util.Strings;
 import org.sonatype.gshell.util.cli.Argument;
 import org.sonatype.gshell.util.cli.Option;
 import org.sonatype.gshell.util.pref.Preference;
@@ -163,10 +164,12 @@ public class MavenCommand
         BUILD_PASSED, BUILD_FAILED
     }
 
+    private final MavenRuntime maven;
+
     @Preference
     private boolean growl = true;
 
-    private final MavenRuntime maven;
+    private Growler growler;
 
     @Inject
     public MavenCommand(final MavenRuntime maven) {
@@ -183,6 +186,7 @@ public class MavenCommand
             io.info(maven.getVersion());
             return Result.SUCCESS;
         }
+
 
         File homeDir = vars.get(SHELL_HOME, File.class);
         System.setProperty("maven.home", homeDir.getAbsolutePath());
@@ -270,10 +274,9 @@ public class MavenCommand
 
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
             Terminal term = io.getTerminal();
-            term.restore();
-            term.init();
+            term.reset();
 
-            // HACK: Attempt to let the VM clean up
+            // HACK: Attempt to let the VM clean up, no clue if this helps or not
             Thread.yield();
             System.runFinalization();
             Thread.yield();
@@ -282,20 +285,24 @@ public class MavenCommand
         }
 
         if (growl) {
-            Growler growler = new Growler("mvn", Notifications.class);
-            growler.register();
+            if (growler == null) {
+                growler = new Growler(getName(), Notifications.class);
+                growler.register();
+            }
+
+            String cl = String.format("%s %s", getName(), Strings.join(context.getArguments(), " "));
 
             if (result.code == 0) {
                 growler.growl(
                     Notifications.BUILD_PASSED,
-                    "Build Passed",
-                    "Build was successful: " + getName());
+                    "BUILD SUCCESS", // TODO: i18n
+                    cl);
             }
             else {
                 growler.growl(
                     Notifications.BUILD_FAILED,
-                    "Build Failed",
-                    "Build has failed: " + getName());
+                    "BUILD FAILURE", // TODO: i18n
+                    cl);
             }
         }
 

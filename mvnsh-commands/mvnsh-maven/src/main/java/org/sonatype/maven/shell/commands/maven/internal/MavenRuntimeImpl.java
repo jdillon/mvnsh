@@ -39,7 +39,6 @@ import org.apache.maven.settings.building.SettingsProblem;
 import org.codehaus.plexus.ContainerConfiguration;
 import org.codehaus.plexus.DefaultContainerConfiguration;
 import org.codehaus.plexus.DefaultPlexusContainer;
-import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
@@ -83,6 +82,8 @@ public class MavenRuntimeImpl
 
     private final PlexusRuntime plexus;
 
+    private PrintStreamLogger logger;
+
     private DefaultPlexusContainer container;
 
     @Inject
@@ -113,6 +114,9 @@ public class MavenRuntimeImpl
         setupDefaults(request);
         setupLogging(request);
 
+        // Use this icky logger to get output that is consistent with mvn :-(
+        logger = request.getLogger();
+
         // Have to create a new container so we can use a different logging scheme :-(
         container = createContainer(request);
 
@@ -124,13 +128,13 @@ public class MavenRuntimeImpl
         }
 
         if (request.isShowErrors()) {
-            log.info("Error stack-traces are turned on.");
+            logger.info("Error stack-traces are turned on.");
         }
         if (MavenExecutionRequest.CHECKSUM_POLICY_WARN.equals(request.getRequest().getGlobalChecksumPolicy())) {
-            log.info("Disabling strict checksum verification on all artifact downloads.");
+            logger.info("Disabling strict checksum verification on all artifact downloads.");
         }
         else if (MavenExecutionRequest.CHECKSUM_POLICY_FAIL.equals(request.getRequest().getGlobalChecksumPolicy())) {
-            log.info("Enabling strict checksum verification on all artifact downloads.");
+            logger.info("Enabling strict checksum verification on all artifact downloads.");
         }
 
         Maven maven = container.lookup(Maven.class);
@@ -151,32 +155,32 @@ public class MavenRuntimeImpl
                 }
             }
 
-            log.error("");
+            logger.error("");
 
             if (!request.isShowErrors()) {
-                log.error("To see the full stack trace of the errors, re-run Maven with the -e switch.");
+                logger.error("To see the full stack trace of the errors, re-run Maven with the -e switch.");
             }
-            if (!log.isDebugEnabled()) {
-                log.error("Re-run Maven using the -X switch to enable full debug logging.");
+            if (!logger.isDebugEnabled()) {
+                logger.error("Re-run Maven using the -X switch to enable full debug logging.");
             }
 
             if (!references.isEmpty()) {
-                log.error("");
-                log.error("For more information about the errors and possible solutions, please read the following articles:");
+                logger.error("");
+                logger.error("For more information about the errors and possible solutions, please read the following articles:");
 
                 for (Map.Entry<String, String> entry : references.entrySet()) {
-                    log.error(entry.getValue() + " " + entry.getKey());
+                    logger.error(entry.getValue() + " " + entry.getKey());
                 }
             }
 
             if (project != null && !project.equals(result.getTopologicallySortedProjects().get(0))) {
-                log.error("");
-                log.error("After correcting the problems, you can resume the build with the command");
-                log.error("  mvn <goals> -rf :{}", project.getArtifactId());
+                logger.error("");
+                logger.error("After correcting the problems, you can resume the build with the command");
+                logger.error("  mvn <goals> -rf :" + project.getArtifactId());
             }
 
             if (MavenExecutionRequest.REACTOR_FAIL_NEVER.equals(request.getRequest().getReactorFailureBehavior())) {
-                log.info("Build failures were ignored.");
+                logger.info("Build failures were ignored.");
 
                 return new Result(0);
             }
@@ -303,7 +307,7 @@ public class MavenRuntimeImpl
             userSettingsFile = DEFAULT_USER_SETTINGS_FILE;
         }
 
-        log.debug("Reading user settings from: {}", userSettingsFile);
+        logger.debug("Reading user settings from: " + userSettingsFile);
         request.getRequest().setUserSettingsFile(userSettingsFile);
 
         File globalSettingsFile = request.getGlobalSettings();
@@ -317,7 +321,7 @@ public class MavenRuntimeImpl
             globalSettingsFile = DEFAULT_GLOBAL_SETTINGS_FILE;
         }
 
-        log.debug("Reading global settings from: {}", globalSettingsFile);
+        logger.debug("Reading global settings from: " + globalSettingsFile);
         request.getRequest().setGlobalSettingsFile(globalSettingsFile);
 
         configureProperties(request);
@@ -334,15 +338,15 @@ public class MavenRuntimeImpl
         MavenExecutionRequestPopulator populator = container.lookup(MavenExecutionRequestPopulator.class);
         populator.populateFromSettings(request.getRequest(), settingsResult.getEffectiveSettings());
 
-        if (!settingsResult.getProblems().isEmpty() && log.isWarnEnabled()) {
-            log.warn("");
-            log.warn("Some problems were encountered while building the effective settings");
+        if (!settingsResult.getProblems().isEmpty() && logger.isWarnEnabled()) {
+            logger.warn("");
+            logger.warn("Some problems were encountered while building the effective settings");
 
             for (SettingsProblem problem : settingsResult.getProblems()) {
-                log.warn("{} @ {}", problem.getMessage(), problem.getLocation());
+                logger.warn(problem.getMessage() + " @ " + problem.getLocation());
             }
 
-            log.warn("");
+            logger.warn("");
         }
     }
 
@@ -449,10 +453,10 @@ public class MavenRuntimeImpl
 
         if (showErrors) {
             //noinspection ThrowableResultOfMethodCallIgnored
-            log.error(msg, summary.getException());
+            logger.error(msg, summary.getException());
         }
         else {
-            log.error(msg);
+            logger.error(msg);
         }
 
         indent += "  ";
