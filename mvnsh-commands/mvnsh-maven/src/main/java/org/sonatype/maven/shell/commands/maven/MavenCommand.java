@@ -257,11 +257,10 @@ public class MavenCommand
         File userDir = vars.get(SHELL_USER_DIR, File.class);
         request.setWorkingDirectory(userDir);
 
-//        StreamSet current = StreamJack.current();
-//        StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
-//        StreamJack.register(streams);
-//        request.setStreams(streams);
-        request.setStreams(io.streams);
+        StreamSet current = StreamJack.current();
+        StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
+        StreamJack.register(streams);
+        request.setStreams(streams);
         
         // Execute Maven
         MavenRuntime.Result result = null;
@@ -272,7 +271,7 @@ public class MavenCommand
             return n.code;
         }
         finally {
-//            StreamJack.deregister();
+            StreamJack.deregister();
 
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
             Terminal term = io.getTerminal();
