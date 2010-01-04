@@ -46,6 +46,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.plexus.PlexusRuntime;
+import org.sonatype.gshell.util.yarn.Yarn;
 import org.sonatype.maven.shell.commands.maven.MavenRuntime;
 
 import java.io.ByteArrayOutputStream;
@@ -53,6 +54,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -109,7 +111,7 @@ public class MavenRuntimeImpl
     public Result execute(final Request request) throws Exception {
         assert request != null;
 
-        log.debug("Executing request: {}", request);
+        log.debug("Processing request: {}", Yarn.render(request, Yarn.Style.MULTI));
 
         setupDefaults(request);
         setupLogging(request);
@@ -141,6 +143,9 @@ public class MavenRuntimeImpl
             logger.info("Enabling strict checksum verification on all artifact downloads.");
         }
 
+
+        log.debug("Executing request: {}", Yarn.render(request.getRequest(), Yarn.Style.MULTI));
+        
         Maven maven = container.lookup(Maven.class);
         MavenExecutionResult result = maven.execute(request.getRequest());
 
@@ -340,8 +345,15 @@ public class MavenRuntimeImpl
         SettingsBuildingResult settingsResult = settingsBuilder.build(settingsRequest);
 
         MavenExecutionRequestPopulator populator = container.lookup(MavenExecutionRequestPopulator.class);
-        populator.populateFromSettings(request.getRequest(), settingsResult.getEffectiveSettings());
 
+        // HACK: populateFromSettings() will nuke any active profiles, so we have to dance around it
+        List<String> activeProfiles = request.getRequest().getActiveProfiles();
+        List<String> inactiveProfiles = request.getRequest().getInactiveProfiles();
+        populator.populateFromSettings(request.getRequest(), settingsResult.getEffectiveSettings());
+        // HACK: Now put them back
+        request.getRequest().getActiveProfiles().addAll(activeProfiles);
+        request.getRequest().getInactiveProfiles().addAll(inactiveProfiles);
+        
         if (!settingsResult.getProblems().isEmpty() && logger.isWarnEnabled()) {
             logger.warn("");
             logger.warn("Some problems were encountered while building the effective settings");
@@ -383,6 +395,8 @@ public class MavenRuntimeImpl
         File baseDirectory = new File(request.getWorkingDirectory(), "").getAbsoluteFile();
         req.setBaseDirectory(baseDirectory);
 
+        // NOTE: Profile activation is handled in Request.setActivateProfiles()
+        
         ArtifactTransferListener transferListener;
         if (req.isInteractiveMode()) {
             transferListener = new ConsoleMavenTransferListener(request.getStreams().out);

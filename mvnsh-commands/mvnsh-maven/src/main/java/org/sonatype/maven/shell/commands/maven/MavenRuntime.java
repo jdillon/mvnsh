@@ -22,6 +22,7 @@ import org.apache.maven.execution.MavenExecutionRequest;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.notification.Notification;
+import org.sonatype.gshell.util.yarn.Yarn;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -183,17 +184,17 @@ public interface MavenRuntime
                 return this;
             }
 
-            for (String profileAction : profiles) {
-                profileAction = profileAction.trim();
+            for (String profile : profiles) {
+                profile = profile.trim();
 
-                if (profileAction.startsWith("-") || profileAction.startsWith("!")) {
-                    getRequest().addInactiveProfile(profileAction.substring(1));
+                if (profile.startsWith("-") || profile.startsWith("!")) {
+                    getRequest().addInactiveProfile(profile.substring(1));
                 }
-                else if (profileAction.startsWith("+")) {
-                    getRequest().addActiveProfile(profileAction.substring(1));
+                else if (profile.startsWith("+")) {
+                    getRequest().addActiveProfile(profile.substring(1));
                 }
                 else {
-                    getRequest().addActiveProfile(profileAction);
+                    getRequest().addActiveProfile(profile);
                 }
             }
 
@@ -253,27 +254,6 @@ public interface MavenRuntime
             this.showVersion = showVersion;
             return this;
         }
-
-        @Override
-        public String toString() {
-            return "Request" +
-                "{\n    streams=" + streams +
-                ",\n    classWorld=" + classWorld +
-                ",\n    workingDirectory=" + workingDirectory +
-                ",\n    logger=" + logger +
-                ",\n    fileStream=" + fileStream +
-                ",\n    request=" + request +
-                ",\n    file=" + file +
-                ",\n    properties=" + properties +
-                ",\n    quiet=" + quiet +
-                ",\n    debug=" + debug +
-                ",\n    settings=" + settings +
-                ",\n    globalSettings=" + globalSettings +
-                ",\n    toolChains=" + toolChains +
-                ",\n    logFile=" + logFile +
-                ",\n    showVersion=" + showVersion +
-                "\n}";
-        }
     }
 
     class Result
@@ -284,12 +264,13 @@ public interface MavenRuntime
             this.code = code;
         }
 
-        @Override
-        public String toString() {
-            return "Result{" +
-                "code=" + code +
-                '}';
-        }
+
+//        @Override
+//        public String toString() {
+//            return "Result{" +
+//                "code=" + code +
+//                '}';
+//        }
     }
 
     class ExitNotification

@@ -88,7 +88,8 @@ public class MavenCommand
     @Option(name = "-U", aliases = {"--update-snapshots"})
     private boolean updateSnapshots;
 
-    @Option(name = "-P", aliases = {"--activate-profiles"}, argumentRequired = true)
+    // FIXME: This will not work as expected for -P x,y,z, etc.
+    @Option(name = "-P", aliases = {"--activate-profiles"}, argumentRequired = true, multiValued = true)
     private List<String> activateProfiles;
 
     @Preference
@@ -137,7 +138,8 @@ public class MavenCommand
     @Option(name = "-rf", aliases = {"--resume-from"}, argumentRequired = true)
     private String resumeFrom;
 
-    @Option(name = "-pl", aliases = {"--projects"}, argumentRequired = true)
+    // FIXME: This will not work as expected for -pl x,y,z, etc.
+    @Option(name = "-pl", aliases = {"--projects"}, argumentRequired = true, multiValued = true)
     private List<String> selectedProjects;
 
     @Option(name = "-am", aliases = {"--also-make"})
@@ -182,7 +184,7 @@ public class MavenCommand
         assert context != null;
         IO io = context.getIo();
         Variables vars = context.getVariables();
-
+        
         if (version) {
             io.info(maven.getVersion());
             return Result.SUCCESS;
@@ -255,11 +257,12 @@ public class MavenCommand
         File userDir = vars.get(SHELL_USER_DIR, File.class);
         request.setWorkingDirectory(userDir);
 
-        StreamSet current = StreamJack.current();
-        StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
-        StreamJack.register(streams);
-        request.setStreams(streams);
-
+//        StreamSet current = StreamJack.current();
+//        StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
+//        StreamJack.register(streams);
+//        request.setStreams(streams);
+        request.setStreams(io.streams);
+        
         // Execute Maven
         MavenRuntime.Result result = null;
         try {
@@ -269,7 +272,7 @@ public class MavenCommand
             return n.code;
         }
         finally {
-            StreamJack.deregister();
+//            StreamJack.deregister();
 
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
             Terminal term = io.getTerminal();
