@@ -194,6 +194,7 @@ public class MavenCommand
         System.setProperty("maven.home", homeDir.getAbsolutePath());
         
         MavenRuntime.Request request = maven.create();
+        
         request.setFile(file);
         request.setQuiet(quiet);
         request.setDebug(debug);
@@ -235,9 +236,7 @@ public class MavenCommand
             request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
         }
 
-        if (selectedProjects != null) {
-            request.setSelectedProjects(selectedProjects);
-        }
+        request.setSelectedProjects(selectedProjects);
 
         if (alsoMake && !alsoMakeDependents) {
             request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);
