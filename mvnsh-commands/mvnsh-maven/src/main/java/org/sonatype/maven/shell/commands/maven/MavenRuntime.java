@@ -76,47 +76,42 @@ public interface MavenRuntime
             return streams;
         }
 
-        public Request setStreams(final StreamSet streams) {
+        public void setStreams(final StreamSet streams) {
             assert streams != null;
             this.streams = streams;
-            return this;
         }
 
         public ClassWorld getClassWorld() {
             return classWorld;
         }
 
-        public Request setClassWorld(final ClassWorld classWorld) {
+        public void setClassWorld(final ClassWorld classWorld) {
             this.classWorld = classWorld;
-            return this;
         }
 
         public File getWorkingDirectory() {
             return workingDirectory;
         }
 
-        public Request setWorkingDirectory(final File dir) {
+        public void setWorkingDirectory(final File dir) {
             assert dir != null;
             this.workingDirectory = dir;
-            return this;
         }
 
         public PrintStreamLogger getLogger() {
             return logger;
         }
 
-        public Request setLogger(final PrintStreamLogger logger) {
+        public void setLogger(final PrintStreamLogger logger) {
             this.logger = logger;
-            return this;
         }
 
         public File getFile() {
             return file;
         }
 
-        public Request setFile(final File file) {
+        public void setFile(final File file) {
             this.file = file;
-            return this;
         }
 
         public Properties getProperties() {
@@ -127,23 +122,21 @@ public interface MavenRuntime
             return quiet;
         }
 
-        public Request setQuiet(final boolean quiet) {
+        public void setQuiet(final boolean quiet) {
             this.quiet = quiet;
-            return this;
         }
 
         public boolean isDebug() {
             return debug;
         }
 
-        public Request setDebug(final boolean debug) {
+        public void setDebug(final boolean debug) {
             this.debug = debug;
-            return this;
         }
 
-        public Request setProfiles(final List<String> profiles) {
+        public void setProfiles(final List<String> profiles) {
             if (profiles == null) {
-                return this;
+                return;
             }
 
             for (String profile : profiles) {
@@ -159,62 +152,54 @@ public interface MavenRuntime
                     addActiveProfile(profile);
                 }
             }
-
-            return this;
         }
 
         public File getSettings() {
             return settings;
         }
 
-        public Request setSettings(final File settings) {
+        public void setSettings(final File settings) {
             this.settings = settings;
-            return this;
         }
 
         public File getGlobalSettings() {
             return globalSettings;
         }
 
-        public Request setGlobalSettings(final File globalSettings) {
+        public void setGlobalSettings(final File globalSettings) {
             this.globalSettings = globalSettings;
-            return this;
         }
 
         public File getToolChains() {
             return toolChains;
         }
 
-        public Request setToolChains(final File toolChains) {
+        public void setToolChains(final File toolChains) {
             this.toolChains = toolChains;
-            return this;
         }
 
         public File getLogFile() {
             return logFile;
         }
 
-        public Request setLogFile(final File logFile) {
+        public void setLogFile(final File logFile) {
             this.logFile = logFile;
-            return this;
         }
 
         public PrintStream getFileStream() {
             return fileStream;
         }
 
-        public Request setFileStream(final PrintStream fileStream) {
+        public void setFileStream(final PrintStream fileStream) {
             this.fileStream = fileStream;
-            return this;
         }
         
         public boolean isShowVersion() {
             return showVersion;
         }
 
-        public Request setShowVersion(final boolean showVersion) {
+        public void setShowVersion(final boolean showVersion) {
             this.showVersion = showVersion;
-            return this;
         }
     }
 

@@ -193,17 +193,16 @@ public class MavenCommand
         File homeDir = vars.get(SHELL_HOME, File.class);
         System.setProperty("maven.home", homeDir.getAbsolutePath());
         
-        MavenRuntime.Request request = maven.create()
-            .setFile(file)
-            .setQuiet(quiet)
-            .setDebug(debug)
-            .setProfiles(profiles)
-            .setSettings(settings)
-            .setGlobalSettings(globalSettings)
-            .setToolChains(toolChains)
-            .setLogFile(logFile)
-            .setShowVersion(showVersion);
-
+        MavenRuntime.Request request = maven.create();
+        request.setFile(file);
+        request.setQuiet(quiet);
+        request.setDebug(debug);
+        request.setProfiles(profiles);
+        request.setSettings(settings);
+        request.setGlobalSettings(globalSettings);
+        request.setToolChains(toolChains);
+        request.setLogFile(logFile);
+        request.setShowVersion(showVersion);
         request.setOffline(offline);
         request.setGoals(goals);
         request.setInteractiveMode(!batch);
