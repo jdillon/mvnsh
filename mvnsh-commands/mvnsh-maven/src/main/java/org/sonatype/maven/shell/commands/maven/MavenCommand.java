@@ -90,7 +90,7 @@ public class MavenCommand
 
     // FIXME: This will not work as expected for -P x,y,z, etc.
     @Option(name = "-P", aliases = {"--activate-profiles"}, argumentRequired = true, multiValued = true)
-    private List<String> activateProfiles;
+    private List<String> profiles;
 
     @Preference
     @Option(name = "-B", aliases = {"--batch-mode"})
@@ -197,60 +197,60 @@ public class MavenCommand
             .setFile(file)
             .setQuiet(quiet)
             .setDebug(debug)
-            .setActivateProfiles(activateProfiles)
+            .setProfiles(profiles)
             .setSettings(settings)
             .setGlobalSettings(globalSettings)
             .setToolChains(toolChains)
             .setLogFile(logFile)
             .setShowVersion(showVersion);
 
-        request.getRequest().setOffline(offline);
-        request.getRequest().setGoals(goals);
-        request.getRequest().setInteractiveMode(!batch);
-        request.getRequest().setShowErrors(showErrors);
-        request.getRequest().setRecursive(!nonRecursive);
-        request.getRequest().setUpdateSnapshots(updateSnapshots);
-        request.getRequest().setNoSnapshotUpdates(noSnapshotUpdates);
+        request.setOffline(offline);
+        request.setGoals(goals);
+        request.setInteractiveMode(!batch);
+        request.setShowErrors(showErrors);
+        request.setRecursive(!nonRecursive);
+        request.setUpdateSnapshots(updateSnapshots);
+        request.setNoSnapshotUpdates(noSnapshotUpdates);
 
         if (checkPluginUpdates || updatePlugins) {
-            request.getRequest().setUsePluginUpdateOverride(true);
+            request.setUsePluginUpdateOverride(true);
         }
         else if (noPluginUpdates) {
-            request.getRequest().setUsePluginUpdateOverride(false);
+            request.setUsePluginUpdateOverride(false);
         }
 
         if (strictChecksums) {
-            request.getRequest().setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_FAIL);
+            request.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_FAIL);
         }
         if (laxChecksums) {
-            request.getRequest().setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_WARN);
+            request.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_WARN);
         }
 
         if (failFast) {
-            request.getRequest().setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
+            request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
         }
         else if (failAtEnd) {
-            request.getRequest().setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_AT_END);
+            request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_AT_END);
         }
         else if (failNever) {
-            request.getRequest().setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
+            request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
         }
 
         if (selectedProjects != null) {
-            request.getRequest().setSelectedProjects(selectedProjects);
+            request.setSelectedProjects(selectedProjects);
         }
 
         if (alsoMake && !alsoMakeDependents) {
-            request.getRequest().setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);
+            request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);
         }
         else if (!alsoMake && alsoMakeDependents) {
-            request.getRequest().setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM);
+            request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM);
         }
         else if (alsoMake && alsoMakeDependents) {
-            request.getRequest().setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_BOTH);
+            request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_BOTH);
         }
 
-        request.getRequest().setResumeFrom(resumeFrom);
+        request.setResumeFrom(resumeFrom);
 
         request.getProperties().putAll(props);
 

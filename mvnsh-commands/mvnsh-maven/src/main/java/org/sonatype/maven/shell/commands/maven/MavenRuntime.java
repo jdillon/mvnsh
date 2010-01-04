@@ -18,7 +18,6 @@ package org.sonatype.maven.shell.commands.maven;
 
 import org.apache.maven.cli.PrintStreamLogger;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
-import org.apache.maven.execution.MavenExecutionRequest;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.notification.Notification;
@@ -42,11 +41,8 @@ public interface MavenRuntime
 
     Result execute(Request request) throws Exception;
 
-    //
-    // TODO: Sub-class DefaultMavenExecutionRequest, only add methods to augment what additional muck is needed
-    //
-
     class Request
+        extends DefaultMavenExecutionRequest
     {
         private StreamSet streams = StreamSet.system();
 
@@ -56,9 +52,25 @@ public interface MavenRuntime
 
         private PrintStreamLogger logger;
 
+        private File file;
+
+        private Properties properties = new Properties();
+
+        private boolean quiet;
+
+        private boolean debug;
+
+        private File settings;
+
+        private File globalSettings;
+
+        private File toolChains;
+
+        private File logFile;
+
         private PrintStream fileStream;
 
-        private final MavenExecutionRequest request = new DefaultMavenExecutionRequest();
+        private boolean showVersion;
 
         public StreamSet getStreams() {
             return streams;
@@ -98,37 +110,6 @@ public interface MavenRuntime
             return this;
         }
 
-        public PrintStream getFileStream() {
-            return fileStream;
-        }
-
-        public Request setFileStream(final PrintStream fileStream) {
-            this.fileStream = fileStream;
-            return this;
-        }
-
-        public MavenExecutionRequest getRequest() {
-            return request;
-        }
-
-        private File file;
-
-        private Properties properties = new Properties();
-
-        private boolean quiet;
-
-        private boolean debug;
-
-        private File settings;
-
-        private File globalSettings;
-
-        private File toolChains;
-
-        private File logFile;
-
-        private boolean showVersion;
-
         public File getFile() {
             return file;
         }
@@ -160,7 +141,7 @@ public interface MavenRuntime
             return this;
         }
 
-        public Request setActivateProfiles(final List<String> profiles) {
+        public Request setProfiles(final List<String> profiles) {
             if (profiles == null) {
                 return this;
             }
@@ -169,13 +150,13 @@ public interface MavenRuntime
                 profile = profile.trim();
 
                 if (profile.startsWith("-") || profile.startsWith("!")) {
-                    getRequest().addInactiveProfile(profile.substring(1));
+                    addInactiveProfile(profile.substring(1));
                 }
                 else if (profile.startsWith("+")) {
-                    getRequest().addActiveProfile(profile.substring(1));
+                    addActiveProfile(profile.substring(1));
                 }
                 else {
-                    getRequest().addActiveProfile(profile);
+                    addActiveProfile(profile);
                 }
             }
 
@@ -218,6 +199,15 @@ public interface MavenRuntime
             return this;
         }
 
+        public PrintStream getFileStream() {
+            return fileStream;
+        }
+
+        public Request setFileStream(final PrintStream fileStream) {
+            this.fileStream = fileStream;
+            return this;
+        }
+        
         public boolean isShowVersion() {
             return showVersion;
         }

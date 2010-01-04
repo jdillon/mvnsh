@@ -133,7 +133,7 @@ public class MavenRuntimeImpl
             return new Result(e.code);
         }
         catch (Exception e) {
-            CLIReportingUtils.showError(request.getLogger(), "Error executing Maven.", e, request.getRequest().isShowErrors()); // TODO: i81n
+            CLIReportingUtils.showError(request.getLogger(), "Error executing Maven.", e, request.isShowErrors()); // TODO: i81n
             return new Result(1);
         }
         finally {
@@ -155,20 +155,20 @@ public class MavenRuntimeImpl
         // TODO: i18n all of this
         //
 
-        if (request.getRequest().isShowErrors()) {
+        if (request.isShowErrors()) {
             logger.info("Error stack-traces are turned on.");
         }
-        if (MavenExecutionRequest.CHECKSUM_POLICY_WARN.equals(request.getRequest().getGlobalChecksumPolicy())) {
+        if (MavenExecutionRequest.CHECKSUM_POLICY_WARN.equals(request.getGlobalChecksumPolicy())) {
             logger.info("Disabling strict checksum verification on all artifact downloads.");
         }
-        else if (MavenExecutionRequest.CHECKSUM_POLICY_FAIL.equals(request.getRequest().getGlobalChecksumPolicy())) {
+        else if (MavenExecutionRequest.CHECKSUM_POLICY_FAIL.equals(request.getGlobalChecksumPolicy())) {
             logger.info("Enabling strict checksum verification on all artifact downloads.");
         }
 
-        log.debug("Executing request: {}", Yarn.render(request.getRequest(), Yarn.Style.MULTI));
+        log.debug("Executing request: {}", Yarn.render(request, Yarn.Style.MULTI));
 
         Maven maven = container.lookup(Maven.class);
-        MavenExecutionResult result = maven.execute(request.getRequest());
+        MavenExecutionResult result = maven.execute(request);
 
         if (result.hasExceptions()) {
             ExceptionHandler handler = new DefaultExceptionHandler();
@@ -178,7 +178,7 @@ public class MavenRuntimeImpl
             for (Throwable exception : result.getExceptions()) {
                 ExceptionSummary summary = handler.handleException(exception);
 
-                logSummary(summary, references, "", request.getRequest().isShowErrors());
+                logSummary(summary, references, "", request.isShowErrors());
 
                 if (project == null && exception instanceof LifecycleExecutionException) {
                     project = ((LifecycleExecutionException) exception).getProject();
@@ -187,7 +187,7 @@ public class MavenRuntimeImpl
 
             logger.error("");
 
-            if (!request.getRequest().isShowErrors()) {
+            if (!request.isShowErrors()) {
                 logger.error("To see the full stack-trace of the errors, re-run Maven with the -e switch.");
             }
             if (!logger.isDebugEnabled()) {
@@ -209,7 +209,7 @@ public class MavenRuntimeImpl
                 logger.error("  mvn <goals> -rf :" + project.getArtifactId());
             }
 
-            if (MavenExecutionRequest.REACTOR_FAIL_NEVER.equals(request.getRequest().getReactorFailureBehavior())) {
+            if (MavenExecutionRequest.REACTOR_FAIL_NEVER.equals(request.getReactorFailureBehavior())) {
                 logger.info("Build failures were ignored.");
 
                 return new Result(0);
@@ -232,7 +232,7 @@ public class MavenRuntimeImpl
 
         DefaultPlexusContainer c = new DefaultPlexusContainer(cc);
         c.setLoggerManager(new MavenLoggerManager(request.getLogger()));
-        c.getLoggerManager().setThresholds(request.getRequest().getLoggingLevel());
+        c.getLoggerManager().setThresholds(request.getLoggingLevel());
 
         return c;
     }
@@ -296,7 +296,7 @@ public class MavenRuntimeImpl
         else if (request.isQuiet()) {
             level = MavenExecutionRequest.LOGGING_LEVEL_ERROR;
         }
-        request.getRequest().setLoggingLevel(level);
+        request.setLoggingLevel(level);
         request.getLogger().setThreshold(level);
 
         StreamSet streams = request.getStreams();
@@ -320,7 +320,7 @@ public class MavenRuntimeImpl
             logger.setStream(request.getStreams().out);
         }
 
-        request.getRequest().setExecutionListener(new ExecutionEventLogger(logger));
+        request.setExecutionListener(new ExecutionEventLogger(logger));
     }
 
     private void configureSettings(final Request request) throws Exception {
@@ -338,7 +338,7 @@ public class MavenRuntimeImpl
         }
 
         logger.debug("Reading user settings from: " + userSettingsFile);
-        request.getRequest().setUserSettingsFile(userSettingsFile);
+        request.setUserSettingsFile(userSettingsFile);
 
         File globalSettingsFile = request.getGlobalSettings();
         if (globalSettingsFile != null) {
@@ -352,15 +352,15 @@ public class MavenRuntimeImpl
         }
 
         logger.debug("Reading global settings from: " + globalSettingsFile);
-        request.getRequest().setGlobalSettingsFile(globalSettingsFile);
+        request.setGlobalSettingsFile(globalSettingsFile);
 
         configureProperties(request);
 
         SettingsBuildingRequest settingsRequest = new DefaultSettingsBuildingRequest();
         settingsRequest.setGlobalSettingsFile(globalSettingsFile);
         settingsRequest.setUserSettingsFile(userSettingsFile);
-        settingsRequest.setSystemProperties(request.getRequest().getSystemProperties());
-        settingsRequest.setUserProperties(request.getRequest().getUserProperties());
+        settingsRequest.setSystemProperties(request.getSystemProperties());
+        settingsRequest.setUserProperties(request.getUserProperties());
 
         SettingsBuilder settingsBuilder = container.lookup(SettingsBuilder.class);
         SettingsBuildingResult settingsResult = settingsBuilder.build(settingsRequest);
@@ -368,12 +368,12 @@ public class MavenRuntimeImpl
         MavenExecutionRequestPopulator populator = container.lookup(MavenExecutionRequestPopulator.class);
 
         // HACK: populateFromSettings() will nuke any active profiles, so we have to dance around it
-        List<String> activeProfiles = request.getRequest().getActiveProfiles();
-        List<String> inactiveProfiles = request.getRequest().getInactiveProfiles();
-        populator.populateFromSettings(request.getRequest(), settingsResult.getEffectiveSettings());
+        List<String> activeProfiles = request.getActiveProfiles();
+        List<String> inactiveProfiles = request.getInactiveProfiles();
+        populator.populateFromSettings(request, settingsResult.getEffectiveSettings());
         // HACK: Now put them back
-        request.getRequest().getActiveProfiles().addAll(activeProfiles);
-        request.getRequest().getInactiveProfiles().addAll(inactiveProfiles);
+        request.getActiveProfiles().addAll(activeProfiles);
+        request.getInactiveProfiles().addAll(inactiveProfiles);
         
         if (!settingsResult.getProblems().isEmpty() && logger.isWarnEnabled()) {
             logger.warn("");
@@ -404,29 +404,27 @@ public class MavenRuntimeImpl
             systemProperties.setProperty(key, entry.getValue());
         }
 
-        request.getRequest().setUserProperties(userProperties);
-        request.getRequest().setSystemProperties(systemProperties);
+        request.setUserProperties(userProperties);
+        request.setSystemProperties(systemProperties);
     }
 
     private void configureRequest(final Request request) throws Exception {
         assert request != null;
 
-        MavenExecutionRequest req = request.getRequest();
-
         File baseDirectory = new File(request.getWorkingDirectory(), "").getAbsoluteFile();
-        req.setBaseDirectory(baseDirectory);
+        request.setBaseDirectory(baseDirectory);
 
         // NOTE: Profile activation is handled in Request.setActivateProfiles()
         
         ArtifactTransferListener transferListener;
-        if (req.isInteractiveMode()) {
+        if (request.isInteractiveMode()) {
             transferListener = new ConsoleMavenTransferListener(request.getStreams().out);
         }
         else {
             transferListener = new BatchModeMavenTransferListener(request.getStreams().out);
         }
         transferListener.setShowChecksumEvents(false);
-        req.setTransferListener(transferListener);
+        request.setTransferListener(transferListener);
 
         File userToolchainsFile = request.getToolChains();
         if (userToolchainsFile != null) {
@@ -435,34 +433,34 @@ public class MavenRuntimeImpl
         else {
             userToolchainsFile = DEFAULT_USER_TOOLCHAINS_FILE;
         }
-        req.setUserToolchainsFile(userToolchainsFile);
+        request.setUserToolchainsFile(userToolchainsFile);
 
         File alternatePomFile = request.getFile();
         if (alternatePomFile != null) {
-            req.setPom(resolveFile(alternatePomFile, request.getWorkingDirectory()));
+            request.setPom(resolveFile(alternatePomFile, request.getWorkingDirectory()));
         }
-        else if (req.getPom() != null && !req.getPom().isAbsolute()) {
-            req.setPom(req.getPom().getAbsoluteFile());
+        else if (request.getPom() != null && !request.getPom().isAbsolute()) {
+            request.setPom(request.getPom().getAbsoluteFile());
         }
 
-        if ((req.getPom() != null) && (req.getPom().getParentFile() != null)) {
-            req.setBaseDirectory(req.getPom().getParentFile());
+        if ((request.getPom() != null) && (request.getPom().getParentFile() != null)) {
+            request.setBaseDirectory(request.getPom().getParentFile());
         }
-        else if (req.getPom() == null && req.getBaseDirectory() != null) {
+        else if (request.getPom() == null && request.getBaseDirectory() != null) {
             ModelProcessor modelProcessor = container.lookup(ModelProcessor.class);
-            File pom = modelProcessor.locatePom(new File(req.getBaseDirectory()));
-            req.setPom(pom);
+            File pom = modelProcessor.locatePom(new File(request.getBaseDirectory()));
+            request.setPom(pom);
         }
-        else if (req.getBaseDirectory() == null) {
-            req.setBaseDirectory(request.getWorkingDirectory());
+        else if (request.getBaseDirectory() == null) {
+            request.setBaseDirectory(request.getWorkingDirectory());
         }
 
-        String localRepoProperty = req.getUserProperties().getProperty(LOCAL_REPO_PROPERTY);
+        String localRepoProperty = request.getUserProperties().getProperty(LOCAL_REPO_PROPERTY);
         if (localRepoProperty == null) {
-            localRepoProperty = req.getSystemProperties().getProperty(LOCAL_REPO_PROPERTY);
+            localRepoProperty = request.getSystemProperties().getProperty(LOCAL_REPO_PROPERTY);
         }
         if (localRepoProperty != null) {
-            req.setLocalRepositoryPath(localRepoProperty);
+            request.setLocalRepositoryPath(localRepoProperty);
         }
     }
 
