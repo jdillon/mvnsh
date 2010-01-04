@@ -19,6 +19,7 @@ package org.sonatype.maven.shell.commands.maven.internal;
 import com.google.inject.Inject;
 import org.apache.maven.Maven;
 import org.apache.maven.cli.CLIReportingUtils;
+import org.apache.maven.cli.MavenLoggerManager;
 import org.apache.maven.cli.PrintStreamLogger;
 import org.apache.maven.exception.DefaultExceptionHandler;
 import org.apache.maven.exception.ExceptionHandler;
@@ -35,6 +36,11 @@ import org.apache.maven.settings.building.SettingsBuilder;
 import org.apache.maven.settings.building.SettingsBuildingRequest;
 import org.apache.maven.settings.building.SettingsBuildingResult;
 import org.apache.maven.settings.building.SettingsProblem;
+import org.codehaus.plexus.ContainerConfiguration;
+import org.codehaus.plexus.DefaultContainerConfiguration;
+import org.codehaus.plexus.DefaultPlexusContainer;
+import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.PlexusContainerException;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
@@ -77,6 +83,8 @@ public class MavenRuntimeImpl
 
     private final PlexusRuntime plexus;
 
+    private DefaultPlexusContainer container;
+
     @Inject
     public MavenRuntimeImpl(final PlexusRuntime plexus) {
         assert plexus != null;
@@ -105,6 +113,9 @@ public class MavenRuntimeImpl
         setupDefaults(request);
         setupLogging(request);
 
+        // Have to create a new container so we can use a different logging scheme :-(
+        container = createContainer(request);
+
         configureSettings(request);
         configureRequest(request);
 
@@ -122,7 +133,7 @@ public class MavenRuntimeImpl
             log.info("Enabling strict checksum verification on all artifact downloads.");
         }
 
-        Maven maven = plexus.lookup(Maven.class);
+        Maven maven = container.lookup(Maven.class);
         MavenExecutionResult result = maven.execute(request.getRequest());
 
         if (result.hasExceptions()) {
@@ -176,6 +187,20 @@ public class MavenRuntimeImpl
         else {
             return new Result(0);
         }
+    }
+
+    private DefaultPlexusContainer createContainer(final Request request) throws PlexusContainerException {
+        assert request != null;
+
+        ContainerConfiguration cc = new DefaultContainerConfiguration()
+            .setClassWorld(request.getClassWorld())
+            .setName("maven");
+
+        DefaultPlexusContainer c = new DefaultPlexusContainer(cc);
+        c.setLoggerManager(new MavenLoggerManager(request.getLogger()));
+        c.getLoggerManager().setThresholds(request.getRequest().getLoggingLevel());
+
+        return c;
     }
 
     private File resolveFile(final File file, final File dir) {
@@ -303,10 +328,10 @@ public class MavenRuntimeImpl
         settingsRequest.setSystemProperties(request.getRequest().getSystemProperties());
         settingsRequest.setUserProperties(request.getRequest().getUserProperties());
 
-        SettingsBuilder settingsBuilder = plexus.lookup(SettingsBuilder.class);
+        SettingsBuilder settingsBuilder = container.lookup(SettingsBuilder.class);
         SettingsBuildingResult settingsResult = settingsBuilder.build(settingsRequest);
 
-        MavenExecutionRequestPopulator populator = plexus.lookup(MavenExecutionRequestPopulator.class);
+        MavenExecutionRequestPopulator populator = container.lookup(MavenExecutionRequestPopulator.class);
         populator.populateFromSettings(request.getRequest(), settingsResult.getEffectiveSettings());
 
         if (!settingsResult.getProblems().isEmpty() && log.isWarnEnabled()) {
@@ -381,7 +406,7 @@ public class MavenRuntimeImpl
             req.setBaseDirectory(req.getPom().getParentFile());
         }
         else if (req.getPom() == null && req.getBaseDirectory() != null) {
-            ModelProcessor modelProcessor = plexus.lookup(ModelProcessor.class);
+            ModelProcessor modelProcessor = container.lookup(ModelProcessor.class);
             File pom = modelProcessor.locatePom(new File(req.getBaseDirectory()));
             req.setPom(pom);
         }
