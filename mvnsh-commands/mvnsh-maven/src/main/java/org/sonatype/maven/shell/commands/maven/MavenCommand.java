@@ -75,7 +75,7 @@ public class MavenCommand
     private boolean version;
 
     @Preference
-    @Option(name = "-a", aliases = {"--quiet"})
+    @Option(name = "-q", aliases = {"--quiet"})
     private boolean quiet;
 
     @Preference
