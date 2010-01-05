@@ -14,22 +14,9 @@
  * limitations under the License.
  */
 
-package org.sonatype.maven.shell.commands.maven.internal;
-
-import com.google.inject.AbstractModule;
-import org.sonatype.maven.shell.commands.maven.MavenRuntime;
-
 /**
- * Maven module.
+ * Internal Maven support.
  *
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.9
  */
-public class MavenModule
-    extends AbstractModule
-{
-    @Override
-    protected void configure() {
-        bind(MavenRuntime.class).to(MavenRuntimeImpl.class);
-    }
-}
+package org.sonatype.maven.shell.maven.internal;

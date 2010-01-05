@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.maven.shell.commands.maven.internal;
+package org.sonatype.maven.shell.maven.internal;
 
 import org.apache.maven.execution.AbstractExecutionListener;
 import org.apache.maven.execution.BuildFailure;

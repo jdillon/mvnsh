@@ -11,7 +11,7 @@ import com.google.inject.Module;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.sonatype.gshell.commands.CommandTestSupport;
-import org.sonatype.maven.shell.commands.maven.internal.MavenModule;
+import org.sonatype.maven.shell.maven.MavenModule;
 
 import java.net.URL;
 import java.util.List;

@@ -16,7 +16,7 @@
         <enabled>true</enabled>
         <autoRegisterPriority>50</autoRegisterPriority>
         <module>
-            <type>org.sonatype.maven.shell.commands.maven.internal.MavenModule</type>
+            <type>org.sonatype.maven.shell.maven.MavenModule</type>
         </module>
         <command>
             <action>org.sonatype.maven.shell.commands.maven.MavenCommand</action>

@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-package org.sonatype.maven.shell.commands.maven.internal;
-
-import org.apache.maven.cli.AbstractMavenTransferListener;
-
-import java.io.PrintStream;
-
 /**
- * Batch console transfer listener.
+ * Maven access.
  *
  * @since 0.9
  */
-public class BatchModeMavenTransferListener
-    extends AbstractMavenTransferListener
-{
-    public BatchModeMavenTransferListener(final PrintStream out) {
-        super(out);
-    }
-}
+package org.sonatype.maven.shell.maven;

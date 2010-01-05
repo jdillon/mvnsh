@@ -33,8 +33,12 @@ import org.sonatype.gshell.util.cli.Option;
 import org.sonatype.gshell.util.pref.Preference;
 import org.sonatype.gshell.util.pref.Preferences;
 import org.sonatype.gshell.vars.Variables;
+import org.sonatype.maven.shell.maven.MavenRuntime;
+import org.sonatype.maven.shell.maven.MavenRuntimeConfiguration;
+import org.sonatype.maven.shell.maven.MavenSystem;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -88,9 +92,16 @@ public class MavenCommand
     @Option(name = "-U", aliases = {"--update-snapshots"})
     private boolean updateSnapshots;
 
-    // FIXME: This will not work as expected for -P x,y,z, etc.
+    private List<String> profiles = new ArrayList<String>();
+
     @Option(name = "-P", aliases = {"--activate-profiles"}, argumentRequired = true, multiValued = true)
-    private List<String> profiles;
+    private void addProfile(final String profile) {
+        assert profile != null;
+
+        for (String p : profile.split(",")) {
+            profiles.add(p.trim());
+        }
+    }
 
     @Preference
     @Option(name = "-B", aliases = {"--batch-mode"})
@@ -116,15 +127,15 @@ public class MavenCommand
 
     @Preference
     @Option(name = "-s", aliases = {"--settings"}, argumentRequired = true)
-    private File settings;
+    private File settingsFile;
 
     @Preference
     @Option(name = "-gs", aliases = {"--global-settings"}, argumentRequired = true)
-    private File globalSettings;
+    private File globalSettingsFile;
 
     @Preference
     @Option(name = "-t", aliases = {"--toolchains"}, argumentRequired = true)
-    private File toolChains;
+    private File toolChainsFile;
 
     @Option(name = "-ff", aliases = {"--fail-fast"})
     private boolean failFast;
@@ -138,9 +149,16 @@ public class MavenCommand
     @Option(name = "-rf", aliases = {"--resume-from"}, argumentRequired = true)
     private String resumeFrom;
 
-    // FIXME: This will not work as expected for -pl x,y,z, etc.
+    private List<String> selectedProjects = new ArrayList<String>();
+
     @Option(name = "-pl", aliases = {"--projects"}, argumentRequired = true, multiValued = true)
-    private List<String> selectedProjects;
+    private void addSelectedProject(final String project) {
+        assert project != null;
+
+        for (String p : project.split(",")) {
+            profiles.add(p.trim());
+        }
+    }
 
     @Option(name = "-am", aliases = {"--also-make"})
     private boolean alsoMake;
@@ -155,10 +173,6 @@ public class MavenCommand
     @Option(name = "-V", aliases = {"--show-version"})
     private boolean showVersion;
 
-    // FIXME: Remove if not needed, since it does not actually do anything
-//    @Option(name = "-npr", aliases = {"--no-plugin-registry"})
-//    private boolean noPluginRegistry;
-
     @Argument
     private List<String> goals;
 
@@ -167,7 +181,7 @@ public class MavenCommand
         BUILD_PASSED, BUILD_FAILED
     }
 
-    private final MavenRuntime maven;
+    private final MavenSystem maven;
 
     @Preference
     private boolean growl = true;
@@ -175,7 +189,7 @@ public class MavenCommand
     private Growler growler;
 
     @Inject
-    public MavenCommand(final MavenRuntime maven) {
+    public MavenCommand(final MavenSystem maven) {
         assert maven != null;
         this.maven = maven;
     }
@@ -192,18 +206,28 @@ public class MavenCommand
 
         File homeDir = vars.get(SHELL_HOME, File.class);
         System.setProperty("maven.home", homeDir.getAbsolutePath());
-        
-        MavenRuntime.Request request = maven.create();
-        
-        request.setFile(file);
-        request.setQuiet(quiet);
-        request.setDebug(debug);
-        request.setProfiles(profiles);
-        request.setSettings(settings);
-        request.setGlobalSettings(globalSettings);
-        request.setToolChains(toolChains);
-        request.setLogFile(logFile);
-        request.setShowVersion(showVersion);
+
+        MavenRuntimeConfiguration config = new MavenRuntimeConfiguration();
+
+        config.setBaseDirectory(vars.get(SHELL_USER_DIR, File.class));
+
+        StreamSet current = StreamJack.current();
+        StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
+        config.setStreams(streams);
+
+        config.setPomFile(file);
+        config.getProfiles().addAll(profiles);
+        config.setQuiet(quiet);
+        config.setDebug(debug);
+        config.setShowVersion(showVersion);
+        config.getProperties().putAll(props);
+        config.setSettingsFile(settingsFile);
+        config.setGlobalSettingsFile(globalSettingsFile);
+        config.setLogFile(logFile);
+
+        MavenRuntime runtime = maven.create(config);
+
+        MavenExecutionRequest request = runtime.create();
         request.setOffline(offline);
         request.setGoals(goals);
         request.setInteractiveMode(!batch);
@@ -250,20 +274,12 @@ public class MavenCommand
 
         request.setResumeFrom(resumeFrom);
 
-        request.getProperties().putAll(props);
-
-        File userDir = vars.get(SHELL_USER_DIR, File.class);
-        request.setWorkingDirectory(userDir);
-
-        StreamSet current = StreamJack.current();
-        StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
         StreamJack.register(streams);
-        request.setStreams(streams);
-        
+
         // Execute Maven
-        MavenRuntime.Result result = null;
+        int result = 0;
         try {
-            result = maven.execute(request);
+            result = runtime.execute(request);
         }
         finally {
             StreamJack.deregister();
@@ -288,7 +304,7 @@ public class MavenCommand
 
             String cl = String.format("%s %s", getName(), Strings.join(context.getArguments(), " "));
 
-            if (result.code == 0) {
+            if (result == 0) {
                 growler.growl(
                     Notifications.BUILD_PASSED,
                     "BUILD SUCCESS", // TODO: i18n
@@ -302,6 +318,6 @@ public class MavenCommand
             }
         }
 
-        return result.code;
+        return result;
     }
 }

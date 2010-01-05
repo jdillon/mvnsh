@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonatype.maven.shell.commands.maven.internal;
+package org.sonatype.maven.shell.maven.internal;
 
 import org.apache.maven.cli.AbstractMavenTransferListener;
 import org.apache.maven.repository.ArtifactTransferEvent;
