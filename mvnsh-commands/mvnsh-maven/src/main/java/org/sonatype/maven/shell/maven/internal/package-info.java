@@ -17,6 +17,8 @@
 /**
  * Internal Maven support.
  *
+ * These are bits which are currently package-private in the maven-embedder module, so we have to duplicate them here.
+ *
  * @since 0.9
  */
 package org.sonatype.maven.shell.maven.internal;
