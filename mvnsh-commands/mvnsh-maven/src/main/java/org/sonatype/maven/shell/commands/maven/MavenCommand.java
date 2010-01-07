@@ -74,16 +74,18 @@ public class MavenCommand
         props.setProperty(nv.name, nv.value);
     }
 
+    // FIXME: Need to use Booleans and only set on the request if non-null
+
     @Preference
     @Option(name="o", longName="offline")
-    private boolean offline;
+    private Boolean offline;
 
     @Option(name="v", longName="version")
     private boolean version;
 
     @Preference
     @Option(name="q", longName="quiet")
-    private boolean quiet;
+    private Boolean quiet;
 
     @Preference
     @Option(name="X", longName="debug")
@@ -116,7 +118,7 @@ public class MavenCommand
 
     @Preference
     @Option(name="B", longName="batch-mode")
-    private boolean batch;
+    private Boolean batch;
 
     @Option(name="cpu", longName="check-plugin-updates")
     private boolean checkPluginUpdates;
@@ -230,7 +232,9 @@ public class MavenCommand
         StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
         config.setStreams(streams);
 
-        config.setPomFile(file);
+        if (file != null) {
+            config.setPomFile(file);
+        }
         if (profiles != null) {
             config.getProfiles().addAll(profiles);
         }
@@ -240,16 +244,36 @@ public class MavenCommand
         if (props != null) {
             config.getProperties().putAll(props);
         }
-        config.setSettingsFile(settingsFile);
-        config.setGlobalSettingsFile(globalSettingsFile);
-        config.setLogFile(logFile);
+        if (settingsFile != null) {
+            config.setSettingsFile(settingsFile);
+        }
+        if (globalSettingsFile != null) {
+            config.setGlobalSettingsFile(globalSettingsFile);
+        }
+        if (logFile != null) {
+            config.setLogFile(logFile);
+        }
 
         MavenRuntime runtime = maven.create(config);
 
         MavenExecutionRequest request = runtime.create();
-        request.setOffline(offline);
-        request.setGoals(goals);
-        request.setInteractiveMode(!batch);
+
+        if (offline != null) {
+            request.setOffline(offline);
+        }
+        if (goals != null) {
+            request.setGoals(goals);
+        }
+        if (batch != null) {
+            request.setInteractiveMode(!batch);
+        }
+        if (resumeFrom != null) {
+            request.setResumeFrom(resumeFrom);
+        }
+        if (toolChainsFile != null) {
+            request.setUserToolchainsFile(toolChainsFile);
+        }
+
         request.setShowErrors(showErrors);
         request.setRecursive(!nonRecursive);
         request.setUpdateSnapshots(updateSnapshots);
@@ -293,9 +317,6 @@ public class MavenCommand
             request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_BOTH);
         }
 
-        request.setResumeFrom(resumeFrom);
-        request.setUserToolchainsFile(toolChainsFile);
-        
         StreamJack.register(streams);
 
         // Execute Maven
