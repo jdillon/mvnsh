@@ -28,8 +28,8 @@ import org.sonatype.gshell.io.StreamJack;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.util.NameValue;
 import org.sonatype.gshell.util.Strings;
-import org.sonatype.gshell.util.cli.Argument;
-import org.sonatype.gshell.util.cli.Option;
+import org.sonatype.gshell.util.cli2.Argument;
+import org.sonatype.gshell.util.cli2.Option;
 import org.sonatype.gshell.util.pref.Preference;
 import org.sonatype.gshell.util.pref.Preferences;
 import org.sonatype.gshell.vars.Variables;
@@ -56,45 +56,45 @@ import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
 public class MavenCommand
     extends CommandActionSupport
 {
-    @Option(name = "-f", aliases = {"--file"}, argumentRequired = true)
+    @Option(name="f", longName="file", optionalArg=false)
     private File file;
 
     private Properties props = new Properties();
 
-    @Option(name = "-D", aliases = {"--define"}, argumentRequired = true)
+    @Option(name="D", longName="define", optionalArg=false)
     protected void setProperty(final String input) {
         NameValue nv = NameValue.parse(input);
         props.setProperty(nv.name, nv.value);
     }
 
     @Preference
-    @Option(name = "-o", aliases = {"--offline"})
+    @Option(name="o", longName="offline")
     private boolean offline;
 
-    @Option(name = "-v", aliases = {"--version"})
+    @Option(name="v", longName="version")
     private boolean version;
 
     @Preference
-    @Option(name = "-q", aliases = {"--quiet"})
+    @Option(name="q", longName="quiet")
     private boolean quiet;
 
     @Preference
-    @Option(name = "-X", aliases = {"--debug"})
+    @Option(name="X", longName="debug")
     private boolean debug;
 
     @Preference
-    @Option(name = "-e", aliases = {"--errors"})
+    @Option(name="e", longName="errors")
     private boolean showErrors;
 
-    @Option(name = "-N", aliases = {"--non-recursive"})
+    @Option(name="N", longName="non-recursive")
     private boolean nonRecursive;
 
-    @Option(name = "-U", aliases = {"--update-snapshots"})
+    @Option(name="U", longName="update-snapshots")
     private boolean updateSnapshots;
 
     private List<String> profiles = new ArrayList<String>();
 
-    @Option(name = "-P", aliases = {"--activate-profiles"}, argumentRequired = true, multiValued = true)
+    @Option(name="P", longName="activate-profiles", optionalArg=false)
     private void addProfile(final String profile) {
         assert profile != null;
 
@@ -104,54 +104,54 @@ public class MavenCommand
     }
 
     @Preference
-    @Option(name = "-B", aliases = {"--batch-mode"})
+    @Option(name="B", longName="batch-mode")
     private boolean batch;
 
-    @Option(name = "-cpu", aliases = {"--check-plugin-updates"})
+    @Option(name="cpu", longName="check-plugin-updates")
     private boolean checkPluginUpdates;
 
-    @Option(name = "-up", aliases = {"--update-plugins"})
+    @Option(name="up", longName="update-plugins")
     private boolean updatePlugins;
 
-    @Option(name = "-npu", aliases = {"--no-plugin-updates"})
+    @Option(name="npu", longName="no-plugin-updates")
     private boolean noPluginUpdates;
 
-    @Option(name = "-nsu", aliases = {"--no-shapshot-updates"})
+    @Option(name="nsu", longName="no-shapshot-updates")
     private boolean noSnapshotUpdates;
 
-    @Option(name = "-C", aliases = {"--strict-checksums"})
+    @Option(name="C", longName="strict-checksums")
     private boolean strictChecksums;
 
-    @Option(name = "-c", aliases = {"--lax-checksums"})
+    @Option(name="c", longName="lax-checksums")
     private boolean laxChecksums;
 
     @Preference
-    @Option(name = "-s", aliases = {"--settings"}, argumentRequired = true)
+    @Option(name="s", longName="settings", optionalArg=false)
     private File settingsFile;
 
     @Preference
-    @Option(name = "-gs", aliases = {"--global-settings"}, argumentRequired = true)
+    @Option(name="gs", longName="global-settings", optionalArg=false)
     private File globalSettingsFile;
 
     @Preference
-    @Option(name = "-t", aliases = {"--toolchains"}, argumentRequired = true)
+    @Option(name="t", longName="toolchains", optionalArg=false)
     private File toolChainsFile;
 
-    @Option(name = "-ff", aliases = {"--fail-fast"})
+    @Option(name="ff", longName="fail-fast")
     private boolean failFast;
 
-    @Option(name = "-fae", aliases = {"--fail-at-end"})
+    @Option(name="fae", longName="fail-at-end")
     private boolean failAtEnd;
 
-    @Option(name = "-fn", aliases = {"--fail-never"})
+    @Option(name="fn", longName="fail-never")
     private boolean failNever;
 
-    @Option(name = "-rf", aliases = {"--resume-from"}, argumentRequired = true)
+    @Option(name="rf", longName="resume-from", optionalArg=false)
     private String resumeFrom;
 
     private List<String> selectedProjects = new ArrayList<String>();
 
-    @Option(name = "-pl", aliases = {"--projects"}, argumentRequired = true, multiValued = true)
+    @Option(name="pl", longName="projects", optionalArg=false)
     private void addSelectedProject(final String project) {
         assert project != null;
 
@@ -160,17 +160,17 @@ public class MavenCommand
         }
     }
 
-    @Option(name = "-am", aliases = {"--also-make"})
+    @Option(name="am", longName="also-make")
     private boolean alsoMake;
 
-    @Option(name = "-amd", aliases = {"--also-make-dependents"})
+    @Option(name="amd", longName="also-make-dependents")
     private boolean alsoMakeDependents;
 
-    @Option(name = "-l", aliases = {"--log-file"}, argumentRequired = true)
+    @Option(name="l", longName="log-file", optionalArg=false)
     private File logFile;
 
     @Preference
-    @Option(name = "-V", aliases = {"--show-version"})
+    @Option(name="V", longName="show-version")
     private boolean showVersion;
 
     @Argument

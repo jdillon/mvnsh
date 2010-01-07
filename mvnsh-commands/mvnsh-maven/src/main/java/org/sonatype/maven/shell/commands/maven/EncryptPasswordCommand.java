@@ -22,8 +22,8 @@ import org.sonatype.gshell.command.CommandActionSupport;
 import org.sonatype.gshell.command.CommandContext;
 import org.sonatype.gshell.command.IO;
 import org.sonatype.gshell.plexus.PlexusRuntime;
-import org.sonatype.gshell.util.cli.Argument;
-import org.sonatype.gshell.util.cli.Option;
+import org.sonatype.gshell.util.cli2.Argument;
+import org.sonatype.gshell.util.cli2.Option;
 import org.sonatype.gshell.util.pref.Preferences;
 import org.sonatype.plexus.components.cipher.DefaultPlexusCipher;
 import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
@@ -44,7 +44,7 @@ public class EncryptPasswordCommand
 {
     private final PlexusRuntime plexus;
 
-    @Option(name="-m", aliases={"--master"})
+    @Option(name="m", longName="master")
     private boolean master;
 
     @Argument(required=true)
