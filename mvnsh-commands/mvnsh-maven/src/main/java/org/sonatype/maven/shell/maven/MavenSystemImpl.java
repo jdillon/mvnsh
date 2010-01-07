@@ -138,10 +138,6 @@ public class MavenSystemImpl
             return config;
         }
 
-        public MavenExecutionRequest create() throws Exception {
-            return new DefaultMavenExecutionRequest();
-        }
-
         private void init() throws Exception {
             log.debug("Initializing");
 
@@ -215,15 +211,17 @@ public class MavenSystemImpl
             return c;
         }
 
+        public MavenExecutionRequest create() throws Exception {
+            MavenExecutionRequest request = new DefaultMavenExecutionRequest();
+            configureSettings(request);
+            return request;
+        }
+
         public int execute(final MavenExecutionRequest request) throws Exception {
             assert request != null;
 
             log.debug("Processing request: {}", Yarn.render(request, Yarn.Style.MULTI));
-
-            configureSettings(request);
             configureRequest(request);
-
-            log.debug("Executing request: {}", Yarn.render(request, Yarn.Style.MULTI));
 
             try {
                 return doExecute(request);
@@ -280,7 +278,7 @@ public class MavenSystemImpl
             SettingsBuilder settingsBuilder = container.lookup(SettingsBuilder.class);
             SettingsBuildingResult settingsResult = settingsBuilder.build(settingsRequest);
 
-            // NOTE: This will nuke any profiles set on the request
+            // NOTE: This will nuke some details from the request; profiles, online, etc... :-(
             MavenExecutionRequestPopulator populator = container.lookup(MavenExecutionRequestPopulator.class);
             populator.populateFromSettings(request, settingsResult.getEffectiveSettings());
 
