@@ -21,6 +21,7 @@ import jline.Terminal;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.sonatype.grrrowl.Growler;
 import org.sonatype.gshell.command.Command;
+import org.sonatype.gshell.command.CommandAction;
 import org.sonatype.gshell.command.CommandActionSupport;
 import org.sonatype.gshell.command.CommandContext;
 import org.sonatype.gshell.command.IO;
@@ -56,13 +57,19 @@ import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
 public class MavenCommand
     extends CommandActionSupport
 {
-    @Option(name="f", longName="file", optionalArg=false)
+    @Option(name="f", longName="file", args=1, optionalArg=false)
     private File file;
 
-    private Properties props = new Properties();
+    private Properties props;
 
-    @Option(name="D", longName="define", optionalArg=false)
+    @Option(name="D", longName="define", args=1, optionalArg=false)
     protected void setProperty(final String input) {
+        assert input != null;
+
+        if (props == null) {
+            props = new Properties();
+        }
+
         NameValue nv = NameValue.parse(input);
         props.setProperty(nv.name, nv.value);
     }
@@ -92,11 +99,15 @@ public class MavenCommand
     @Option(name="U", longName="update-snapshots")
     private boolean updateSnapshots;
 
-    private List<String> profiles = new ArrayList<String>();
+    private List<String> profiles;
 
-    @Option(name="P", longName="activate-profiles", optionalArg=false)
+    @Option(name="P", longName="activate-profiles", args=1, optionalArg=false)
     private void addProfile(final String profile) {
         assert profile != null;
+
+        if (profiles == null) {
+            profiles = new ArrayList<String>();
+        }
 
         for (String p : profile.split(",")) {
             profiles.add(p.trim());
@@ -126,15 +137,15 @@ public class MavenCommand
     private boolean laxChecksums;
 
     @Preference
-    @Option(name="s", longName="settings", optionalArg=false)
+    @Option(name="s", longName="settings", args=1, optionalArg=false)
     private File settingsFile;
 
     @Preference
-    @Option(name="gs", longName="global-settings", optionalArg=false)
+    @Option(name="gs", longName="global-settings", args=1, optionalArg=false)
     private File globalSettingsFile;
 
     @Preference
-    @Option(name="t", longName="toolchains", optionalArg=false)
+    @Option(name="t", longName="toolchains", args=1, optionalArg=false)
     private File toolChainsFile;
 
     @Option(name="ff", longName="fail-fast")
@@ -146,14 +157,18 @@ public class MavenCommand
     @Option(name="fn", longName="fail-never")
     private boolean failNever;
 
-    @Option(name="rf", longName="resume-from", optionalArg=false)
+    @Option(name="rf", longName="resume-from", args=1, optionalArg=false)
     private String resumeFrom;
 
-    private List<String> selectedProjects = new ArrayList<String>();
+    private List<String> selectedProjects;
 
-    @Option(name="pl", longName="projects", optionalArg=false)
+    @Option(name="pl", longName="projects", args=1, optionalArg=false)
     private void addSelectedProject(final String project) {
         assert project != null;
+
+        if (selectedProjects == null) {
+            selectedProjects = new ArrayList<String>();
+        }
 
         for (String p : project.split(",")) {
             profiles.add(p.trim());
@@ -166,14 +181,14 @@ public class MavenCommand
     @Option(name="amd", longName="also-make-dependents")
     private boolean alsoMakeDependents;
 
-    @Option(name="l", longName="log-file", optionalArg=false)
+    @Option(name="l", longName="log-file", args=1, optionalArg=false)
     private File logFile;
 
     @Preference
     @Option(name="V", longName="show-version")
     private boolean showVersion;
 
-    @Argument
+    @Argument(multi=true)
     private List<String> goals;
 
     private static enum Notifications
@@ -216,11 +231,15 @@ public class MavenCommand
         config.setStreams(streams);
 
         config.setPomFile(file);
-        config.getProfiles().addAll(profiles);
+        if (profiles != null) {
+            config.getProfiles().addAll(profiles);
+        }
         config.setQuiet(quiet);
         config.setDebug(debug);
         config.setShowVersion(showVersion);
-        config.getProperties().putAll(props);
+        if (props != null) {
+            config.getProperties().putAll(props);
+        }
         config.setSettingsFile(settingsFile);
         config.setGlobalSettingsFile(globalSettingsFile);
         config.setLogFile(logFile);
@@ -260,7 +279,9 @@ public class MavenCommand
             request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
         }
 
-        request.setSelectedProjects(selectedProjects);
+        if (selectedProjects != null) {
+            request.setSelectedProjects(selectedProjects);
+        }
 
         if (alsoMake && !alsoMakeDependents) {
             request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);

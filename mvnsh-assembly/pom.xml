@@ -46,6 +46,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-pref</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-maven</artifactId>
         </dependency>
