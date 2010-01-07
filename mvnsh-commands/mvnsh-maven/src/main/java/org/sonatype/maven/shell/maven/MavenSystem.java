@@ -38,7 +38,7 @@ public interface MavenSystem
 
     File DEFAULT_USER_SETTINGS_FILE = new File(USER_MAVEN_CONF_HOME, "settings.xml");
 
-    File DEFAULT_GLOBAL_SETTINGS_FILE = new File(System.getProperty("maven.home", System.getProperty("user.dir", "")), "conf/settings.xml");
+    File DEFAULT_GLOBAL_SETTINGS_FILE = new File(System.getProperty(MAVEN_HOME, System.getProperty("user.dir", "")), "conf/settings.xml");
 
     File DEFAULT_USER_TOOLCHAINS_FILE = new File(USER_MAVEN_CONF_HOME, "toolchains.xml");
 

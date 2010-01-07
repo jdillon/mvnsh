@@ -302,8 +302,9 @@ public class MavenSystemImpl
             sys.putAll(System.getProperties());
 
             Properties user = new Properties();
-            // NOTE: Not setting to System here, this may or may not cause problems, as mvn3 does set user props as system
             user.putAll(config.getProperties());
+            // NOTE: Not setting to System here, this may or may not cause problems, as mvn3 does set user props as system
+            // System.getProperties().putAll(user);
 
             // Add the env vars to the property set, with the "env." prefix
             boolean caseSensitive = !Os.isFamily(Os.FAMILY_WINDOWS);
@@ -369,12 +370,12 @@ public class MavenSystemImpl
             }
 
             // Configure the local repo path
-            String localRepoProperty = request.getUserProperties().getProperty(LOCAL_REPO_PROPERTY);
-            if (localRepoProperty == null) {
-                localRepoProperty = request.getSystemProperties().getProperty(LOCAL_REPO_PROPERTY);
+            String localRepoPath = request.getUserProperties().getProperty(LOCAL_REPO_PROPERTY);
+            if (localRepoPath == null) {
+                localRepoPath = request.getSystemProperties().getProperty(LOCAL_REPO_PROPERTY);
             }
-            if (localRepoProperty != null) {
-                request.setLocalRepositoryPath(localRepoProperty);
+            if (localRepoPath != null) {
+                request.setLocalRepositoryPath(localRepoPath);
             }
 
             // Setup the xfr listener
