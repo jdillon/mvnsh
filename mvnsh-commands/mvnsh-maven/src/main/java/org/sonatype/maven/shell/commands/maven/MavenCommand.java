@@ -294,7 +294,8 @@ public class MavenCommand
         }
 
         request.setResumeFrom(resumeFrom);
-
+        request.setUserToolchainsFile(toolChainsFile);
+        
         StreamJack.register(streams);
 
         // Execute Maven
