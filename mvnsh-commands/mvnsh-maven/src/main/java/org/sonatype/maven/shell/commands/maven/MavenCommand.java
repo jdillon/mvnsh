@@ -246,7 +246,7 @@ public class MavenCommand
         if (quiet != null) {
             config.setQuiet(quiet);
         }
-        if (quiet != null) {
+        if (debug != null) {
             config.setDebug(debug);
         }
         if (showVersion != null) {
