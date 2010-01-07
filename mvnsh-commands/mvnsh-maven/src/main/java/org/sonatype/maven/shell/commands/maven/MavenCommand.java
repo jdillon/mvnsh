@@ -21,7 +21,6 @@ import jline.Terminal;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.sonatype.grrrowl.Growler;
 import org.sonatype.gshell.command.Command;
-import org.sonatype.gshell.command.CommandAction;
 import org.sonatype.gshell.command.CommandActionSupport;
 import org.sonatype.gshell.command.CommandContext;
 import org.sonatype.gshell.command.IO;
@@ -30,6 +29,8 @@ import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.util.NameValue;
 import org.sonatype.gshell.util.Strings;
 import org.sonatype.gshell.util.cli2.Argument;
+import org.sonatype.gshell.util.cli2.CliProcessor;
+import org.sonatype.gshell.util.cli2.CliProcessorAware;
 import org.sonatype.gshell.util.cli2.Option;
 import org.sonatype.gshell.util.pref.Preference;
 import org.sonatype.gshell.util.pref.Preferences;
@@ -56,7 +57,11 @@ import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
 @Preferences(path = "commands/mvn")
 public class MavenCommand
     extends CommandActionSupport
+    implements CliProcessorAware
 {
+    @Option(name="v", longName="version")
+    private boolean version;
+
     @Option(name="f", longName="file", args=1, optionalArg=false)
     private File file;
 
@@ -74,14 +79,9 @@ public class MavenCommand
         props.setProperty(nv.name, nv.value);
     }
 
-    // FIXME: Need to use Booleans and only set on the request if non-null
-
     @Preference
     @Option(name="o", longName="offline")
     private Boolean offline;
-
-    @Option(name="v", longName="version")
-    private boolean version;
 
     @Preference
     @Option(name="q", longName="quiet")
@@ -89,17 +89,17 @@ public class MavenCommand
 
     @Preference
     @Option(name="X", longName="debug")
-    private boolean debug;
+    private Boolean debug;
 
     @Preference
     @Option(name="e", longName="errors")
-    private boolean showErrors;
+    private Boolean showErrors;
 
     @Option(name="N", longName="non-recursive")
-    private boolean nonRecursive;
+    private Boolean nonRecursive;
 
     @Option(name="U", longName="update-snapshots")
-    private boolean updateSnapshots;
+    private Boolean updateSnapshots;
 
     private List<String> profiles;
 
@@ -130,7 +130,7 @@ public class MavenCommand
     private boolean noPluginUpdates;
 
     @Option(name="nsu", longName="no-shapshot-updates")
-    private boolean noSnapshotUpdates;
+    private Boolean noSnapshotUpdates;
 
     @Option(name="C", longName="strict-checksums")
     private boolean strictChecksums;
@@ -173,7 +173,7 @@ public class MavenCommand
         }
 
         for (String p : project.split(",")) {
-            profiles.add(p.trim());
+            selectedProjects.add(p.trim());
         }
     }
 
@@ -188,7 +188,7 @@ public class MavenCommand
 
     @Preference
     @Option(name="V", longName="show-version")
-    private boolean showVersion;
+    private Boolean showVersion;
 
     @Argument(multi=true)
     private List<String> goals;
@@ -209,6 +209,11 @@ public class MavenCommand
     public MavenCommand(final MavenSystem maven) {
         assert maven != null;
         this.maven = maven;
+    }
+
+    public void setProcessor(final CliProcessor processor) {
+        assert processor != null;
+        processor.setFlavor(CliProcessor.Flavor.GNU);
     }
 
     public Object execute(final CommandContext context) throws Exception {
@@ -238,9 +243,15 @@ public class MavenCommand
         if (profiles != null) {
             config.getProfiles().addAll(profiles);
         }
-        config.setQuiet(quiet);
-        config.setDebug(debug);
-        config.setShowVersion(showVersion);
+        if (quiet != null) {
+            config.setQuiet(quiet);
+        }
+        if (quiet != null) {
+            config.setDebug(debug);
+        }
+        if (showVersion != null) {
+            config.setShowVersion(showVersion);
+        }
         if (props != null) {
             config.getProperties().putAll(props);
         }
@@ -255,7 +266,6 @@ public class MavenCommand
         }
 
         MavenRuntime runtime = maven.create(config);
-
         MavenExecutionRequest request = runtime.create();
 
         if (offline != null) {
@@ -273,11 +283,21 @@ public class MavenCommand
         if (toolChainsFile != null) {
             request.setUserToolchainsFile(toolChainsFile);
         }
-
-        request.setShowErrors(showErrors);
-        request.setRecursive(!nonRecursive);
-        request.setUpdateSnapshots(updateSnapshots);
-        request.setNoSnapshotUpdates(noSnapshotUpdates);
+        if (showErrors != null) {
+            request.setShowErrors(showErrors);
+        }
+        if (nonRecursive != null) {
+            request.setRecursive(!nonRecursive);
+        }
+        if (updateSnapshots != null) {
+            request.setUpdateSnapshots(updateSnapshots);
+        }
+        if (noSnapshotUpdates != null) {
+            request.setNoSnapshotUpdates(noSnapshotUpdates);
+        }
+        if (selectedProjects != null) {
+            request.setSelectedProjects(selectedProjects);
+        }
 
         if (checkPluginUpdates || updatePlugins) {
             request.setUsePluginUpdateOverride(true);
@@ -301,10 +321,6 @@ public class MavenCommand
         }
         else if (failNever) {
             request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
-        }
-
-        if (selectedProjects != null) {
-            request.setSelectedProjects(selectedProjects);
         }
 
         if (alsoMake && !alsoMakeDependents) {
