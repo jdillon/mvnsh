@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import org.sonatype.gshell.io.Closer;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.plexus.PlexusRuntime;
+import org.sonatype.gshell.shell.ShellHolder;
 import org.sonatype.gshell.util.yarn.Yarn;
 import org.sonatype.maven.shell.maven.internal.BatchModeMavenTransferListener;
 import org.sonatype.maven.shell.maven.internal.ConsoleMavenTransferListener;
@@ -394,7 +395,7 @@ public class MavenSystemImpl
 
             // Configure request logging
             request.setLoggingLevel(logger.getThreshold());
-            request.setExecutionListener(new ExecutionEventLogger(logger));
+            request.setExecutionListener(new ExecutionEventLogger(ShellHolder.get().getIo().getTerminal(), logger));
         }
 
         private int doExecute(final MavenExecutionRequest request) throws Exception {
