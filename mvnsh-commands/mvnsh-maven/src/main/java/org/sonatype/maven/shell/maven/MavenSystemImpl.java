@@ -91,10 +91,11 @@ public class MavenSystemImpl
     public MavenRuntime create(final MavenRuntimeConfiguration config) throws Exception {
         assert config != null;
 
-        log.debug("Creating runtime w/config: {}", Yarn.render(config, Yarn.Style.MULTI));
+        if (log.isDebugEnabled()) {
+            log.debug("Creating runtime w/config: {}", Yarn.render(config, Yarn.Style.MULTI));
+        }
 
         MavenRuntimeImpl runtime = new MavenRuntimeImpl(config);
-
         runtime.init();
 
         return runtime;
