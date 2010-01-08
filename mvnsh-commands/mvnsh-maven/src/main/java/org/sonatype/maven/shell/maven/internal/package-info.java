@@ -18,6 +18,7 @@
  * Internal Maven support.
  *
  * These are bits which are currently package-private in the maven-embedder module, so we have to duplicate them here.
+ * Some bits are extended to provide better shell integration.
  *
  * @since 0.9
  */
