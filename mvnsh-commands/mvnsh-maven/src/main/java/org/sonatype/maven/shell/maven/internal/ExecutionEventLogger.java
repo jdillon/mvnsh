@@ -16,6 +16,7 @@
 
 package org.sonatype.maven.shell.maven.internal;
 
+import jline.Terminal;
 import org.apache.maven.execution.AbstractExecutionListener;
 import org.apache.maven.execution.BuildFailure;
 import org.apache.maven.execution.BuildSuccess;
@@ -42,19 +43,14 @@ import java.util.TimeZone;
 public class ExecutionEventLogger
     extends AbstractExecutionListener
 {
+    private final Terminal term;
+    
     private final Logger logger;
 
-    //
-    // TODO: Change this to include the detected line length
-    //
-
-    private static final int LINE_LENGTH = 72;
-
-    public ExecutionEventLogger(Logger logger) {
-        if (logger == null) {
-            throw new IllegalArgumentException("logger missing");
-        }
-
+    public ExecutionEventLogger(final Terminal term, final Logger logger) {
+        assert term != null;
+        this.term = term;
+        assert logger != null;
         this.logger = logger;
     }
 
@@ -70,6 +66,10 @@ public class ExecutionEventLogger
         }
     }
 
+    private int lineLength() {
+        return term.getWidth() - 10;
+    }
+    
     private static String chars(char c, int count) {
         StringBuilder buffer = new StringBuilder(count);
 
@@ -111,7 +111,7 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled() && event.getSession().getProjects().size() > 1) {
-            logger.info(chars('-', LINE_LENGTH));
+            logger.info(chars('-', lineLength()));
 
             logger.info("Reactor Build Order:");
 
@@ -136,12 +136,12 @@ public class ExecutionEventLogger
 
             logStats(event.getSession());
 
-            logger.info(chars('-', LINE_LENGTH));
+            logger.info(chars('-', lineLength()));
         }
     }
 
     private void logReactorSummary(MavenSession session) {
-        logger.info(chars('-', LINE_LENGTH));
+        logger.info(chars('-', lineLength()));
 
         logger.info("Reactor Summary:");
 
@@ -155,7 +155,7 @@ public class ExecutionEventLogger
             buffer.append(project.getName());
 
             buffer.append(' ');
-            while (buffer.length() < LINE_LENGTH - 21) {
+            while (buffer.length() < lineLength() - 21) {
                 buffer.append('.');
             }
             buffer.append(' ');
@@ -181,7 +181,7 @@ public class ExecutionEventLogger
     }
 
     private void logResult(MavenSession session) {
-        logger.info(chars('-', LINE_LENGTH));
+        logger.info(chars('-', lineLength()));
 
         if (session.getResult().hasExceptions()) {
             logger.info("BUILD FAILURE");
@@ -192,7 +192,7 @@ public class ExecutionEventLogger
     }
 
     private void logStats(MavenSession session) {
-        logger.info(chars('-', LINE_LENGTH));
+        logger.info(chars('-', lineLength()));
 
         Date finish = new Date();
 
@@ -216,13 +216,13 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
-            logger.info(chars(' ', LINE_LENGTH));
-            logger.info(chars('-', LINE_LENGTH));
+            logger.info(chars(' ', lineLength()));
+            logger.info(chars('-', lineLength()));
 
             logger.info("Skipping " + event.getProject().getName());
             logger.info("This project has been banned from the build due to previous failures.");
 
-            logger.info(chars('-', LINE_LENGTH));
+            logger.info(chars('-', lineLength()));
         }
     }
 
@@ -231,12 +231,12 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
-            logger.info(chars(' ', LINE_LENGTH));
-            logger.info(chars('-', LINE_LENGTH));
+            logger.info(chars(' ', lineLength()));
+            logger.info(chars('-', lineLength()));
 
             logger.info("Building " + event.getProject().getName() + " " + event.getProject().getVersion());
 
-            logger.info(chars('-', LINE_LENGTH));
+            logger.info(chars('-', lineLength()));
         }
     }
 
