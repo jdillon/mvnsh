@@ -33,15 +33,20 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Logs execution events to a user-supplied logger.
+ * Logs execution events to a user-supplied logger.  Checks for thread interruption.
  *
  * @author Benjamin Bentmann
+ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.9
  */
 public class ExecutionEventLogger
     extends AbstractExecutionListener
 {
     private final Logger logger;
+
+    //
+    // TODO: Change this to include the detected line length
+    //
 
     private static final int LINE_LENGTH = 72;
 
@@ -51,6 +56,18 @@ public class ExecutionEventLogger
         }
 
         this.logger = logger;
+    }
+
+    private static class InterruptedRuntimeException
+        extends RuntimeException
+    {
+        // empty
+    }
+
+    private void ensureThreadNotInterrupted() {
+        if (Thread.currentThread().isInterrupted()) {
+            throw new InterruptedRuntimeException();
+        }
     }
 
     private static String chars(char c, int count) {
@@ -82,6 +99,8 @@ public class ExecutionEventLogger
 
     @Override
     public void projectDiscoveryStarted(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isInfoEnabled()) {
             logger.info("Scanning for projects...");
         }
@@ -89,6 +108,8 @@ public class ExecutionEventLogger
 
     @Override
     public void sessionStarted(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isInfoEnabled() && event.getSession().getProjects().size() > 1) {
             logger.info(chars('-', LINE_LENGTH));
 
@@ -104,6 +125,8 @@ public class ExecutionEventLogger
 
     @Override
     public void sessionEnded(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isInfoEnabled()) {
             if (event.getSession().getProjects().size() > 1) {
                 logReactorSummary(event.getSession());
@@ -190,6 +213,8 @@ public class ExecutionEventLogger
 
     @Override
     public void projectSkipped(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isInfoEnabled()) {
             logger.info(chars(' ', LINE_LENGTH));
             logger.info(chars('-', LINE_LENGTH));
@@ -203,6 +228,8 @@ public class ExecutionEventLogger
 
     @Override
     public void projectStarted(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isInfoEnabled()) {
             logger.info(chars(' ', LINE_LENGTH));
             logger.info(chars('-', LINE_LENGTH));
@@ -215,6 +242,8 @@ public class ExecutionEventLogger
 
     @Override
     public void mojoSkipped(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isWarnEnabled()) {
             logger.warn("Goal " + event.getMojoExecution().getGoal()
                 + " requires online mode for execution but Maven is currently offline, skipping");
@@ -223,6 +252,8 @@ public class ExecutionEventLogger
 
     @Override
     public void mojoStarted(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isInfoEnabled()) {
             MojoExecution me = event.getMojoExecution();
             StringBuilder buffer = new StringBuilder(128);
@@ -243,6 +274,8 @@ public class ExecutionEventLogger
 
     @Override
     public void forkStarted(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isDebugEnabled()) {
             logger.debug("Forking execution for " + event.getMojoExecution().getMojoDescriptor().getId());
         }
@@ -250,6 +283,8 @@ public class ExecutionEventLogger
 
     @Override
     public void forkSucceeded(ExecutionEvent event) {
+        ensureThreadNotInterrupted();
+
         if (logger.isDebugEnabled()) {
             logger.debug("Completed forked execution for " + event.getMojoExecution().getMojoDescriptor().getId());
         }
