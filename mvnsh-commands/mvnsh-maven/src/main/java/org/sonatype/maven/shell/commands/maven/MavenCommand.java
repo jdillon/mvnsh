@@ -333,6 +333,12 @@ public class MavenCommand
             request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_BOTH);
         }
 
+        // Customize the plugin groups
+        request.addPluginGroup("org.apache.maven.plugins");
+        request.addPluginGroup("org.codehaus.mojo");
+        request.addPluginGroup("com.sonatype.maven.plugins");
+        request.addPluginGroup("org.sonatype.maven.plugins");
+
         StreamJack.register(streams);
 
         // Execute Maven
