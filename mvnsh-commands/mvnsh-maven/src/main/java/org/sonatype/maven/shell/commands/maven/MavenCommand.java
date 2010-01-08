@@ -69,12 +69,12 @@ public class MavenCommand
     @Option(name="v", longName="version")
     private boolean version;
 
-    @Option(name="f", longName="file", args=1, optionalArg=false)
+    @Option(name="f", longName="file", args=1)
     private File file;
 
     private Properties props;
 
-    @Option(name="D", longName="define", args=1, optionalArg=false)
+    @Option(name="D", longName="define", args=1)
     protected void setProperty(final String input) {
         assert input != null;
 
@@ -110,7 +110,7 @@ public class MavenCommand
 
     private List<String> profiles;
 
-    @Option(name="P", longName="activate-profiles", args=1, optionalArg=false)
+    @Option(name="P", longName="activate-profiles", args=1)
     private void addProfile(final String profile) {
         assert profile != null;
 
@@ -146,15 +146,15 @@ public class MavenCommand
     private boolean laxChecksums;
 
     @Preference
-    @Option(name="s", longName="settings", args=1, optionalArg=false)
+    @Option(name="s", longName="settings", args=1)
     private File settingsFile;
 
     @Preference
-    @Option(name="gs", longName="global-settings", args=1, optionalArg=false)
+    @Option(name="gs", longName="global-settings", args=1)
     private File globalSettingsFile;
 
     @Preference
-    @Option(name="t", longName="toolchains", args=1, optionalArg=false)
+    @Option(name="t", longName="toolchains", args=1)
     private File toolChainsFile;
 
     @Option(name="ff", longName="fail-fast")
@@ -166,12 +166,12 @@ public class MavenCommand
     @Option(name="fn", longName="fail-never")
     private boolean failNever;
 
-    @Option(name="rf", longName="resume-from", args=1, optionalArg=false)
+    @Option(name="rf", longName="resume-from", args=1)
     private String resumeFrom;
 
     private List<String> selectedProjects;
 
-    @Option(name="pl", longName="projects", args=1, optionalArg=false)
+    @Option(name="pl", longName="projects", args=1)
     private void addSelectedProject(final String project) {
         assert project != null;
 
@@ -190,7 +190,7 @@ public class MavenCommand
     @Option(name="amd", longName="also-make-dependents")
     private boolean alsoMakeDependents;
 
-    @Option(name="l", longName="log-file", args=1, optionalArg=false)
+    @Option(name="l", longName="log-file", args=1)
     private File logFile;
 
     @Preference
