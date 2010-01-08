@@ -220,7 +220,9 @@ public class MavenSystemImpl
         public int execute(final MavenExecutionRequest request) throws Exception {
             assert request != null;
 
-            log.debug("Processing request: {}", Yarn.render(request, Yarn.Style.MULTI));
+            if (log.isDebugEnabled()) {
+                log.debug("Processing request: {}", Yarn.render(request, Yarn.Style.MULTI));
+            }
             configureRequest(request);
 
             try {
@@ -416,8 +418,10 @@ public class MavenSystemImpl
                 logger.info("Enabling strict checksum verification on all artifact downloads.");
             }
 
-            log.debug("Executing request: {}", Yarn.render(request, Yarn.Style.MULTI));
-
+            if (log.isDebugEnabled()) {
+                log.debug("Executing request: {}", Yarn.render(request, Yarn.Style.MULTI));
+            }
+            
             Maven maven = container.lookup(Maven.class);
             MavenExecutionResult result = maven.execute(request);
 
