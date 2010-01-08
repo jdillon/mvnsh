@@ -17,7 +17,6 @@
 package org.sonatype.maven.shell.commands.maven;
 
 import com.google.inject.Inject;
-import jline.Terminal;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.sonatype.grrrowl.Growler;
 import org.sonatype.gshell.command.Command;
@@ -44,6 +43,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static org.apache.maven.execution.MavenExecutionRequest.CHECKSUM_POLICY_FAIL;
+import static org.apache.maven.execution.MavenExecutionRequest.CHECKSUM_POLICY_WARN;
+import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_FAIL_AT_END;
+import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_FAIL_FAST;
+import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_FAIL_NEVER;
+import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_BOTH;
+import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM;
+import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_UPSTREAM;
 import static org.sonatype.gshell.vars.VariableNames.SHELL_HOME;
 import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
 
@@ -307,30 +314,30 @@ public class MavenCommand
         }
 
         if (strictChecksums) {
-            request.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_FAIL);
+            request.setGlobalChecksumPolicy(CHECKSUM_POLICY_FAIL);
         }
         if (laxChecksums) {
-            request.setGlobalChecksumPolicy(MavenExecutionRequest.CHECKSUM_POLICY_WARN);
+            request.setGlobalChecksumPolicy(CHECKSUM_POLICY_WARN);
         }
 
         if (failFast) {
-            request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_FAST);
+            request.setReactorFailureBehavior(REACTOR_FAIL_FAST);
         }
         else if (failAtEnd) {
-            request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_AT_END);
+            request.setReactorFailureBehavior(REACTOR_FAIL_AT_END);
         }
         else if (failNever) {
-            request.setReactorFailureBehavior(MavenExecutionRequest.REACTOR_FAIL_NEVER);
+            request.setReactorFailureBehavior(REACTOR_FAIL_NEVER);
         }
 
         if (alsoMake && !alsoMakeDependents) {
-            request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_UPSTREAM);
+            request.setMakeBehavior(REACTOR_MAKE_UPSTREAM);
         }
         else if (!alsoMake && alsoMakeDependents) {
-            request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM);
+            request.setMakeBehavior(REACTOR_MAKE_DOWNSTREAM);
         }
         else if (alsoMake && alsoMakeDependents) {
-            request.setMakeBehavior(MavenExecutionRequest.REACTOR_MAKE_BOTH);
+            request.setMakeBehavior(REACTOR_MAKE_BOTH);
         }
 
         // Customize the plugin groups
@@ -350,8 +357,7 @@ public class MavenCommand
             StreamJack.deregister();
 
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
-            Terminal term = io.getTerminal();
-            term.reset();
+            io.getTerminal().reset();
 
             // HACK: Attempt to let the VM clean up, no clue if this helps or not
             Thread.yield();
