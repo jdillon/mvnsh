@@ -70,17 +70,17 @@ public class ExecutionEventLogger
         return term.getWidth() - 8;
     }
     
-    private static String chars(char c, int count) {
-        StringBuilder buffer = new StringBuilder(count);
+    private static String chars(final char c, final int count) {
+        StringBuilder buff = new StringBuilder(count);
 
         for (int i = count; i > 0; i--) {
-            buffer.append(c);
+            buff.append(c);
         }
 
-        return buffer.toString();
+        return buff.toString();
     }
 
-    private static String getFormattedTime(long time) {
+    private static String getFormattedTime(final long time) {
         String pattern = "s.SSS's'";
 
         if (time / 60000L > 0) {
@@ -98,7 +98,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void projectDiscoveryStarted(ExecutionEvent event) {
+    public void projectDiscoveryStarted(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
@@ -107,14 +107,12 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void sessionStarted(ExecutionEvent event) {
+    public void sessionStarted(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled() && event.getSession().getProjects().size() > 1) {
             logger.info(chars('-', lineLength()));
-
             logger.info("Reactor Build Order:");
-
             logger.info("");
 
             for (MavenProject project : event.getSession().getProjects()) {
@@ -124,7 +122,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void sessionEnded(ExecutionEvent event) {
+    public void sessionEnded(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
@@ -140,11 +138,9 @@ public class ExecutionEventLogger
         }
     }
 
-    private void logReactorSummary(MavenSession session) {
+    private void logReactorSummary(final MavenSession session) {
         logger.info(chars('-', lineLength()));
-
         logger.info("Reactor Summary:");
-
         logger.info("");
 
         MavenExecutionResult result = session.getResult();
@@ -180,7 +176,7 @@ public class ExecutionEventLogger
         }
     }
 
-    private void logResult(MavenSession session) {
+    private void logResult(final MavenSession session) {
         logger.info(chars('-', lineLength()));
 
         if (session.getResult().hasExceptions()) {
@@ -191,7 +187,7 @@ public class ExecutionEventLogger
         }
     }
 
-    private void logStats(MavenSession session) {
+    private void logStats(final MavenSession session) {
         logger.info(chars('-', lineLength()));
 
         Date finish = new Date();
@@ -212,7 +208,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void projectSkipped(ExecutionEvent event) {
+    public void projectSkipped(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
@@ -227,7 +223,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void projectStarted(ExecutionEvent event) {
+    public void projectStarted(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
@@ -241,7 +237,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void mojoSkipped(ExecutionEvent event) {
+    public void mojoSkipped(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isWarnEnabled()) {
@@ -251,7 +247,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void mojoStarted(ExecutionEvent event) {
+    public void mojoStarted(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
@@ -273,7 +269,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void forkStarted(ExecutionEvent event) {
+    public void forkStarted(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isDebugEnabled()) {
@@ -282,7 +278,7 @@ public class ExecutionEventLogger
     }
 
     @Override
-    public void forkSucceeded(ExecutionEvent event) {
+    public void forkSucceeded(final ExecutionEvent event) {
         ensureThreadNotInterrupted();
 
         if (logger.isDebugEnabled()) {
