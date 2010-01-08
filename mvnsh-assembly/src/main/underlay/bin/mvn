@@ -66,7 +66,7 @@ if $cygwin ; then
     BOOTJAR=`cygpath --windows "$BOOTJAR"`
 fi
 
-COMMAND="mvn --"
+COMMAND="mvn -- $MAVEN_OPTS"
 
 exec "$JAVACMD" $JAVA_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND $QUOTED_ARGS
 

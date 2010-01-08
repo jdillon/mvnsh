@@ -61,7 +61,7 @@ set ARGS=%$
 
 set BOOTJAR=%SHELL_HOME%\lib\bootstrap.jar
 
-set COMMAND=mvn --
+set COMMAND=mvn -- %MAVEN_OPTS%
 
 @REM Start the JVM
 "%JAVACMD%" %JAVA_OPTS% -jar "%BOOTJAR%" %COMMAND% %ARGS%
