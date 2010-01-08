@@ -67,7 +67,7 @@ public class ExecutionEventLogger
     }
 
     private int lineLength() {
-        return term.getWidth() - 10;
+        return term.getWidth() - 8;
     }
     
     private static String chars(char c, int count) {
