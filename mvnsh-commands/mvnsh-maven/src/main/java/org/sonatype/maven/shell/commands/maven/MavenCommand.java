@@ -207,15 +207,27 @@ public class MavenCommand
 
     private final MavenSystem maven;
 
+    private Growler growler;
+    
     @Preference
     private boolean growl = true;
-
-    private Growler growler;
 
     @Inject
     public MavenCommand(final MavenSystem maven) {
         assert maven != null;
         this.maven = maven;
+
+    }
+
+    // HACK: Setup growl once, so clones get the same instance, no real init or registered hook in gshell yet, so we have to use this
+    //       could setup up some support to register an event listener in CommandActionSupport or something later to really fix
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+
+        // Setup growl support
+        this.growler = new Growler(name, Notifications.class);
+        this.growler.register();
     }
 
     public void setProcessor(final CliProcessor processor) {
@@ -368,11 +380,6 @@ public class MavenCommand
         }
 
         if (growl) {
-            if (growler == null) {
-                growler = new Growler(getName(), Notifications.class);
-                growler.register();
-            }
-
             String cl = String.format("%s %s", getName(), Strings.join(context.getArguments(), " "));
 
             if (result == 0) {
