@@ -197,6 +197,14 @@ public class MavenCommand
     @Option(name="V", longName="show-version")
     private Boolean showVersion;
 
+    // HACK: Support --encrypt-master-password
+    @Option(name="emp", longName="encrypt-master-password", args=1)
+    private String encryptMasterPassword;
+
+    // HACK: Support --encrypt-password
+    @Option(name="ep", longName="encrypt-password", args=1)
+    private String encryptPassword;
+
     @Argument(multi=true)
     private List<String> goals;
 
@@ -243,6 +251,14 @@ public class MavenCommand
         if (version) {
             io.info(maven.getVersion());
             return Result.SUCCESS;
+        }
+
+        // HACK: support --encrypt-master-password and --encrypt-password
+        if (encryptMasterPassword != null) {
+            return context.getShell().execute("encrypt-password", "-m", encryptMasterPassword);
+        }
+        if (encryptPassword != null) {
+            return context.getShell().execute("encrypt-password", encryptPassword); 
         }
 
         File homeDir = vars.get(SHELL_HOME, File.class);
