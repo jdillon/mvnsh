@@ -254,11 +254,16 @@ public class MavenCommand
         }
 
         // HACK: support --encrypt-master-password and --encrypt-password
-        if (encryptMasterPassword != null) {
-            return context.getShell().execute("encrypt-password", "-m", encryptMasterPassword);
-        }
-        if (encryptPassword != null) {
-            return context.getShell().execute("encrypt-password", encryptPassword); 
+        if (encryptMasterPassword != null || encryptPassword != null) {
+            // TODO: Inspect the registry to find the EncryptPasswordCommand's name, for now just hard-code
+            String command = "encrypt-password";
+
+            if (encryptMasterPassword != null) {
+                return context.getShell().execute(command, "-m", encryptMasterPassword);
+            }
+            if (encryptPassword != null) {
+                return context.getShell().execute(command, encryptPassword);
+            }
         }
 
         File homeDir = vars.get(SHELL_HOME, File.class);
