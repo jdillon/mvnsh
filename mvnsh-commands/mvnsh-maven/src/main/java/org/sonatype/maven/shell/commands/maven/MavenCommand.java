@@ -258,6 +258,11 @@ public class MavenCommand
             // TODO: Inspect the registry to find the EncryptPasswordCommand's name, for now just hard-code
             String command = "encrypt-password";
 
+            // HACK: Put all props into System, the security muck needs it
+            if (props != null) {
+                System.getProperties().putAll(props);
+            }
+
             if (encryptMasterPassword != null) {
                 return context.getShell().execute(command, "-m", encryptMasterPassword);
             }

@@ -307,9 +307,11 @@ public class MavenSystemImpl
 
             Properties user = new Properties();
             user.putAll(config.getProperties());
-            // NOTE: Not setting to System here, this may or may not cause problems, as mvn3 does set user props as system
-            // System.getProperties().putAll(user);
 
+            // HACK: Some bits of Maven still require using System.properties :-(
+            sys.putAll(user);
+            System.getProperties().putAll(user);
+                        
             // Add the env vars to the property set, with the "env." prefix
             boolean caseSensitive = !Os.isFamily(Os.FAMILY_WINDOWS);
             for (Map.Entry<String, String> entry : System.getenv().entrySet()) {

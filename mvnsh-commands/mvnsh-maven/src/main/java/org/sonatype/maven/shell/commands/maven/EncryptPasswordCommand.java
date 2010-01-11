@@ -22,6 +22,7 @@ import org.sonatype.gshell.command.CommandActionSupport;
 import org.sonatype.gshell.command.CommandContext;
 import org.sonatype.gshell.command.IO;
 import org.sonatype.gshell.plexus.PlexusRuntime;
+import org.sonatype.gshell.util.NameValue;
 import org.sonatype.gshell.util.cli2.Argument;
 import org.sonatype.gshell.util.cli2.Option;
 import org.sonatype.gshell.util.pref.Preferences;
@@ -30,6 +31,8 @@ import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.SecUtil;
 import org.sonatype.plexus.components.sec.dispatcher.model.SettingsSecurity;
+
+import java.util.Properties;
 
 /**
  * Encrypt passwords.
@@ -43,6 +46,20 @@ public class EncryptPasswordCommand
     extends CommandActionSupport
 {
     private final PlexusRuntime plexus;
+
+    private Properties props;
+
+    @Option(name="D", longName="define", args=1)
+    protected void setProperty(final String input) {
+        assert input != null;
+
+        if (props == null) {
+            props = new Properties();
+        }
+
+        NameValue nv = NameValue.parse(input);
+        props.setProperty(nv.name, nv.value);
+    }
 
     @Option(name="m", longName="master")
     private boolean master;
@@ -59,6 +76,11 @@ public class EncryptPasswordCommand
     public Object execute(final CommandContext context) throws Exception {
         assert context != null;
         IO io = context.getIo();
+
+        // HACK: Put all props into System, the security muck needs it
+        if (props != null) {
+            System.getProperties().putAll(props);
+        }
 
         DefaultSecDispatcher dispatcher = (DefaultSecDispatcher) plexus.lookup(SecDispatcher.class);
         String result;
@@ -95,6 +117,7 @@ public class EncryptPasswordCommand
 
         io.out.println(result);
 
-        return result;
+        // HACK: Maven core-its need 0 for success
+        return Result.SUCCESS;
     }
 }
