@@ -308,10 +308,6 @@ public class MavenSystemImpl
             Properties user = new Properties();
             user.putAll(config.getProperties());
 
-            // HACK: Some bits of Maven still require using System.properties :-(
-            sys.putAll(user);
-            System.getProperties().putAll(user);
-                        
             // Add the env vars to the property set, with the "env." prefix
             boolean caseSensitive = !Os.isFamily(Os.FAMILY_WINDOWS);
             for (Map.Entry<String, String> entry : System.getenv().entrySet()) {
@@ -320,6 +316,11 @@ public class MavenSystemImpl
             }
 
             request.setUserProperties(user);
+
+            // HACK: Some bits of Maven still require using System.properties :-(
+            sys.putAll(user);
+            System.getProperties().putAll(user);
+            
             request.setSystemProperties(sys);
         }
 
