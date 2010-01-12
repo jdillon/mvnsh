@@ -16,14 +16,13 @@ import org.sonatype.maven.shell.maven.MavenModule;
 import java.net.URL;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the {@link MavenCommand}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-@Ignore
 public class MavenCommandTest
     extends CommandTestSupport
 {
@@ -42,35 +41,15 @@ public class MavenCommandTest
     @Test
     @Ignore
     public void testDefault() throws Exception {
-        Object result = execute();
-        assertEqualsFailure(result);
-    }
-
-    @Override
-    @Test
-    @Ignore
-    public void testHelp() throws Exception {
-        Object result;
-
-        result = executeWithArgs("--help");
-
-        // HACK: Ignore result for now mvn3's cli is in too much flux
-        // assertEqualsSuccess(result);
-
-        result = executeWithArgs("-h");
-
-        // HACK: Ignore result for now mvn3's cli is in too much flux
-        // assertEqualsSuccess(result);
+        // disabled
     }
 
     @Test
-    @Ignore
     public void test1() throws Exception {
         URL script = getClass().getResource("test1.pom");
         assertNotNull(script);
+        
         Object result = executeWithArgs("-f", script.toExternalForm(), "-o");
-
-        // HACK: Ignore result for now mvn3's cli is in too much flux
-        // assertEqualsSuccess(result);
+        assertEquals(0, result);
     }
 }
