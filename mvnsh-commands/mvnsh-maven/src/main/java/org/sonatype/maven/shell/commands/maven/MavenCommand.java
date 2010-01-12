@@ -271,8 +271,7 @@ public class MavenCommand
             }
         }
 
-        File homeDir = vars.get(SHELL_HOME, File.class);
-        System.setProperty("maven.home", homeDir.getAbsolutePath());
+        System.setProperty(MavenSystem.MAVEN_HOME, vars.get(SHELL_HOME, File.class).getAbsolutePath());
 
         MavenRuntimeConfiguration config = new MavenRuntimeConfiguration();
 

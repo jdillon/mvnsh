@@ -328,7 +328,11 @@ public class MavenSystemImpl
             assert request != null;
             assert config != null;
 
-            request.setBaseDirectory(new File(config.getBaseDirectory(), "").getAbsoluteFile());
+            File dir = new File(config.getBaseDirectory(), "").getAbsoluteFile();
+            request.setBaseDirectory(dir);
+
+            // HACK: Some bits need user.dir to be set, or use un-rooted File's :-(
+            System.setProperty("user.dir", dir.getAbsolutePath());
 
             // Configure profiles
             for (String profile : config.getProfiles()) {
