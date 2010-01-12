@@ -30,7 +30,7 @@ public interface MavenSystem
     
     String MAVEN_HOME = "maven.home";
 
-    String LOCAL_REPO_PROPERTY = "maven.repo.local";
+    String LOCAL_REPO = "maven.repo.local";
 
     String USER_HOME = System.getProperty("user.home");
 

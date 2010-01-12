@@ -328,7 +328,7 @@ public class MavenSystemImpl
             assert request != null;
             assert config != null;
 
-            request.setBaseDirectory(new File(request.getBaseDirectory(), "").getAbsoluteFile());
+            request.setBaseDirectory(new File(config.getBaseDirectory(), "").getAbsoluteFile());
 
             // Configure profiles
             for (String profile : config.getProfiles()) {
@@ -377,9 +377,9 @@ public class MavenSystemImpl
             }
 
             // Configure the local repo path
-            String localRepoPath = request.getUserProperties().getProperty(LOCAL_REPO_PROPERTY);
+            String localRepoPath = request.getUserProperties().getProperty(LOCAL_REPO);
             if (localRepoPath == null) {
-                localRepoPath = request.getSystemProperties().getProperty(LOCAL_REPO_PROPERTY);
+                localRepoPath = request.getSystemProperties().getProperty(LOCAL_REPO);
             }
             if (localRepoPath != null) {
                 request.setLocalRepositoryPath(localRepoPath);
