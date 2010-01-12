@@ -129,50 +129,50 @@
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
                 <classifier>tests</classifier>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-bootstrap</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-plexus</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-file</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-pref</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-network</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-artifact</artifactId>
-                <version>2.3-SNAPSHOT</version>
+                <version>2.3</version>
             </dependency>
 
             <!-- INTERNAL -->
