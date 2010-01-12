@@ -97,7 +97,7 @@
             <dependency>
                 <groupId>org.sonatype.maven.archetype</groupId>
                 <artifactId>archetype-commands</artifactId>
-                <version>0.8.2-SNAPSHOT</version>
+                <version>0.8.2</version>
             </dependency>
             
             <dependency>
