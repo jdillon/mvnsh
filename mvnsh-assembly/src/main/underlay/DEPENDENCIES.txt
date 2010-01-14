@@ -1,0 +1,137 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Maven Shell :: Assembly
+
+
+From: 'an unknown organization'
+  - AOP alliance (http://aopalliance.sourceforge.net) aopalliance:aopalliance:jar:1.0
+    License: Public Domain 
+  - Unnamed - jdom:jdom:jar:1.0  jdom:jdom:jar:1.0
+
+  - Neko HTML (http://nekohtml.sourceforge.net/) nekohtml:nekohtml:jar:1.9.6.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Unnamed - nekohtml:xercesMinimal:jar:1.9.6.2  nekohtml:xercesMinimal:jar:1.9.6.2
+
+  - Java port of Mozilla charset detector (http://maven.apache.org) net.sourceforge.jchardet:jchardet:jar:1.0
+    License: Mozilla Public License 1.1 (MPL 1.1)  (http://www.mozilla.org/MPL/MPL-1.1.html)
+  - jansi (http://jansi.fusesource.org) org.fusesource.jansi:jansi:jar:1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Sonatype Archetype :: Commands (http://forge.sonatype.com/archetype/archetype-commands) org.sonatype.maven.archetype:archetype-commands:jar:0.8.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Sonatype Archetype :: Common (http://forge.sonatype.com/archetype/archetype-common) org.sonatype.maven.archetype:archetype-common:jar:0.8.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Plexus Cipher: encryption/decryption Component (http://spice.sonatype.org/plexus-cipher) org.sonatype.plexus:plexus-cipher:jar:1.4
+    License: Apache Public License 2.0  (http://www.apache.org/licenses/LICENSE-2.0)
+  - Plexus Security Dispatcher Component (http://spice.sonatype.org/plexus-sec-dispatcher) org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3
+    License: Apache Public License 2.0  (http://www.apache.org/licenses/LICENSE-2.0)
+  - Unnamed - oro:oro:jar:2.0.8  oro:oro:jar:2.0.8
+
+
+From: 'Apache Software Foundation' (http://www.apache.org/)
+  - XML Commons External Components XML APIs (http://xml.apache.org/commons/#external) xml-apis:xml-apis:jar:1.0.b2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Codehaus' (http://www.codehaus.org/)
+  - Plexus Classworlds (http://plexus.codehaus.org/plexus-classworlds) org.codehaus.plexus:plexus-classworlds:jar:2.2.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Plexus :: Component Annotations (http://plexus.codehaus.org/plexus-containers/plexus-component-annotations) org.codehaus.plexus:plexus-component-annotations:jar:1.5.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Plexus :: Default Container (http://plexus.codehaus.org/plexus-containers/plexus-container-default) org.codehaus.plexus:plexus-container-default:jar:1.5.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Plexus Interpolation API (http://plexus.codehaus.org/plexus-components/plexus-interpolation) org.codehaus.plexus:plexus-interpolation:jar:1.11
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Plexus Common Utilities (http://plexus.codehaus.org/plexus-utils) org.codehaus.plexus:plexus-utils:jar:2.0.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Plexus Velocity Component (http://plexus.codehaus.org/plexus-components/plexus-velocity) org.codehaus.plexus:plexus-velocity:jar:1.1.8
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Google' (http://www.google.com)
+  - google-collect (http://code.google.com/p/google-collections/) com.google.code.google-collections:google-collect:jar:snapshot-20080530
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Google' (http://www.google.com/)
+  - Unnamed - com.google.inject:guice:jar:2.0 (http://code.google.com/p/google-guice/guice) com.google.inject:guice:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'MetaStuff Ltd.' (http://sourceforge.net/projects/dom4j)
+  - dom4j (http://dom4j.org) dom4j:dom4j:jar:1.6.1
+
+
+From: 'QOS.ch' (http://www.qos.ch)
+  - JCL 1.1.1 implemented over SLF4J (http://www.slf4j.org) org.slf4j:jcl-over-slf4j:jar:1.5.10
+    License: MIT License  (http://www.opensource.org/licenses/mit-license.php)
+  - SLF4J API Module (http://www.slf4j.org) org.slf4j:slf4j-api:jar:1.5.10
+    License: MIT License  (http://www.opensource.org/licenses/mit-license.php)
+
+From: 'Sonatype' (http://sonatype.org)
+  - Gossip (http://forge.sonatype.com/gossip) org.sonatype.gossip:gossip:jar:1.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Grrrowl (http://forge.sonatype.com/grrrowl) org.sonatype.grrrowl:grrrowl:jar:1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - GShell :: Bootstrap (http://forge.sonatype.com/gshell/gshell-bootstrap) org.sonatype.gshell:gshell-bootstrap:jar:2.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - GShell :: Core (http://forge.sonatype.com/gshell/gshell-core) org.sonatype.gshell:gshell-core:jar:2.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - GShell :: IO (http://forge.sonatype.com/gshell/gshell-io) org.sonatype.gshell:gshell-io:jar:2.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - GShell :: Plexus (http://forge.sonatype.com/gshell/gshell-plexus) org.sonatype.gshell:gshell-plexus:jar:2.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - GShell Commands :: File (http://forge.sonatype.com/gshell/gshell-commands/gshell-file) org.sonatype.gshell.commands:gshell-file:jar:2.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - GShell Commands :: Network (http://forge.sonatype.com/gshell/gshell-commands/gshell-network) org.sonatype.gshell.commands:gshell-network:jar:2.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - GShell Commands :: Preferences (http://forge.sonatype.com/gshell/gshell-commands/gshell-pref) org.sonatype.gshell.commands:gshell-pref:jar:2.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - JLine (http://forge.sonatype.com/jline) org.sonatype.jline:jline:jar:2.2.1
+    License: The BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+  - Maven Shell :: Core (http://forge.sonatype.com/mvnsh/mvnsh-core) org.sonatype.maven.shell:mvnsh-core:jar:0.9-SNAPSHOT
+    License: Eclipse Public License  (http://www.eclipse.org/legal/epl-v10.html)
+  - Maven Shell Commands :: Maven (http://forge.sonatype.com/mvnsh/mvnsh-commands/mvnsh-maven) org.sonatype.maven.shell:mvnsh-maven:jar:0.9-SNAPSHOT
+    License: Eclipse Public License  (http://www.eclipse.org/legal/epl-v10.html)
+
+From: 'The Apache Software Foundation' (http://jakarta.apache.org)
+  - Lang (http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/) commons-lang:commons-lang:jar:2.1
+    License: The Apache Software License, Version 2.0  (/LICENSE.txt)
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Commons CLI (http://commons.apache.org/cli/) commons-cli:commons-cli:jar:1.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Collections (http://commons.apache.org/collections/) commons-collections:commons-collections:jar:3.2.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons IO (http://commons.apache.org/io/) commons-io:commons-io:jar:1.4
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Artifact (http://maven.apache.org/maven-artifact) org.apache.maven:maven-artifact:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Compat (http://maven.apache.org/maven-compat) org.apache.maven:maven-compat:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Core (http://maven.apache.org/maven-core) org.apache.maven:maven-core:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Embedder (http://maven.apache.org/maven-embedder) org.apache.maven:maven-embedder:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Model (http://maven.apache.org/maven-model) org.apache.maven:maven-model:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Model Builder (http://maven.apache.org/maven-model-builder) org.apache.maven:maven-model-builder:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Plugin API (http://maven.apache.org/maven-plugin-api) org.apache.maven:maven-plugin-api:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Settings (http://maven.apache.org/maven-settings) org.apache.maven:maven-settings:jar:3.0-alpha-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Wagon File Provider (http://maven.apache.org/wagon/wagon-providers/wagon-file) org.apache.maven.wagon:wagon-file:jar:1.0-beta-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Wagon Lightweight HTTP Provider (http://maven.apache.org/wagon/wagon-providers/wagon-http-lightweight) org.apache.maven.wagon:wagon-http-lightweight:jar:1.0-beta-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Wagon HTTP Shared Library (http://maven.apache.org/wagon/wagon-providers/wagon-http-shared) org.apache.maven.wagon:wagon-http-shared:jar:1.0-beta-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Maven Wagon API (http://maven.apache.org/wagon/wagon-provider-api) org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Velocity (http://velocity.apache.org/engine/releases/velocity-1.5/) org.apache.velocity:velocity:pom:1.5
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache XBean :: Reflect (http://geronimo.apache.org/xbean/xbean-reflect) org.apache.xbean:xbean-reflect:bundle:3.4
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+
