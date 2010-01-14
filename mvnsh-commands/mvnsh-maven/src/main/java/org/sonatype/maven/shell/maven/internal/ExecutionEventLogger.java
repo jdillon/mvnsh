@@ -111,7 +111,7 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
-            logger.info("Scanning for projects...");
+            logger.info("Scanning for projects..."); // TODO: i18n
         }
     }
 
@@ -121,7 +121,7 @@ public class ExecutionEventLogger
 
         if (logger.isInfoEnabled() && event.getSession().getProjects().size() > 1) {
             logger.info(chars('-', lineLength));
-            logger.info("Reactor Build Order:");
+            logger.info("Reactor Build Order:"); // TODO: i18n
             logger.info("");
 
             for (MavenProject project : event.getSession().getProjects()) {
@@ -140,7 +140,6 @@ public class ExecutionEventLogger
             }
 
             logResult(event.getSession());
-
             logStats(event.getSession());
 
             logger.info(chars('-', lineLength));
@@ -149,50 +148,52 @@ public class ExecutionEventLogger
 
     private void logReactorSummary(final MavenSession session) {
         logger.info(chars('-', lineLength));
-        logger.info("Reactor Summary:");
+        logger.info("Reactor Summary:"); // TODO: i18n
         logger.info("");
 
         MavenExecutionResult result = session.getResult();
 
         for (MavenProject project : session.getProjects()) {
-            StringBuilder buffer = new StringBuilder(128);
+            StringBuilder buff = new StringBuilder(128);
 
-            buffer.append(project.getName());
+            buff.append(project.getName());
 
-            buffer.append(' ');
-            while (buffer.length() < lineLength - 21) {
-                buffer.append('.');
+            buff.append(' ');
+            while (buff.length() < lineLength - 21) {
+                buff.append('.');
             }
-            buffer.append(' ');
+            buff.append(' ');
 
             BuildSummary buildSummary = result.getBuildSummary(project);
 
             if (buildSummary == null) {
-                buffer.append("SKIPPED");
+                buff.append("SKIPPED"); // TODO: i18n
             }
             else if (buildSummary instanceof BuildSuccess) {
-                buffer.append("SUCCESS [");
-                buffer.append(getFormattedTime(buildSummary.getTime()));
-                buffer.append("]");
+                buff.append("SUCCESS ["); // TODO: i18n
+                buff.append(getFormattedTime(buildSummary.getTime()));
+                buff.append("]");
             }
             else if (buildSummary instanceof BuildFailure) {
-                buffer.append("FAILURE [");
-                buffer.append(getFormattedTime(buildSummary.getTime()));
-                buffer.append("]");
+                buff.append("FAILURE ["); // TODO: i18n
+                buff.append(getFormattedTime(buildSummary.getTime()));
+                buff.append("]");
             }
 
-            logger.info(buffer.toString());
+            logger.info(buff.toString());
         }
+
+        logger.info("");
     }
 
     private void logResult(final MavenSession session) {
         logger.info(chars('-', lineLength));
 
         if (session.getResult().hasExceptions()) {
-            logger.info("BUILD FAILURE");
+            logger.info("BUILD FAILURE"); // TODO: i18n
         }
         else {
-            logger.info("BUILD SUCCESS");
+            logger.info("BUILD SUCCESS"); // TODO: i18n
         }
     }
 
@@ -203,17 +204,15 @@ public class ExecutionEventLogger
 
         long time = finish.getTime() - session.getRequest().getStartTime().getTime();
 
-        logger.info("Total time: " + getFormattedTime(time));
-
-        logger.info("Finished at: " + finish);
+        logger.info("Total time: " + getFormattedTime(time)); // TODO: i18n
+        logger.info("Finished at: " + finish); // TODO: i18n
 
         System.gc();
 
         Runtime r = Runtime.getRuntime();
-
         long MB = 1024 * 1024;
 
-        logger.info("Final Memory: " + (r.totalMemory() - r.freeMemory()) / MB + "M/" + r.totalMemory() / MB + "M");
+        logger.info("Final Memory: " + (r.totalMemory() - r.freeMemory()) / MB + "M/" + r.totalMemory() / MB + "M"); // TODO: i18n
     }
 
     @Override
@@ -224,8 +223,8 @@ public class ExecutionEventLogger
             logger.info(chars(' ', lineLength));
             logger.info(chars('-', lineLength));
 
-            logger.info("Skipping " + event.getProject().getName());
-            logger.info("This project has been banned from the build due to previous failures.");
+            logger.info("Skipping " + event.getProject().getName()); // TODO: i18n
+            logger.info("This project has been banned from the build due to previous failures."); // TODO: i18n
 
             logger.info(chars('-', lineLength));
         }
@@ -239,7 +238,7 @@ public class ExecutionEventLogger
             logger.info(chars(' ', lineLength));
             logger.info(chars('-', lineLength));
 
-            logger.info("Building " + event.getProject().getName() + " " + event.getProject().getVersion());
+            logger.info("Building " + event.getProject().getName() + " " + event.getProject().getVersion()); // TODO: i18n
 
             logger.info(chars('-', lineLength));
         }
@@ -251,7 +250,7 @@ public class ExecutionEventLogger
 
         if (logger.isWarnEnabled()) {
             logger.warn("Goal " + event.getMojoExecution().getGoal()
-                + " requires online mode for execution but Maven is currently offline, skipping");
+                + " requires online mode for execution but Maven is currently offline, skipping"); // TODO: i18n
         }
     }
 
@@ -261,19 +260,19 @@ public class ExecutionEventLogger
 
         if (logger.isInfoEnabled()) {
             MojoExecution me = event.getMojoExecution();
-            StringBuilder buffer = new StringBuilder(128);
+            StringBuilder buff = new StringBuilder(128);
 
-            buffer.append("--- ");
-            buffer.append(me.getArtifactId()).append(':').append(me.getVersion());
-            buffer.append(':').append(me.getGoal());
+            buff.append("--- ");
+            buff.append(me.getArtifactId()).append(':').append(me.getVersion());
+            buff.append(':').append(me.getGoal());
             if (me.getExecutionId() != null) {
-                buffer.append(" (").append(me.getExecutionId()).append(')');
+                buff.append(" (").append(me.getExecutionId()).append(')');
             }
-            buffer.append(" @ ").append(event.getProject().getArtifactId());
-            buffer.append(" ---");
+            buff.append(" @ ").append(event.getProject().getArtifactId());
+            buff.append(" ---");
 
             logger.info("");
-            logger.info(buffer.toString());
+            logger.info(buff.toString());
         }
     }
 
@@ -282,7 +281,7 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Forking execution for " + event.getMojoExecution().getMojoDescriptor().getId());
+            logger.debug("Forking execution for " + event.getMojoExecution().getMojoDescriptor().getId()); // TODO: i18n
         }
     }
 
@@ -291,7 +290,7 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Completed forked execution for " + event.getMojoExecution().getMojoDescriptor().getId());
+            logger.debug("Completed forked execution for " + event.getMojoExecution().getMojoDescriptor().getId()); // TODO: i18n
         }
     }
 
