@@ -405,9 +405,9 @@ public class MavenCommand
             io.getTerminal().reset();
 
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                Runnable gc = new Runnable() {
+                Runnable gc = new Runnable()
+                {
                     public void run() {
-                        // HACK: Attempt to let the VM clean up, no clue if this helps or not
                         for (int i=0; i<2; i++) {
                             System.runFinalization();
                             Thread.yield();
