@@ -47,11 +47,16 @@ public class ExecutionEventLogger
     
     private final Logger logger;
 
+    private final int lineLength;
+
     public ExecutionEventLogger(final Terminal term, final Logger logger) {
         assert term != null;
         this.term = term;
         assert logger != null;
         this.logger = logger;
+
+        // Cache this, its expensive on Unix
+        this.lineLength = lineLength();
     }
 
     private static class InterruptedRuntimeException
@@ -115,7 +120,7 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled() && event.getSession().getProjects().size() > 1) {
-            logger.info(chars('-', lineLength()));
+            logger.info(chars('-', lineLength));
             logger.info("Reactor Build Order:");
             logger.info("");
 
@@ -138,12 +143,12 @@ public class ExecutionEventLogger
 
             logStats(event.getSession());
 
-            logger.info(chars('-', lineLength()));
+            logger.info(chars('-', lineLength));
         }
     }
 
     private void logReactorSummary(final MavenSession session) {
-        logger.info(chars('-', lineLength()));
+        logger.info(chars('-', lineLength));
         logger.info("Reactor Summary:");
         logger.info("");
 
@@ -155,7 +160,7 @@ public class ExecutionEventLogger
             buffer.append(project.getName());
 
             buffer.append(' ');
-            while (buffer.length() < lineLength() - 21) {
+            while (buffer.length() < lineLength - 21) {
                 buffer.append('.');
             }
             buffer.append(' ');
@@ -181,7 +186,7 @@ public class ExecutionEventLogger
     }
 
     private void logResult(final MavenSession session) {
-        logger.info(chars('-', lineLength()));
+        logger.info(chars('-', lineLength));
 
         if (session.getResult().hasExceptions()) {
             logger.info("BUILD FAILURE");
@@ -192,7 +197,7 @@ public class ExecutionEventLogger
     }
 
     private void logStats(final MavenSession session) {
-        logger.info(chars('-', lineLength()));
+        logger.info(chars('-', lineLength));
 
         Date finish = new Date();
 
@@ -216,13 +221,13 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
-            logger.info(chars(' ', lineLength()));
-            logger.info(chars('-', lineLength()));
+            logger.info(chars(' ', lineLength));
+            logger.info(chars('-', lineLength));
 
             logger.info("Skipping " + event.getProject().getName());
             logger.info("This project has been banned from the build due to previous failures.");
 
-            logger.info(chars('-', lineLength()));
+            logger.info(chars('-', lineLength));
         }
     }
 
@@ -231,12 +236,12 @@ public class ExecutionEventLogger
         ensureThreadNotInterrupted();
 
         if (logger.isInfoEnabled()) {
-            logger.info(chars(' ', lineLength()));
-            logger.info(chars('-', lineLength()));
+            logger.info(chars(' ', lineLength));
+            logger.info(chars('-', lineLength));
 
             logger.info("Building " + event.getProject().getName() + " " + event.getProject().getVersion());
 
-            logger.info(chars('-', lineLength()));
+            logger.info(chars('-', lineLength));
         }
     }
 
