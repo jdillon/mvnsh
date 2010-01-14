@@ -18,6 +18,9 @@ package org.sonatype.maven.shell.commands.maven;
 
 import com.google.inject.Inject;
 import org.apache.maven.execution.MavenExecutionRequest;
+import org.codehaus.plexus.classworlds.ClassWorld;
+import org.codehaus.plexus.classworlds.realm.ClassRealm;
+import org.codehaus.plexus.util.Os;
 import org.sonatype.grrrowl.Growler;
 import org.sonatype.gshell.command.Command;
 import org.sonatype.gshell.command.CommandActionSupport;
@@ -39,6 +42,8 @@ import org.sonatype.maven.shell.maven.MavenRuntimeConfiguration;
 import org.sonatype.maven.shell.maven.MavenSystem;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -281,6 +286,9 @@ public class MavenCommand
         StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
         config.setStreams(streams);
 
+        ClassWorld world = new ClassWorld("plexus.core", Thread.currentThread().getContextClassLoader());
+        config.setClassWorld(world);
+        
         if (file != null) {
             config.setPomFile(file);
         }
@@ -396,12 +404,29 @@ public class MavenCommand
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
             io.getTerminal().reset();
 
-            // HACK: Attempt to let the VM clean up, no clue if this helps or not
-            Thread.yield();
-            System.runFinalization();
-            Thread.yield();
-            System.gc();
-            Thread.yield();
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                Runnable gc = new Runnable() {
+                    public void run() {
+                        // HACK: Attempt to let the VM clean up, no clue if this helps or not
+                        for (int i=0; i<3; i++) {
+                            System.runFinalization();
+                            Thread.yield();
+                            System.gc();
+                            Thread.yield();
+                        }
+                    }
+                };
+
+                gc.run();
+                
+                // HACK: Dispose all realms, to help avoid problems
+                for (ClassRealm realm : (List<ClassRealm>)world.getRealms()) {
+                    world.disposeRealm(realm.getId());
+                }
+                world = null;
+
+                gc.run();
+            }
         }
 
         if (growl) {
