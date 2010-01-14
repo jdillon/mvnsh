@@ -292,12 +292,23 @@ public class MavenSystemImpl
                 .setSystemProperties(request.getSystemProperties())
                 .setUserProperties(request.getUserProperties());
 
+            SettingsBuildingResult settingsResult;
             SettingsBuilder settingsBuilder = container.lookup(SettingsBuilder.class);
-            SettingsBuildingResult settingsResult = settingsBuilder.build(settingsRequest);
+            try {
+                settingsResult = settingsBuilder.build(settingsRequest);
+            }
+            finally {
+                container.release(settingsBuilder);
+            }
 
             // NOTE: This will nuke some details from the request; profiles, online, etc... :-(
             MavenExecutionRequestPopulator populator = container.lookup(MavenExecutionRequestPopulator.class);
-            populator.populateFromSettings(request, settingsResult.getEffectiveSettings());
+            try {
+                populator.populateFromSettings(request, settingsResult.getEffectiveSettings());
+            }
+            finally {
+                container.release(populator);
+            }
 
             if (!settingsResult.getProblems().isEmpty() && logger.isWarnEnabled()) {
                 logger.warn("");
@@ -386,8 +397,13 @@ public class MavenSystemImpl
             }
             else if (request.getPom() == null && request.getBaseDirectory() != null) {
                 ModelProcessor modelProcessor = container.lookup(ModelProcessor.class);
-                File pom = modelProcessor.locatePom(new File(request.getBaseDirectory()));
-                request.setPom(pom);
+                try {
+                    File pom = modelProcessor.locatePom(new File(request.getBaseDirectory()));
+                    request.setPom(pom);
+                }
+                finally {
+                    container.release(modelProcessor);
+                }
             }
             else if (request.getBaseDirectory() == null) {
                 request.setBaseDirectory(config.getBaseDirectory());
