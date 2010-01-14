@@ -42,8 +42,6 @@ import org.sonatype.maven.shell.maven.MavenRuntimeConfiguration;
 import org.sonatype.maven.shell.maven.MavenSystem;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
