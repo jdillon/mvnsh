@@ -118,6 +118,10 @@ public class MavenSystemImpl
         }
     }
 
+    //
+    // FIXME: Make this puppy extensible, need to extend for pmaven at the least
+    //
+
     private class MavenRuntimeImpl
         implements MavenRuntime
     {
@@ -199,6 +203,7 @@ public class MavenSystemImpl
 
             // Setup the container
             this.container = createContainer();
+            log.debug("Using container: {}", container);
         }
 
         private DefaultPlexusContainer createContainer() throws Exception {
@@ -207,10 +212,16 @@ public class MavenSystemImpl
                 .setName("maven");
 
             DefaultPlexusContainer c = new DefaultPlexusContainer(cc);
-            c.setLoggerManager(new MavenLoggerManager(config.getLogger()));
-            c.getLoggerManager().setThresholds(logger.getThreshold());
+            configureContainer(c);
 
             return c;
+        }
+
+        protected void configureContainer(final DefaultPlexusContainer c) throws Exception {
+            assert c != null;
+
+            c.setLoggerManager(new MavenLoggerManager(config.getLogger()));
+            c.getLoggerManager().setThresholds(logger.getThreshold());
         }
 
         public MavenExecutionRequest create() throws Exception {
@@ -235,6 +246,8 @@ public class MavenSystemImpl
                 return 1;
             }
             finally {
+                container.dispose();
+                
                 Closer.close(logStream);
             }
         }
@@ -430,9 +443,15 @@ public class MavenSystemImpl
             if (log.isDebugEnabled()) {
                 log.debug("Executing request: {}", Yarn.render(request, Yarn.Style.MULTI));
             }
-            
+
+            MavenExecutionResult result;
             Maven maven = container.lookup(Maven.class);
-            MavenExecutionResult result = maven.execute(request);
+            try {
+                result = maven.execute(request);
+            }
+            finally {
+                container.release(maven);
+            }
 
             if (!result.hasExceptions()) {
                 return 0;
