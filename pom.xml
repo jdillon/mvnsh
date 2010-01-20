@@ -42,13 +42,25 @@
     
     <ciManagement>
         <system>Hudson</system>
-        <url>https://grid.sonatype.org/ci/view/Mvnsh</url>
+        <url>https://grid.sonatype.org/ci/job/Maven_Shell</url>
     </ciManagement>
 
     <issueManagement>
         <system>JIRA</system>
         <url>https://issues.sonatype.org/browse/MVNSH</url>
     </issueManagement>
+    
+    <developers>
+        <developer>
+            <id>jdillon</id>
+            <name>Jason Dillon</name>
+            <email>jason@planet57.com</email>
+            <roles>
+                <role>Build Master</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
