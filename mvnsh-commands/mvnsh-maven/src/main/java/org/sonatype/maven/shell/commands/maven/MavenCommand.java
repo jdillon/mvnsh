@@ -315,6 +315,8 @@ public class MavenCommand
             config.setLogFile(logFile);
         }
 
+        customize(config);
+
         MavenRuntime runtime = maven.create(config);
         MavenExecutionRequest request = runtime.create();
 
@@ -445,5 +447,12 @@ public class MavenCommand
         }
 
         return result;
+    }
+
+    /**
+     * @since 0.9
+     */
+    protected void customize(final MavenRuntimeConfiguration config) {
+        // empty
     }
 }

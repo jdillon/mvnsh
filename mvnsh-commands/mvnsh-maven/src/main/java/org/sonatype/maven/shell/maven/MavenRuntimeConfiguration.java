@@ -17,13 +17,16 @@
 package org.sonatype.maven.shell.maven;
 
 import org.apache.maven.cli.PrintStreamLogger;
+import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.sonatype.gshell.io.StreamSet;
+import org.sonatype.gshell.util.Function;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.Callable;
 
 /**
  * Maven runtime configuration.
@@ -36,6 +39,8 @@ public class MavenRuntimeConfiguration
     private StreamSet streams = StreamSet.system();
 
     private ClassWorld classWorld;
+
+    private Function<Void,DefaultPlexusContainer,Exception> containerConfigurationDelegate;
 
     private File baseDirectory = new File(System.getProperty("user.dir"));
 
@@ -75,6 +80,14 @@ public class MavenRuntimeConfiguration
 
     public void setClassWorld(ClassWorld classWorld) {
         this.classWorld = classWorld;
+    }
+
+    public Function<Void,DefaultPlexusContainer,Exception> getContainerConfigurationDelegate() {
+        return containerConfigurationDelegate;
+    }
+
+    public void setContainerConfigurationDelegate(Function<Void,DefaultPlexusContainer,Exception> delegate) {
+        this.containerConfigurationDelegate = delegate;
     }
 
     public File getBaseDirectory() {
