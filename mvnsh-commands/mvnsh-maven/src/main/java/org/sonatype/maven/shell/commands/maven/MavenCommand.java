@@ -72,12 +72,12 @@ public class MavenCommand
     @Option(name="v", longName="version")
     private boolean version;
 
-    @Option(name="f", longName="file", args=1)
+    @Option(name="f", longName="file")
     private File file;
 
     private Properties props;
 
-    @Option(name="D", longName="define", args=1)
+    @Option(name="D", longName="define")
     protected void setProperty(final String input) {
         assert input != null;
 
@@ -113,7 +113,7 @@ public class MavenCommand
 
     private List<String> profiles;
 
-    @Option(name="P", longName="activate-profiles", args=1)
+    @Option(name="P", longName="activate-profiles")
     private void addProfile(final String profile) {
         assert profile != null;
 
@@ -149,15 +149,15 @@ public class MavenCommand
     private boolean laxChecksums;
 
     @Preference
-    @Option(name="s", longName="settings", args=1)
+    @Option(name="s", longName="settings")
     private File settingsFile;
 
     @Preference
-    @Option(name="gs", longName="global-settings", args=1)
+    @Option(name="gs", longName="global-settings")
     private File globalSettingsFile;
 
     @Preference
-    @Option(name="t", longName="toolchains", args=1)
+    @Option(name="t", longName="toolchains")
     private File toolChainsFile;
 
     @Option(name="ff", longName="fail-fast")
@@ -169,12 +169,12 @@ public class MavenCommand
     @Option(name="fn", longName="fail-never")
     private boolean failNever;
 
-    @Option(name="rf", longName="resume-from", args=1)
+    @Option(name="rf", longName="resume-from")
     private String resumeFrom;
 
     private List<String> selectedProjects;
 
-    @Option(name="pl", longName="projects", args=1)
+    @Option(name="pl", longName="projects")
     private void addSelectedProject(final String project) {
         assert project != null;
 
@@ -193,7 +193,7 @@ public class MavenCommand
     @Option(name="amd", longName="also-make-dependents")
     private boolean alsoMakeDependents;
 
-    @Option(name="l", longName="log-file", args=1)
+    @Option(name="l", longName="log-file")
     private File logFile;
 
     @Preference
@@ -201,11 +201,11 @@ public class MavenCommand
     private Boolean showVersion;
 
     // HACK: Support --encrypt-master-password
-    @Option(name="emp", longName="encrypt-master-password", args=1)
+    @Option(name="emp", longName="encrypt-master-password")
     private String encryptMasterPassword;
 
     // HACK: Support --encrypt-password
-    @Option(name="ep", longName="encrypt-password", args=1)
+    @Option(name="ep", longName="encrypt-password")
     private String encryptPassword;
 
     @Argument()

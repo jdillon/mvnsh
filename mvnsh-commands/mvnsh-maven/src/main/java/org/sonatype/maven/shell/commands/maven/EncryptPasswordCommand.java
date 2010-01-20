@@ -49,7 +49,7 @@ public class EncryptPasswordCommand
 
     private Properties props;
 
-    @Option(name="D", longName="define", args=1)
+    @Option(name="D", longName="define")
     protected void setProperty(final String input) {
         assert input != null;
 
