@@ -208,7 +208,7 @@ public class MavenCommand
     @Option(name="ep", longName="encrypt-password", args=1)
     private String encryptPassword;
 
-    @Argument(multi=true)
+    @Argument()
     private List<String> goals;
 
     private static enum Notifications
