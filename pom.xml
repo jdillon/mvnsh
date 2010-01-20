@@ -33,6 +33,8 @@
             <url>http://www.eclipse.org/legal/epl-v10.html</url>
         </license>
     </licenses>
+
+    <url>http://mvnsh.sonatype.org/</url>
     
     <scm>
         <connection>scm:git:git://github.com/sonatype/mvnsh.git</connection>
