@@ -224,8 +224,8 @@ public class MavenSystemImpl
             c.getLoggerManager().setThresholds(logger.getThreshold());
 
             // If there is a configuration delegate then call it
-            if (config.getContainerConfigurationDelegate() != null) {
-                config.getContainerConfigurationDelegate().invoke(c);
+            if (config.getDelegate() != null) {
+                config.getDelegate().configure(c);
             }
         }
 

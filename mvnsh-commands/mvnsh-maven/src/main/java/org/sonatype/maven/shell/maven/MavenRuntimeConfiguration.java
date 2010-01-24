@@ -20,13 +20,11 @@ import org.apache.maven.cli.PrintStreamLogger;
 import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.sonatype.gshell.io.StreamSet;
-import org.sonatype.gshell.util.Function;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.Callable;
 
 /**
  * Maven runtime configuration.
@@ -40,7 +38,7 @@ public class MavenRuntimeConfiguration
 
     private ClassWorld classWorld;
 
-    private Function<Void,DefaultPlexusContainer,Exception> containerConfigurationDelegate;
+    private Delegate delegate;
 
     private File baseDirectory = new File(System.getProperty("user.dir"));
 
@@ -82,12 +80,12 @@ public class MavenRuntimeConfiguration
         this.classWorld = classWorld;
     }
 
-    public Function<Void,DefaultPlexusContainer,Exception> getContainerConfigurationDelegate() {
-        return containerConfigurationDelegate;
+    public Delegate getDelegate() {
+        return delegate;
     }
 
-    public void setContainerConfigurationDelegate(Function<Void,DefaultPlexusContainer,Exception> delegate) {
-        this.containerConfigurationDelegate = delegate;
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
     }
 
     public File getBaseDirectory() {
@@ -168,5 +166,14 @@ public class MavenRuntimeConfiguration
 
     public void setShowVersion(boolean showVersion) {
         this.showVersion = showVersion;
+    }
+
+    //
+    // Delegate
+    //
+
+    public static interface Delegate
+    {
+        void configure(DefaultPlexusContainer container) throws Exception;
     }
 }
