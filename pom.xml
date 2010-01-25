@@ -189,6 +189,14 @@
                 <version>2.4-SNAPSHOT</version>
             </dependency>
 
+            <!-- Maven Shell Commercial -->
+
+            <dependency>
+                <groupId>com.sonatype.maven.shell</groupId>
+                <artifactId>mvnsh-nexus</artifactId>
+                <version>0.9-SNAPSHOT</version>
+            </dependency>
+            
             <!-- INTERNAL -->
 
             <dependency>
