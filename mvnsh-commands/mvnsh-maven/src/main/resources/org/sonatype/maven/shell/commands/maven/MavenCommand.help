@@ -16,16 +16,19 @@
 
 @|bold NAME|@
 
-    @{command.name}
+    @{command.name} - @{command.description}
+
+@|bold SYNOPSIS|@
+
+    @|bold @{command.name}|@ [options] [goal...] [phase...]
 
 @|bold DESCRIPTION|@
 
-    @{command.description}
+    Provides a fast embedded execution of Maven.
 
-@|bold MANUAL|@
-
-    Executes Maven.
-
+@{command.options}
+@{command.arguments}
+@{command.preferences}
 @|bold EXAMPLES|@
 
     Execute the default goal on the default pom.xml:
@@ -42,4 +45,16 @@
 
 @|bold SEE ALSO|@
 
-    @|bold encrypt-password|@
+    @|bold encrypt-password|@, @|bold pref/set|@
+
+@|bold TIPS|@
+
+    Define an alias for @|bold mvn|@ and include common options or arguments:
+
+        alias build mvn -o
+
+    Running @|bold build|@ will now run Maven offline.
+
+        alias build mvn -o -Dmaven.test.skip
+
+    Running @|bold build|@ will not run Maven offline and skip tests.
