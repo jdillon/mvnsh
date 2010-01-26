@@ -24,12 +24,22 @@
 
 @|bold MANUAL|@
 
-    ???
+    Executes Maven.
 
 @|bold EXAMPLES|@
 
-    ???
+    Execute the default goal on the default pom.xml:
+
+        mvn
+
+    Execute specific goals:
+
+        mvn clean install
+
+    Execute a specific project:
+
+        mvn -f project/pom.xml
 
 @|bold SEE ALSO|@
 
-    ???
+    @|bold encrypt-password|@
