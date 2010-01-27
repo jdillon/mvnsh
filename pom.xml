@@ -19,7 +19,7 @@
     <groupId>org.sonatype.maven.shell</groupId>
     <artifactId>mvnsh</artifactId>
     <name>Maven Shell</name>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.9</version>
     <packaging>pom</packaging>
 
     <organization>
@@ -194,19 +194,19 @@
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
-                <version>0.9-SNAPSHOT</version>
+                <version>0.9</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-core</artifactId>
-                <version>0.9-SNAPSHOT</version>
+                <version>0.9</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-assembly</artifactId>
-                <version>0.9-SNAPSHOT</version>
+                <version>0.9</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
