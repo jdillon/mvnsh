@@ -55,11 +55,6 @@
             <artifactId>mvnsh-maven</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.sonatype.maven.shell</groupId>-->
-            <!--<artifactId>mvnsh-nexus</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.sonatype.maven.archetype</groupId>
             <artifactId>archetype-commands</artifactId>
