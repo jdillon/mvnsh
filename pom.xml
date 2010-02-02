@@ -194,6 +194,14 @@
                 <artifactId>gshell-artifact</artifactId>
                 <version>2.5-SNAPSHOT</version>
             </dependency>
+
+            <!-- Maven Shell Commercial Plugins -->
+
+            <dependency>
+                <groupId>com.sonatype.maven.shell</groupId>
+                <artifactId>mvnsh-nexus</artifactId>
+                <version>0.9-SNAPSHOT</version>
+            </dependency>
             
             <!-- INTERNAL -->
 
