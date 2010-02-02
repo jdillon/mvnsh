@@ -26,9 +26,7 @@
 
     Provides a fast embedded execution of Maven.
 
-@{command.options}
-@{command.arguments}
-@{command.preferences}
+@{command.details}
 @|bold EXAMPLES|@
 
     Execute the default goal on the default pom.xml:

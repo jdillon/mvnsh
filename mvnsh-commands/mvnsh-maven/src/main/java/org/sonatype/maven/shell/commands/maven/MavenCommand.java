@@ -227,13 +227,12 @@ public class MavenCommand
     public MavenCommand(final MavenSystem maven) {
         assert maven != null;
         this.maven = maven;
-
     }
 
     // HACK: Setup growl once, so clones get the same instance, no real init or registered hook in gshell yet, so we have to use this
     //       could setup up some support to register an event listener in CommandActionSupport or something later to really fix
     @Override
-    public void setName(String name) {
+    public void setName(final String name) {
         super.setName(name);
 
         // Setup growl support
