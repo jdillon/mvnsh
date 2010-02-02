@@ -29,7 +29,12 @@
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-core</artifactId>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-standard</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.sonatype.gshell.commands</groupId>
             <artifactId>gshell-file</artifactId>
