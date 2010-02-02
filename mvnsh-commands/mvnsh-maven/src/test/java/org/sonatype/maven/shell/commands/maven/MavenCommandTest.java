@@ -10,7 +10,7 @@ package org.sonatype.maven.shell.commands.maven;
 import com.google.inject.Module;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sonatype.gshell.commands.CommandTestSupport;
+import org.sonatype.gshell.command.CommandTestSupport;
 import org.sonatype.maven.shell.maven.MavenModule;
 
 import java.net.URL;
