@@ -17,6 +17,8 @@
 package org.sonatype.maven.shell.maven;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import jline.Terminal;
 import org.apache.maven.Maven;
 import org.apache.maven.cli.CLIReportingUtils;
 import org.apache.maven.cli.MavenLoggerManager;
@@ -47,7 +49,6 @@ import org.slf4j.LoggerFactory;
 import org.sonatype.gshell.io.Closer;
 import org.sonatype.gshell.io.StreamSet;
 import org.sonatype.gshell.plexus.PlexusRuntime;
-import org.sonatype.gshell.shell.ShellHolder;
 import org.sonatype.gshell.util.yarn.Yarn;
 import org.sonatype.maven.shell.maven.internal.BatchModeMavenTransferListener;
 import org.sonatype.maven.shell.maven.internal.ConsoleMavenTransferListener;
@@ -75,10 +76,14 @@ public class MavenSystemImpl
 
     private final PlexusRuntime plexus;
 
+    private final Provider<Terminal> terminal;
+
     @Inject
-    public MavenSystemImpl(final PlexusRuntime plexus) {
+    public MavenSystemImpl(final PlexusRuntime plexus, final Provider<Terminal> terminal) {
         assert plexus != null;
         this.plexus = plexus;
+        assert terminal != null;
+        this.terminal = terminal;
     }
 
     public String getVersion() {
@@ -436,7 +441,7 @@ public class MavenSystemImpl
 
             // Configure request logging
             request.setLoggingLevel(logger.getThreshold());
-            request.setExecutionListener(new ExecutionEventLogger(ShellHolder.get().getIo().getTerminal(), logger));
+            request.setExecutionListener(new ExecutionEventLogger(terminal.get(), logger));
         }
 
         private int doExecute(final MavenExecutionRequest request) throws Exception {
