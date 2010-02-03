@@ -11,6 +11,8 @@ import org.sonatype.gshell.branding.BrandingSupport;
 
 import java.io.File;
 
+import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
+
 /**
  * Branding for <tt>mvnsh</tt>.
  * 
