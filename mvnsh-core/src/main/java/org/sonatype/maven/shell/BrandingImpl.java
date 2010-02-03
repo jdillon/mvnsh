@@ -12,8 +12,6 @@ import org.sonatype.gshell.branding.License;
 import org.sonatype.gshell.branding.LicenseSupport;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
 
@@ -48,20 +46,6 @@ public class BrandingImpl
 
     @Override
     public License getLicense() {
-        return new LicenseSupport()
-        {
-            public String getName() {
-                return "Eclipse Public License, 1.0";
-            }
-
-            public URL getUrl() {
-                try {
-                    return new URL("http://www.opensource.org/licenses/eclipse-1.0.txt");
-                }
-                catch (MalformedURLException e) {
-                    throw new Error(e);
-                }
-            }
-        };
+        return new LicenseSupport("Eclipse Public License, 1.0", "http://www.opensource.org/licenses/eclipse-1.0.txt");
     }
 }
