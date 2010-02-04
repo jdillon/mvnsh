@@ -15,7 +15,7 @@ import com.google.inject.Stage;
 import com.google.inject.name.Names;
 import org.sonatype.gshell.MainSupport;
 import org.sonatype.gshell.branding.Branding;
-import org.sonatype.gshell.command.CommandRegistrar;
+import org.sonatype.gshell.command.registry.CommandRegistrar;
 import org.sonatype.gshell.command.IO;
 import org.sonatype.gshell.console.ConsoleErrorHandler;
 import org.sonatype.gshell.console.ConsolePrompt;
