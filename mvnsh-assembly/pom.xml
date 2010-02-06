@@ -61,8 +61,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.maven.archetype</groupId>
-            <artifactId>archetype-commands</artifactId>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-archetype</artifactId>
         </dependency>
 
         <dependency>

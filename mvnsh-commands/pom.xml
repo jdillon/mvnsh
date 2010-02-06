@@ -36,6 +36,7 @@
     
     <modules>
         <module>mvnsh-maven</module>
+        <module>mvnsh-archetype</module>
     </modules>
 
 </project>

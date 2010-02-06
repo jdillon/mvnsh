@@ -110,8 +110,8 @@
 
             <dependency>
                 <groupId>org.sonatype.maven.archetype</groupId>
-                <artifactId>archetype-commands</artifactId>
-                <version>0.8.3</version>
+                <artifactId>archetype-common</artifactId>
+                <version>0.8.4-SNAPSHOT</version>
             </dependency>
             
             <dependency>
@@ -208,6 +208,12 @@
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
+                <version>0.10-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.maven.shell</groupId>
+                <artifactId>mvnsh-archetype</artifactId>
                 <version>0.10-SNAPSHOT</version>
             </dependency>
 
