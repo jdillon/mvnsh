@@ -13,6 +13,7 @@ import org.sonatype.gshell.branding.LicenseSupport;
 
 import java.io.File;
 
+import static org.sonatype.gshell.vars.VariableNames.SHELL_GROUP;
 import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
 
 /**
@@ -36,7 +37,7 @@ public class BrandingImpl
 
     @Override
     public String getPrompt() {
-        return String.format("@|bold %s|@:${%s}> ", getProgramName(), SHELL_USER_DIR);
+        return String.format("@|bold %s|@(${%s}):${%s}> ", getProgramName(), SHELL_GROUP, SHELL_USER_DIR + "~");
     }
 
     @Override
