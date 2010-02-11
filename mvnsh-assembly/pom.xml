@@ -37,6 +37,11 @@
 
         <dependency>
             <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
             <artifactId>gshell-file</artifactId>
         </dependency>
 

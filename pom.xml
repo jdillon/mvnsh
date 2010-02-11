@@ -173,6 +173,12 @@
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-logging</artifactId>
+                <version>2.5-SNAPSHOT</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-file</artifactId>
                 <version>2.5-SNAPSHOT</version>
             </dependency>
