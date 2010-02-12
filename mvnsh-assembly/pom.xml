@@ -24,7 +24,7 @@
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-bootstrap</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-core</artifactId>
@@ -88,11 +88,6 @@
         <dependency>
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-http-lightweight</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.gossip</groupId>
-            <artifactId>gossip</artifactId>
         </dependency>
 
         <dependency>

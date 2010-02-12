@@ -24,6 +24,11 @@
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-gossip</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
