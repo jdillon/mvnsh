@@ -92,7 +92,6 @@ public class ColorizingStream
             state = State.DEFAULT;
         }
 
-
         if (line.startsWith("[INFO] Reactor Build Order:")) {
             line = ansi().a(INTENSITY_BOLD).a(line).reset().toString();
         }
