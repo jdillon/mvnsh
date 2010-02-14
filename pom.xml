@@ -231,12 +231,6 @@
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-core</artifactId>
-                <version>0.10-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-assembly</artifactId>
                 <version>0.10-SNAPSHOT</version>
             </dependency>
@@ -259,7 +253,6 @@
 
     <modules>
         <module>mvnsh-commands</module>
-        <module>mvnsh-core</module>
         <module>mvnsh-assembly</module>
     </modules>
     

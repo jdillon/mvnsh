@@ -61,7 +61,6 @@
             <useStrictFiltering>true</useStrictFiltering>
             <excludes>
                 <exclude>org.sonatype.gshell:gshell-bootstrap</exclude>
-                <exclude>org.sonatype.maven.shell:mvnsh-assembly</exclude>
             </excludes>
         </dependencySet>
     </dependencySets>
