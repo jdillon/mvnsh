@@ -19,7 +19,7 @@ package org.sonatype.maven.shell.maven;
 import org.apache.maven.cli.PrintStreamLogger;
 import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.classworlds.ClassWorld;
-import org.sonatype.gshell.io.StreamSet;
+import org.sonatype.gshell.util.io.StreamSet;
 
 import java.io.File;
 import java.util.ArrayList;
