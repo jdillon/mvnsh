@@ -13,8 +13,8 @@ import org.sonatype.gshell.branding.LicenseSupport;
 
 import java.io.File;
 
-import static org.sonatype.gshell.vars.VariableNames.SHELL_GROUP;
-import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
+import static org.sonatype.gshell.variables.VariableNames.SHELL_GROUP;
+import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
  * Branding for <tt>mvnsh</tt>.

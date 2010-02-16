@@ -36,7 +36,7 @@ import org.sonatype.gshell.util.cli2.CliProcessorAware;
 import org.sonatype.gshell.util.cli2.Option;
 import org.sonatype.gshell.util.pref.Preference;
 import org.sonatype.gshell.util.pref.Preferences;
-import org.sonatype.gshell.vars.Variables;
+import org.sonatype.gshell.variables.Variables;
 import org.sonatype.maven.shell.maven.MavenRuntime;
 import org.sonatype.maven.shell.maven.MavenRuntimeConfiguration;
 import org.sonatype.maven.shell.maven.MavenSystem;
@@ -54,8 +54,8 @@ import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_FAIL_NEVE
 import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_BOTH;
 import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM;
 import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_UPSTREAM;
-import static org.sonatype.gshell.vars.VariableNames.SHELL_HOME;
-import static org.sonatype.gshell.vars.VariableNames.SHELL_USER_DIR;
+import static org.sonatype.gshell.variables.VariableNames.SHELL_HOME;
+import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
  * Execute Maven.
