@@ -92,6 +92,7 @@
         <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-maven</artifactId>
+            <!-- Exclude all of the Maven/Plexus stuff, its provided with the maven itar -->
             <exclusions>
                 <exclusion>
                     <groupId>org.codehaus.plexus</groupId>
@@ -108,6 +109,7 @@
         <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-archetype</artifactId>
+            <!-- Exclude all of the Maven/Plexus stuff, its provided with the maven itar -->
             <exclusions>
                 <exclusion>
                     <groupId>org.codehaus.plexus</groupId>
