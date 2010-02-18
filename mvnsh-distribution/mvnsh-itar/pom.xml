@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.maven.shell.dist</groupId>
+        <groupId>org.sonatype.maven.shell</groupId>
         <artifactId>mvnsh-distribution</artifactId>
         <version>0.10-SNAPSHOT</version>
     </parent>
@@ -32,8 +32,113 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-core</artifactId>
+            <exclusions>
+                <!-- Need to exclude, the version conflicts with the maven itar -->
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-interpolation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-gossip</artifactId>
+        </dependency>
+
+        <!-- Need to include again here, as the dep is not properly being included due to some test usage -->
+        <dependency>
+            <groupId>org.sonatype.gossip</groupId>
+            <artifactId>gossip</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-standard</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-file</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-network</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-pref</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
-            <artifactId>mvnsh-assembly</artifactId>
+            <artifactId>mvnsh-bootstrap</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-personality</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-maven</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-container-default</artifactId>
+                </exclusion>
+                
+                <exclusion>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-embedder</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-archetype</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-container-default</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-component-annotations</artifactId>
+                </exclusion>
+                
+                <exclusion>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-core</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-compat</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-model</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-nexus</artifactId>
         </dependency>
     </dependencies>
 
@@ -44,14 +149,33 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>install-lib</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/data/${runtimeDir}/lib</outputDirectory>
+                            <outputDirectory>${project.build.outputDirectory}/data/${libraryDir}</outputDirectory>
                             <includeScope>runtime</includeScope>
-                            <excludeGroupIds>org.apache.maven,commons-cli</excludeGroupIds>
+                            <excludeArtifactIds>mvnsh-bootstrap</excludeArtifactIds>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>install-bootstrap</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.sonatype.maven.shell</groupId>
+                                    <artifactId>mvnsh-bootstrap</artifactId>
+                                    <destFileName>bootstrap.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.outputDirectory}/data/${libraryDir}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

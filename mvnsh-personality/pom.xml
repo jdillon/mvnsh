@@ -16,16 +16,25 @@
         <version>0.10-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mvnsh-distribution</artifactId>
-    <name>Maven Shell Distribution</name>
-    <packaging>pom</packaging>
+    <artifactId>mvnsh-personality</artifactId>
+    <name>Maven Shell :: Personality</name>
 
-    <modules>
-        <module>mvnsh-bar</module>
-        <module>mvnsh-car</module>
-        <module>mvnsh-itar</module>
-        <module>mvnsh-assembly</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-gossip</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-plexus</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
 

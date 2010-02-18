@@ -23,5 +23,12 @@
         <property>
             <name>runtimeDir</name>
         </property>
+        
+        <property>
+            <name>libraryDir</name>
+            <default>${runtimeDir}/lib</default>
+            <optional>true</optional>
+        </property>
     </requires>
+
 </metadata>

@@ -219,6 +219,12 @@
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
+                <artifactId>mvnsh-bootstrap</artifactId>
+                <version>0.10-SNAPSHOT</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
                 <version>0.10-SNAPSHOT</version>
             </dependency>
@@ -231,13 +237,13 @@
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-assembly</artifactId>
+                <artifactId>mvnsh-personality</artifactId>
                 <version>0.10-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-distribution</artifactId>
+                <artifactId>mvnsh-assembly</artifactId>
                 <version>0.10-SNAPSHOT</version>
             </dependency>
         </dependencies>
@@ -259,7 +265,8 @@
 
     <modules>
         <module>mvnsh-commands</module>
-        <module>mvnsh-assembly</module>
+        <module>mvnsh-bootstrap</module>
+        <module>mvnsh-personality</module>
         <module>mvnsh-distribution</module>
     </modules>
     
