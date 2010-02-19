@@ -1,0 +1,72 @@
+#!/bin/sh
+#
+# Copyright (c) 2007-2009 Sonatype, Inc. All rights reserved.
+#
+# This program and the accompanying materials are made available under the terms of the Eclipse Public License Version 1.0,
+# which accompanies this distribution and is available at http://www.eclipse.org/legal/epl-v10.html.
+#
+
+QUOTED_ARGS=""
+while [ "$1" != "" ] ; do
+    QUOTED_ARGS="$QUOTED_ARGS \"$1\""
+    shift
+done
+
+BOOTSCRIPT="$HOME/.m2/mvnsh.boot"
+if [ -f "$BOOTSCRIPT" ] ; then
+    . "$BOOTSCRIPT"
+fi
+
+# OS specific support (must be 'true' or 'false').
+cygwin=false;
+case "`uname`" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+esac
+
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+if $cygwin ; then
+    [ -n "$SHELL_HOME" ] && SHELL_HOME=`cygpath --unix "$SHELL_HOME"`
+    [ -n "$JAVACMD" ] && JAVACMD=`cygpath --unix "$JAVACMD"`
+    [ -n "$JAVA_HOME" ] && JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
+fi
+
+# resolve links - $0 may be a soft-link
+PRG="$0"
+
+while [ -h "$PRG" ] ; do
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+        PRG="$link"
+    else
+        PRG=`dirname "$PRG"`/"$link"
+    fi
+done
+
+DIRNAME=`dirname "$PRG"`
+
+# Locate SHELL_HOME if not it is not set
+if [ -z "$SHELL_HOME" ]; then
+    SHELL_HOME=`cd "$DIRNAME/.."; pwd`
+fi
+
+# Determine the Java command to use to start the JVM
+if [ -z "$JAVACMD" ]; then
+    if [ -n "$JAVA_HOME" ]; then
+        JAVACMD="$JAVA_HOME/bin/java"
+    else
+        JAVACMD="java"
+    fi
+fi
+
+BOOTJAR="$SHELL_HOME/lib/bootstrap.jar"
+if $cygwin ; then
+    BOOTJAR=`cygpath --windows "$BOOTJAR"`
+fi
+
+COMMAND="mvn -- $MAVEN_OPTS"
+
+exec "$JAVACMD" $JAVA_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND $QUOTED_ARGS
+
