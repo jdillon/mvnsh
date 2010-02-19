@@ -44,7 +44,7 @@
     
     <ciManagement>
         <system>Hudson</system>
-        <url>https://grid.sonatype.org/ci/job/Maven_Shell</url>
+        <url>https://grid.sonatype.org/ci/job/Maven-Shell</url>
     </ciManagement>
 
     <issueManagement>
@@ -76,11 +76,11 @@
                 <version>4.7</version>
             </dependency>
             
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>1.5.10</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.slf4j</groupId>-->
+                <!--<artifactId>jcl-over-slf4j</artifactId>-->
+                <!--<version>1.5.10</version>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
@@ -114,18 +114,6 @@
                 <version>0.8.4-SNAPSHOT</version>
             </dependency>
             
-            <dependency>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-file</artifactId>
-                <version>1.0-beta-6</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-http-lightweight</artifactId>
-                <version>1.0-beta-6</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.sonatype.grrrowl</groupId>
                 <artifactId>grrrowl</artifactId>
