@@ -118,7 +118,7 @@ public class CreateCommand
         IO io = context.getIo();
         Variables vars = context.getVariables();
 
-        io.info("Creating archetype from: {}", pomFile.getAbsoluteFile()); // TODO: i18n
+        io.println("Creating archetype from: {}", pomFile.getAbsoluteFile()); // TODO: i18n
 
         MavenProject project = buildProject(context);
         log.debug("Built project: {}", project);
@@ -165,7 +165,7 @@ public class CreateCommand
         // HACK: Prompter has some issues, so add a newline
         io.out.println();
 
-        io.info("Archetype created in: {}", request.getOutputDirectory().getAbsolutePath()); // TODO: i18n
+        io.println("Archetype created in: {}", request.getOutputDirectory().getAbsolutePath()); // TODO: i18n
 
         return Result.SUCCESS;
     }

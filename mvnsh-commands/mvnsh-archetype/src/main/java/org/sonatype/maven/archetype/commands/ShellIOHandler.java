@@ -47,7 +47,7 @@ public class ShellIOHandler
             this.reader = new ConsoleReader(
                 io.streams.in,
                 io.out,
-                io.getTerminal());
+                io.term);
         }
         catch (IOException e) {
             throw new InitializationException(e.getMessage(), e);
