@@ -89,6 +89,18 @@ public class MavenCommand
         props.setProperty(nv.name, nv.value);
     }
 
+    @Option(name="M", longName="maven")
+    protected void setMavenProperty(final String input) {
+        assert input != null;
+
+        if (props == null) {
+            props = new Properties();
+        }
+
+        NameValue nv = NameValue.parse(input);
+        props.setProperty("maven." + nv.name, nv.value);
+    }
+
     @Preference
     @Option(name="o", longName="offline")
     private Boolean offline;
