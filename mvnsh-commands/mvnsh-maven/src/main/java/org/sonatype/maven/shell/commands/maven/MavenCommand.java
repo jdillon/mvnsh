@@ -263,7 +263,7 @@ public class MavenCommand
         Variables vars = context.getVariables();
         
         if (version) {
-            io.info(maven.getVersion());
+            io.println(maven.getVersion());
             return Result.SUCCESS;
         }
 
@@ -413,7 +413,7 @@ public class MavenCommand
             StreamJack.deregister();
 
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
-            io.getTerminal().reset();
+            io.term.reset();
 
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                 Runnable gc = new Runnable()
