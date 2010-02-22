@@ -33,4 +33,4 @@
 
     Create a new archetype:
 
-        archetype/create myproject/pom.xml
+        @{command.name} myproject/pom.xml

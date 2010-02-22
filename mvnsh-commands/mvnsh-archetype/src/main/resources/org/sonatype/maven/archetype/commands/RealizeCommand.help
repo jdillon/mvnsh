@@ -35,15 +35,15 @@
 
     Select a new archetype to realize:
 
-        archetype/realize
+        @{command.name}
 
     Realize a specific archetype:
 
-        archetype/realize org.apache.maven.archetypes:maven-archetype-quickstart:1.0
+        @{command.name} org.apache.maven.archetypes:maven-archetype-quickstart:1.0
 
     Only use the local catalog:
 
-        archetype/realize -c local
+        @{command.name} -c local
 
 @|bold SEE ALSO|@
 
