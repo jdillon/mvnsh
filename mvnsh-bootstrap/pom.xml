@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>org.sonatype.gshell</groupId>
-            <artifactId>gshell-loader</artifactId>
+            <artifactId>gshell-launcher</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -43,7 +43,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.sonatype.gshell</groupId>
-                                    <artifactId>gshell-loader</artifactId>
+                                    <artifactId>gshell-launcher</artifactId>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.outputDirectory}</outputDirectory>
