@@ -48,6 +48,10 @@
     Disable tests from running:
 
         @{command.name} -Mtest.skip
+        
+        This is equivalent to:
+
+            @{command.name} -Dmaven.test.skip
 
 @|bold SEE ALSO|@
 
