@@ -47,6 +47,6 @@ public class BrandingImpl
 
     @Override
     public License getLicense() {
-        return new LicenseSupport("Eclipse Public License, 1.0", "http://www.opensource.org/licenses/eclipse-1.0.txt");
+        return new LicenseSupport("Eclipse Public License, 1.0", getClass().getResource("license.txt"));
     }
 }
