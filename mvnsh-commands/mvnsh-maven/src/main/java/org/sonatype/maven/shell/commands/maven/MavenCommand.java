@@ -405,6 +405,10 @@ public class MavenCommand
         StreamSet current = StreamJack.current();
         StreamSet streams;
         if (color == null || color) {
+            // Complain if the user asked for color and its not supported
+            if (color != null && !io.getTerminal().isAnsiSupported()) {
+                log.warn("ANSI is not supported by the current terminal");
+            }
             streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
         }
         else {
@@ -423,7 +427,7 @@ public class MavenCommand
             StreamJack.deregister();
 
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
-            io.term.reset();
+            io.getTerminal().reset();
 
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                 Runnable gc = new Runnable()
