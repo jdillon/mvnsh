@@ -31,15 +31,15 @@
 
     Execute the default goal on the default pom.xml:
 
-        mvn
+        @{command.name}
 
     Execute specific goals:
 
-        mvn clean install
+        @{command.name} clean install
 
     Execute a specific project:
 
-        mvn -f project/pom.xml
+        @{command.name} -f project/pom.xml
 
 @|bold SEE ALSO|@
 
@@ -49,11 +49,11 @@
 
     Define an alias for @|bold mvn|@ and include common options or arguments:
 
-        alias build mvn -o
+        alias build @{command.name} -o
 
     Running @|bold build|@ will now run Maven offline.
 
-        alias build mvn -o -Dmaven.test.skip
+        alias build @{command.name} -o -Dmaven.test.skip
 
     Running @|bold build|@ will now run Maven offline and skip tests.
 
