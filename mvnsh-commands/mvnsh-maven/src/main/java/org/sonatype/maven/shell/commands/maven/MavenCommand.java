@@ -212,6 +212,7 @@ public class MavenCommand
     @Option(name="V", longName="show-version")
     private Boolean showVersion;
 
+    @Preference
     @Option(longName="color", args=1, optionalArg=true)
     private Boolean color;
 
