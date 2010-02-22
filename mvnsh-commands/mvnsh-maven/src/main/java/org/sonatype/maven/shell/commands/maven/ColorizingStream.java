@@ -64,6 +64,10 @@ public class ColorizingStream
 
     private State state = State.DEFAULT;
 
+    //
+    // FIXME: The details of this should be externalized
+    //
+    
     private void writeBuffer() {
         String line = buff.toString();
         buff.setLength(0);

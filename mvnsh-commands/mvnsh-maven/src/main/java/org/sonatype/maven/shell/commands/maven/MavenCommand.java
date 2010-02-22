@@ -212,6 +212,9 @@ public class MavenCommand
     @Option(name="V", longName="show-version")
     private Boolean showVersion;
 
+    @Option(longName="color", args=1, optionalArg=true)
+    private Boolean color;
+
     // HACK: Support --encrypt-master-password
     @Option(name="emp", longName="encrypt-master-password")
     private String encryptMasterPassword;
@@ -290,10 +293,6 @@ public class MavenCommand
         MavenRuntimeConfiguration config = new MavenRuntimeConfiguration();
 
         config.setBaseDirectory(vars.get(SHELL_USER_DIR, File.class));
-
-        StreamSet current = StreamJack.current();
-        StreamSet streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
-        config.setStreams(streams);
 
         ClassWorld world = new ClassWorld("plexus.core", Thread.currentThread().getContextClassLoader());
         config.setClassWorld(world);
@@ -401,6 +400,17 @@ public class MavenCommand
         request.addPluginGroup("org.codehaus.mojo");
         request.addPluginGroup("com.sonatype.maven.plugins");
         request.addPluginGroup("org.sonatype.maven.plugins");
+
+        // Setup output colorization
+        StreamSet current = StreamJack.current();
+        StreamSet streams;
+        if (color == null || color) {
+            streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
+        }
+        else {
+            streams = current;
+        }
+        config.setStreams(streams);
 
         StreamJack.register(streams);
 
