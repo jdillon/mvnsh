@@ -41,6 +41,14 @@
 
         @{command.name} -f project/pom.xml
 
+    Disable ANSI colors:
+
+        @{command.name} --color=false
+
+    Disable tests from running:
+
+        @{command.name} -Mtest.skip
+
 @|bold SEE ALSO|@
 
     @|bold encrypt-password|@, @|bold pref/set|@
