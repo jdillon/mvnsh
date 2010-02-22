@@ -407,7 +407,7 @@ public class MavenCommand
         if (color == null || color) {
             // Complain if the user asked for color and its not supported
             if (color != null && !io.getTerminal().isAnsiSupported()) {
-                log.warn("ANSI is not supported by the current terminal");
+                log.warn("ANSI color is not supported by the current terminal");
             }
             streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
         }
