@@ -19,7 +19,7 @@
     <groupId>org.sonatype.maven.shell</groupId>
     <artifactId>mvnsh</artifactId>
     <name>Maven Shell</name>
-    <version>0.10</version>
+    <version>0.11-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <organization>
@@ -200,31 +200,31 @@
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-bootstrap</artifactId>
-                <version>0.10</version>
+                <version>0.11-SNAPSHOT</version>
             </dependency>
             
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
-                <version>0.10</version>
+                <version>0.11-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-archetype</artifactId>
-                <version>0.10</version>
+                <version>0.11-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-personality</artifactId>
-                <version>0.10</version>
+                <version>0.11-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-assembly</artifactId>
-                <version>0.10</version>
+                <version>0.11-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
