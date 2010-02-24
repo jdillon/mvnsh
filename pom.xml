@@ -120,6 +120,12 @@
                 <version>2.0</version>
             </dependency>
             
+            <dependency>
+                <groupId>com.sonatype.maven.shell</groupId>
+                <artifactId>mvnsh-nexus</artifactId>
+                <version>0.9.1</version>
+            </dependency>
+            
             <!-- GShell -->
 
             <dependency>
@@ -189,14 +195,6 @@
                 <version>2.5</version>
             </dependency>
 
-            <!-- Maven Shell Commercial Plugins -->
-
-            <dependency>
-                <groupId>com.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-nexus</artifactId>
-                <version>0.9-SNAPSHOT</version>
-            </dependency>
-            
             <!-- INTERNAL -->
 
             <dependency>
