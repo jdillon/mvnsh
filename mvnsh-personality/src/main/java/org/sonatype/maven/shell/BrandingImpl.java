@@ -10,6 +10,7 @@ package org.sonatype.maven.shell;
 import org.sonatype.gshell.branding.BrandingSupport;
 import org.sonatype.gshell.branding.License;
 import org.sonatype.gshell.branding.LicenseSupport;
+import org.sonatype.gshell.util.PrintBuffer;
 
 import java.io.File;
 
@@ -29,7 +30,20 @@ public class BrandingImpl
     public String getDisplayName() {
         return getMessages().format("displayName");
     }
-    
+ 
+    @Override
+    public String getWelcomeMessage() {
+        PrintBuffer buff = new PrintBuffer();
+
+        buff.format("%s (%s)", getDisplayName(), getVersion()).println();
+        buff.println();
+        buff.println("Type '@|bold help|@' for more information.");
+        buff.print(line());
+        buff.flush();
+
+        return buff.toString();
+    }
+
     @Override
     public String getGoodbyeMessage() {
         return getMessages().format("goodbye");
