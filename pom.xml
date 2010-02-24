@@ -76,16 +76,10 @@
                 <version>4.7</version>
             </dependency>
             
-            <!--<dependency>-->
-                <!--<groupId>org.slf4j</groupId>-->
-                <!--<artifactId>jcl-over-slf4j</artifactId>-->
-                <!--<version>1.5.10</version>-->
-            <!--</dependency>-->
-
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip</artifactId>
-                <version>1.4-SNAPSHOT</version>
+                <version>1.4</version>
             </dependency>
 
             <dependency>
@@ -362,24 +356,6 @@
         </pluginManagement>
 
         <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-remote-resources-plugin</artifactId>-->
-                <!--<version>1.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>process</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<resourceBundles>-->
-                                <!--<resourceBundle>org.apache:apache-jar-resource-bundle:1.4</resourceBundle>-->
-                            <!--</resourceBundles>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
             <plugin>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-component-metadata</artifactId>
