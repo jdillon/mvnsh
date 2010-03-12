@@ -137,10 +137,12 @@
             </exclusions>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>com.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-nexus</artifactId>
         </dependency>
+        -->
     </dependencies>
 
     <build>
