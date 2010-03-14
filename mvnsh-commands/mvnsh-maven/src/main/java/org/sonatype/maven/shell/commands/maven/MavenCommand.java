@@ -89,6 +89,9 @@ public class MavenCommand
         props.setProperty(nv.name, nv.value);
     }
 
+    /**
+     * @since 0.10
+     */
     @Option(name="M", longName="maven")
     protected void setMavenProperty(final String input) {
         assert input != null;
@@ -212,6 +215,9 @@ public class MavenCommand
     @Option(name="V", longName="show-version")
     private Boolean showVersion;
 
+    /**
+     * @since 0.10
+     */
     @Preference
     @Option(longName="color", args=1, optionalArg=true)
     private Boolean color;

@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.sonatype.gshell.command.support.CommandTestSupport;
 import org.sonatype.maven.shell.maven.MavenModule;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 
@@ -48,8 +49,15 @@ public class MavenCommandTest
     public void test1() throws Exception {
         URL script = getClass().getResource("test1.pom");
         assertNotNull(script);
-        
-        Object result = executeWithArgs("-f", script.toExternalForm(), "-o");
+
+        String pom = new File(script.toURI()).toString();
+        System.out.println("POM: " + pom);
+
+        Object result = executeWithArgs("-e", "-f", pom, "-o");
+
+        System.out.println("OUT: " + getIo().getOutputString());
+        System.out.println("ERR: " + getIo().getErrorString());
+
         assertEquals(0, result);
     }
 }
