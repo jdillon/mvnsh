@@ -47,7 +47,7 @@
             <itar>
                 <groupId>org.sonatype.runtime.itars</groupId>
                 <artifactId>itar-maven</artifactId>
-                <version>3.0-alpha-6-v0001-SNAPSHOT</version>
+                <version>3.0-alpha-7-v0001-SNAPSHOT</version>
                 <type>zip</type>
                 <properties>
                     <libraryDir>${runtimeDir}/lib</libraryDir>
@@ -67,7 +67,7 @@
             <itar>
                 <groupId>org.sonatype.runtime.itars</groupId>
                 <artifactId>itar-plexus-container-default</artifactId>
-                <version>1.5.2-v0001-SNAPSHOT</version>
+                <version>1.5.4-v0001-SNAPSHOT</version>
                 <type>zip</type>
                 <properties>
                     <libraryDir>${runtimeDir}/lib</libraryDir>
