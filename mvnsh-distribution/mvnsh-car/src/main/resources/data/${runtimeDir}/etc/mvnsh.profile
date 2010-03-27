@@ -6,7 +6,6 @@
 #
 
 alias ? help
-alias . source
 alias dir ls
 
 # Helper to install JNA (for enhanced Windows support)
