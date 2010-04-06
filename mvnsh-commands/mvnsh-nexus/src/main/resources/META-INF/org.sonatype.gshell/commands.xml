@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Sonatype Maven Shell (TM) Commercial Version.
+  ~
+  ~ Copyright (c) 2009 Sonatype, Inc. All rights reserved.
+  ~ Includes the third-party code listed at http://www.sonatype.com/products/mvnsh/attributions/.
+  ~ "Sonatype" and "Sonatype Nexus" are trademarks of Sonatype, Inc.
+  -->
+
+<commands xmlns="http://sonatype.org/gshell-commands/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://sonatype.org/gshell-commands/1.1.0 http://sonatype.org/xsd/gshell-commands-1.1.0.xsd"
+          version="1.1.0">
+
+    <command-set id="nexus">
+        <enabled>true</enabled>
+        <autoRegisterPriority>50</autoRegisterPriority>
+        <module>
+            <type>com.sonatype.maven.shell.nexus.internal.NexusClientModule</type>
+        </module>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.ConnectCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.DisconnectCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.StatusCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.SearchCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.admin.StartCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.admin.StopCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.admin.RestartCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.admin.KillCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.repo.RepoListCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.user.UserListCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.user.UserCreateCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.user.UserFetchCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.user.UserUpdateCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.user.UserDeleteCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.m2settings.M2SettingsFetchCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.staging.StagingProfileListCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.staging.StagingRepoListCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.staging.StagingDropCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.staging.StagingCloseCommand</action>
+        </command>
+        <command>
+            <action>com.sonatype.maven.shell.commands.nexus.staging.StagingPromoteCommand</action>
+        </command>
+    </command-set>
+
+</commands>
