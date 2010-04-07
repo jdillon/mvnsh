@@ -319,7 +319,7 @@
         <module>mvnsh-commands</module>
         <module>mvnsh-bootstrap</module>
         <module>mvnsh-personality</module>
-        <module>mvnsh-distribution</module>
+        <module>mvnsh-assembly</module>
     </modules>
     
     <build>
@@ -424,9 +424,9 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>maven-runtime-assembler-plugin</artifactId>
-                    <version>0.1.2</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.5</version>
                 </plugin>
             </plugins>
         </pluginManagement>
