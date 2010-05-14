@@ -18,6 +18,11 @@ Features
 * [Growl][1] build notifications (Using AppleScript or [JNA][2])
 * Optional support for ANSI color on Windows (using [JNA][2])
 
+Support
+-------
+
+To submit an issue, please use the [Sonatype Issue Tracker](https://issues.sonatype.org/browse/MVNSH).
+
 Building
 --------
 
