@@ -34,6 +34,10 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class ColorizingStream
     extends PrintStream
 {
+    //
+    // TODO: Allow colors to be rendered in HTML for tools like hudson.
+    //
+
     private final StringBuilder buff = new StringBuilder();
 
     public ColorizingStream(final OutputStream out) {

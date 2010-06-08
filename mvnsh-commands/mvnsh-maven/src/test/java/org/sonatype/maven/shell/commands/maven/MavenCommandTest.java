@@ -47,13 +47,21 @@ public class MavenCommandTest
 
     @Test
     public void test1() throws Exception {
-        URL script = getClass().getResource("test1.pom");
-        assertNotNull(script);
+        String settings = new File(getClass().getResource("settings.xml").toURI()).toString();
+        System.out.println("Settings: " + settings);
 
-        String pom = new File(script.toURI()).toString();
+        String pom = new File(getClass().getResource("test1.pom").toURI()).toString();
         System.out.println("POM: " + pom);
 
-        Object result = executeWithArgs("-e", "-f", pom, "-o");
+//        File repoDir = new File(new File(System.getProperty("basedir")), "target/test-repo");
+//        System.out.println("Repo Dir: " + repoDir);
+
+        Object result = executeWithArgs(
+            "-B", "-e", "-V",
+            "-f", pom,
+            "-s", settings,
+//            "-Dmaven.repo.local=" + repoDir,
+            "package");
 
         System.out.println("OUT: " + getIo().getOutputString());
         System.out.println("ERR: " + getIo().getErrorString());
