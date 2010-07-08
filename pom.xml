@@ -138,7 +138,7 @@
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.5</version>
             </dependency>
 
             <dependency>
