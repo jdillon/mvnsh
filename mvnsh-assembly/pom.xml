@@ -36,12 +36,6 @@
             <artifactId>gshell-gossip</artifactId>
         </dependency>
 
-        <!-- Need to include again here, as the dep is not properly being included due to some test usage -->
-        <dependency>
-            <groupId>org.sonatype.gossip</groupId>
-            <artifactId>gossip</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.sonatype.gshell.commands</groupId>
             <artifactId>gshell-standard</artifactId>
