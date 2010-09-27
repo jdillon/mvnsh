@@ -368,13 +368,6 @@ public class MavenCommand
             request.setSelectedProjects(selectedProjects);
         }
 
-        if (checkPluginUpdates || updatePlugins) {
-            request.setUsePluginUpdateOverride(true);
-        }
-        else if (noPluginUpdates) {
-            request.setUsePluginUpdateOverride(false);
-        }
-
         if (strictChecksums) {
             request.setGlobalChecksumPolicy(CHECKSUM_POLICY_FAIL);
         }

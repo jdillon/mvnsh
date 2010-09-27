@@ -33,7 +33,6 @@ import org.apache.maven.execution.MavenExecutionResult;
 import org.apache.maven.lifecycle.LifecycleExecutionException;
 import org.apache.maven.model.building.ModelProcessor;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.repository.ArtifactTransferListener;
 import org.apache.maven.settings.building.DefaultSettingsBuildingRequest;
 import org.apache.maven.settings.building.SettingsBuilder;
 import org.apache.maven.settings.building.SettingsBuildingRequest;
@@ -46,6 +45,7 @@ import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonatype.aether.transfer.TransferListener;
 import org.sonatype.gshell.util.io.Closer;
 import org.sonatype.gshell.util.io.StreamSet;
 import org.sonatype.gshell.plexus.PlexusRuntime;
@@ -428,14 +428,13 @@ public class MavenSystemImpl
             }
 
             // Setup the xfr listener
-            ArtifactTransferListener transferListener;
+            TransferListener transferListener;
             if (request.isInteractiveMode()) {
                 transferListener = new ConsoleMavenTransferListener(config.getStreams().out);
             }
             else {
                 transferListener = new BatchModeMavenTransferListener(config.getStreams().out);
             }
-            transferListener.setShowChecksumEvents(false);
             request.setTransferListener(transferListener);
 
             // Configure request logging

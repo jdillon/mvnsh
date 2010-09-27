@@ -16,8 +16,6 @@
 
 package org.sonatype.maven.shell.maven.internal;
 
-import org.apache.maven.cli.AbstractMavenTransferListener;
-
 import java.io.PrintStream;
 
 /**
