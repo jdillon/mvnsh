@@ -82,7 +82,7 @@ public class EncryptPasswordCommand
             System.getProperties().putAll(props);
         }
 
-        DefaultSecDispatcher dispatcher = (DefaultSecDispatcher) plexus.lookup(SecDispatcher.class);
+        DefaultSecDispatcher dispatcher = (DefaultSecDispatcher) plexus.lookup(SecDispatcher.class, "maven");
         String result;
 
         if (master) {
