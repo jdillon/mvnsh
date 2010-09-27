@@ -409,14 +409,13 @@ public class MavenSystemImpl
                 ModelProcessor modelProcessor = container.lookup(ModelProcessor.class);
                 try {
                     File pom = modelProcessor.locatePom(new File(request.getBaseDirectory()));
-                    request.setPom(pom);
+                    if (pom.isFile()) {
+                        request.setPom(pom);
+                    }
                 }
                 finally {
                     container.release(modelProcessor);
                 }
-            }
-            else if (request.getBaseDirectory() == null) {
-                request.setBaseDirectory(config.getBaseDirectory());
             }
 
             // Configure the local repo path
