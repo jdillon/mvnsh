@@ -21,6 +21,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-inject-bean</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-plexus</artifactId>
         </dependency>
@@ -53,11 +58,6 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-multibindings</artifactId>
         </dependency>
     </dependencies>
 

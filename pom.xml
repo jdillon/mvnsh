@@ -91,7 +91,25 @@
                 <artifactId>junit</artifactId>
                 <version>4.8.1</version>
             </dependency>
-            
+
+            <dependency>
+                <groupId>org.sonatype.sisu</groupId>
+                <artifactId>sisu-inject-bean</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.sisu</groupId>
+                <artifactId>sisu-inject-plexus</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.sisu</groupId>
+                <artifactId>sisu-guice</artifactId>
+                <version>2.1.7</version>
+                <classifier>noaop</classifier>
+            </dependency>
+
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-slf4j</artifactId>
@@ -135,6 +153,12 @@
                 <groupId>org.sonatype.aether</groupId>
                 <artifactId>aether-connector-wagon</artifactId>
                 <version>1.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-container-default</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -147,12 +171,6 @@
                 <groupId>org.sonatype.grrrowl</groupId>
                 <artifactId>grrrowl</artifactId>
                 <version>1.1.1</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.inject.extensions</groupId>
-                <artifactId>guice-multibindings</artifactId>
-                <version>2.0</version>
             </dependency>
             
             <dependency>
@@ -217,6 +235,12 @@
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
                 <version>${gshellVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.inject</groupId>
+                        <artifactId>guice</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -224,6 +248,12 @@
                 <artifactId>gshell-core</artifactId>
                 <classifier>tests</classifier>
                 <version>${gshellVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.inject</groupId>
+                        <artifactId>guice</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -242,6 +272,12 @@
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-plexus</artifactId>
                 <version>${gshellVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-container-default</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -469,6 +505,13 @@
                                 <requireJavaVersion>
                                     <version>[1.5,)</version>
                                 </requireJavaVersion>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <exclude>org.codehaus.plexus:plexus-container-default</exclude>
+                                        <exclude>org.sonatype.spice:spice-inject-plexus</exclude>
+                                        <exclude>com.google.inject:guice</exclude>
+                                    </excludes>
+                                </bannedDependencies>
                             </rules>
                         </configuration>
                     </execution>

@@ -9,6 +9,7 @@
 package com.sonatype.maven.shell.nexus.internal;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.sonatype.maven.shell.nexus.NexusClient;
 import com.sonatype.maven.shell.nexus.internal.marshal.NexusMarshallerFactory;
 import com.sonatype.maven.shell.nexus.internal.wink.BasicAuthSecurityHandler;
@@ -45,6 +46,7 @@ import java.util.Map;
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.9
  */
+@Singleton
 public class NexusClientImpl
     implements NexusClient
 {
@@ -56,7 +58,7 @@ public class NexusClientImpl
 
     private final NexusMarshallerFactory marshallerFactory = new NexusMarshallerFactory();
 
-    private final Map<Class,Extension> extensions;
+    private final Map<String,Extension> extensions;
 
     private URI baseUri;
 
@@ -67,14 +69,14 @@ public class NexusClientImpl
     private Cookie authCookie;
 
     @Inject
-    public NexusClientImpl(final Map<Class,Extension> extensions) {
+    public NexusClientImpl(final Map<String,Extension> extensions) {
         assert extensions != null;
         this.extensions = extensions;
 
         if (log.isDebugEnabled()) {
             log.debug("Extensions:");
-            for (Map.Entry<Class,Extension> entry : extensions.entrySet()) {
-                log.debug("  {} -> {}", entry.getKey().getSimpleName(), entry.getValue());
+            for (Map.Entry<String,Extension> entry : extensions.entrySet()) {
+                log.debug("  {} -> {}", entry.getKey(), entry.getValue());
             }
         }
     }
@@ -400,7 +402,7 @@ public class NexusClientImpl
     
     @SuppressWarnings({"unchecked"})
     public <T extends Extension> T ext(final Class<T> type) {
-        T ext = (T)extensions.get(type);
+        T ext = (T)extensions.get(type.getName());
         if (ext == null) {
             throw new IllegalArgumentException("Unknown client extension type: " + type);
         }

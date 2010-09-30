@@ -26,6 +26,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-inject-plexus</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.grrrowl</groupId>
             <artifactId>grrrowl</artifactId>
         </dependency>
