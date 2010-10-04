@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010 Sonatype, Inc. All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.maven.shell.dist</groupId>
+        <artifactId>mvnsh-dist</artifactId>
+        <version>0.11-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>mvnsh-commands</artifactId>
+    <name>Maven Shell Dist :: Commands</name>
+    <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-maven</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-archetype</artifactId>
+        </dependency>        
+
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-nexus</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
