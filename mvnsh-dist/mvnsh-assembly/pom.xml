@@ -78,10 +78,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.runtime.recipes.advices</groupId>
-            <artifactId>advice-generic</artifactId>
-            <classifier>maven-artifact</classifier>
-            <type>advice</type>
+            <groupId>org.sonatype.tycho.p2</groupId>
+            <artifactId>advices</artifactId>
+            <classifier>maven</classifier>
+            <type>advice</type>            
         </dependency>
     </dependencies>
 

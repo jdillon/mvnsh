@@ -348,11 +348,11 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.sonatype.runtime.recipes.advices</groupId>
-				<artifactId>advice-generic</artifactId>
-				<version>0.1.1-SNAPSHOT</version>
-				<classifier>maven-artifact</classifier>
-				<type>advice</type>
+                <groupId>org.sonatype.tycho.p2</groupId>
+                <artifactId>advices</artifactId>
+                <version>${tycho.p2.version}</version>
+                <classifier>maven</classifier>
+                <type>advice</type>            
 			</dependency>
 
 			<!-- INTERNAL -->
