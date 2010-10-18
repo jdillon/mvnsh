@@ -67,7 +67,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gshellVersion>2.5.1</gshellVersion>
-        <mavenVersion>3.0-beta-3</mavenVersion>
+        <mavenVersion>3.0</mavenVersion>
     </properties>
     
     <repositories>
@@ -134,7 +134,13 @@
             <dependency>
                 <groupId>org.sonatype.aether</groupId>
                 <artifactId>aether-connector-wagon</artifactId>
-                <version>1.2</version>
+                <version>1.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-container-default</artifactId>
+                <version>1.5.5</version>
             </dependency>
 
             <dependency>

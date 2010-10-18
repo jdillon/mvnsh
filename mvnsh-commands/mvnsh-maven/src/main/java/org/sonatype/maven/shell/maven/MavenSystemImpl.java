@@ -236,6 +236,8 @@ public class MavenSystemImpl
 
         public MavenExecutionRequest create() throws Exception {
             MavenExecutionRequest request = new DefaultMavenExecutionRequest();
+            request.setCacheNotFound( true );
+            request.setCacheTransferError( false );
             configureSettings(request);
             return request;
         }
