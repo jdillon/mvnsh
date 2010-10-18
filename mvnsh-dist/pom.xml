@@ -24,6 +24,7 @@
         <module>mvnsh-resources</module>
         <module>mvnsh-advice</module>
         <module>mvnsh-assembly</module>
+        <module>mvnsh-nexus-assembly</module>
     </modules>
     
 </project>

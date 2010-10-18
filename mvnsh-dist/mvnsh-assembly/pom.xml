@@ -47,7 +47,7 @@
         </dependency> 
         
         <dependency>
-        	<groupId>org.sonatype.tycho.p2</groupId>
+        	<groupId>org.sonatype.tycho.p2.gshell</groupId>
         	<artifactId>tycho-p2-shell-assembly</artifactId>
         	<type>pom</type>
         </dependency>

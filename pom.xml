@@ -321,9 +321,9 @@
 			<!-- Tycho P2 Commands -->
 
 			<dependency>
-				<groupId>org.sonatype.tycho.p2</groupId>
+				<groupId>org.sonatype.tycho.p2.gshell</groupId>
 				<artifactId>tycho-p2-shell-assembly</artifactId>
-				<version>${tycho.p2.version}</version>
+				<version>0.1.0-SNAPSHOT</version>
 				<type>pom</type>
 				<exclusions>
 					<exclusion>
@@ -399,6 +399,14 @@
 				<version>0.11-SNAPSHOT</version>
 				<type>advice</type>
 			</dependency>
+            
+			<dependency>
+				<groupId>org.sonatype.maven.shell.dist</groupId>
+				<artifactId>mvnsh-advice</artifactId>
+				<version>0.11-SNAPSHOT</version>
+				<type>advice</type>
+                <classifier>nexus</classifier>
+			</dependency>            
 
 			<dependency>
 				<groupId>org.sonatype.maven.shell.dist</groupId>

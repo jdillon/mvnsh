@@ -33,6 +33,11 @@
                                     <file>${project.basedir}/src/main/advices/advice.xml</file>
                                     <type>advice</type>
                                 </artifact>
+                                <artifact>
+                                    <file>${project.basedir}/src/main/advices/nexus-advice.xml</file>
+                                    <type>advice</type>
+                                    <classifier>nexus</classifier>
+                                </artifact>
                             </artifacts>
                         </configuration>
                     </execution>

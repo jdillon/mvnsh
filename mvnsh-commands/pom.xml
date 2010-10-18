@@ -24,6 +24,7 @@
         <dependency>
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         
         <dependency>
