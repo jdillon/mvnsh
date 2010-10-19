@@ -35,6 +35,12 @@
         <dependencies>
         
             <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-standard</artifactId>
+                <version>${gshellVersion}</version>
+            </dependency>        
+        
+            <dependency>
                 <groupId>org.sonatype.gshell.dist</groupId>
                 <artifactId>gshell-commands-basic</artifactId>
                 <version>${gshellVersion}</version>

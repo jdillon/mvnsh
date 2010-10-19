@@ -280,36 +280,6 @@
 				</exclusions>
 			</dependency>
 
-			<dependency>
-				<groupId>org.sonatype.gshell.commands</groupId>
-				<artifactId>gshell-standard</artifactId>
-				<version>${gshellVersion}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.sonatype.gshell.commands</groupId>
-				<artifactId>gshell-logging</artifactId>
-				<version>${gshellVersion}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.sonatype.gshell.commands</groupId>
-				<artifactId>gshell-file</artifactId>
-				<version>${gshellVersion}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.sonatype.gshell.commands</groupId>
-				<artifactId>gshell-pref</artifactId>
-				<version>${gshellVersion}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.sonatype.gshell.commands</groupId>
-				<artifactId>gshell-network</artifactId>
-				<version>${gshellVersion}</version>
-			</dependency>
-
 			<!-- INTERNAL -->
 
 			<dependency>
@@ -341,12 +311,6 @@
 				<artifactId>mvnsh-personality</artifactId>
 				<version>0.11-SNAPSHOT</version>
 			</dependency>
-
-			<dependency>
-				<groupId>org.sonatype.maven.shell</groupId>
-				<artifactId>mvnsh-assembly</artifactId>
-				<version>0.11-SNAPSHOT</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -354,7 +318,6 @@
 		<module>mvnsh-commands</module>
 		<module>mvnsh-bootstrap</module>
 		<module>mvnsh-personality</module>
-		<module>mvnsh-assembly</module>
 		<module>mvnsh-dist</module>
 	</modules>
 
