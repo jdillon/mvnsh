@@ -74,7 +74,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gshellVersion>2.6</gshellVersion>
+        <gshellVersion>2.6.1-SNAPSHOT</gshellVersion>
         <mavenVersion>3.0</mavenVersion>
     </properties>
 
