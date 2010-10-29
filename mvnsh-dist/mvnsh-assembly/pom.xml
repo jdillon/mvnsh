@@ -15,7 +15,7 @@
 
     <artifactId>mvnsh-assembly</artifactId>
     <name>Maven Shell Dist :: Assembly</name>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
 
