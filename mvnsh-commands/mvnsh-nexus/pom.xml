@@ -21,8 +21,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-inject-bean</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-plexus</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -55,10 +62,11 @@
             <artifactId>xstream</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-multibindings</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 
     <build>
@@ -86,6 +94,32 @@
             </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>assembly</id>
+            <activation>
+                <property>
+                    <name>!skipAssembly</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.maven.plugins</groupId>
+                        <artifactId>maven-sisu-assembler-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>     
 
 </project>
 

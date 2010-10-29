@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+	<!--
   ~ Copyright (c) 2009-2010 Sonatype, Inc. All rights reserved.
   ~
   ~ This program and the accompanying materials are made available under the terms of the Eclipse Public License Version 1.0,
@@ -35,13 +35,13 @@
     </licenses>
 
     <url>http://mvnsh.sonatype.org/</url>
-    
+
     <scm>
         <connection>scm:git:git://github.com/sonatype/mvnsh.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/sonatype/mvnsh.git</developerConnection>
         <url>https://github.com/sonatype/mvnsh</url>
     </scm>
-    
+
     <ciManagement>
         <system>Hudson</system>
         <url>https://grid.sonatype.org/ci/job/Maven-Shell</url>
@@ -51,7 +51,7 @@
         <system>JIRA</system>
         <url>https://issues.sonatype.org/browse/MVNSH</url>
     </issueManagement>
-    
+
     <developers>
         <developer>
             <id>jdillon</id>
@@ -62,28 +62,36 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>adreghiciu</id>
+            <name>Alin Dreghiciu</name>
+            <email>adreghiciu@gmail.com</email>
+            <roles>
+                <role>Distribution Master</role>
+            </roles>
+        </developer>
     </developers>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gshellVersion>2.6</gshellVersion>
         <mavenVersion>3.0</mavenVersion>
     </properties>
-    
+
     <repositories>
         <repository>
             <id>sonatype-public-grid</id>
             <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
         </repository>
     </repositories>
-    
+
     <pluginRepositories>
         <pluginRepository>
             <id>sonatype-public-grid</id>
             <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
         </pluginRepository>
     </pluginRepositories>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -91,7 +99,25 @@
                 <artifactId>junit</artifactId>
                 <version>4.8.1</version>
             </dependency>
-            
+
+            <dependency>
+                <groupId>org.sonatype.sisu</groupId>
+                <artifactId>sisu-inject-bean</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.sisu</groupId>
+                <artifactId>sisu-inject-plexus</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.sisu</groupId>
+                <artifactId>sisu-guice</artifactId>
+                <version>2.1.7</version>
+                <classifier>noaop</classifier>
+            </dependency>
+
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-slf4j</artifactId>
@@ -130,17 +156,17 @@
                 <artifactId>maven-model</artifactId>
                 <version>${mavenVersion}</version>
             </dependency>
-
+            
             <dependency>
                 <groupId>org.sonatype.aether</groupId>
                 <artifactId>aether-connector-wagon</artifactId>
                 <version>1.7</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-container-default</artifactId>
-                <version>1.5.5</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-container-default</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -148,19 +174,13 @@
                 <artifactId>archetype-common</artifactId>
                 <version>0.8.5-SNAPSHOT</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.sonatype.grrrowl</groupId>
                 <artifactId>grrrowl</artifactId>
                 <version>1.1.1</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.google.inject.extensions</groupId>
-                <artifactId>guice-multibindings</artifactId>
-                <version>2.0</version>
-            </dependency>
-            
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna</artifactId>
@@ -216,13 +236,19 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
-            <!-- GShell -->
+
+			<!-- GShell -->
 
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
                 <version>${gshellVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.inject</groupId>
+                        <artifactId>guice</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -230,6 +256,12 @@
                 <artifactId>gshell-core</artifactId>
                 <classifier>tests</classifier>
                 <version>${gshellVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.inject</groupId>
+                        <artifactId>guice</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -248,46 +280,22 @@
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-plexus</artifactId>
                 <version>${gshellVersion}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-standard</artifactId>
-                <version>${gshellVersion}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-logging</artifactId>
-                <version>${gshellVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-container-default</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-file</artifactId>
-                <version>${gshellVersion}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-pref</artifactId>
-                <version>${gshellVersion}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-network</artifactId>
-                <version>${gshellVersion}</version>
-            </dependency>
-
-            <!-- INTERNAL -->
+			<!-- INTERNAL -->
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-bootstrap</artifactId>
                 <version>0.11-SNAPSHOT</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
@@ -305,42 +313,21 @@
                 <artifactId>mvnsh-nexus</artifactId>
                 <version>0.11-SNAPSHOT</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-personality</artifactId>
                 <version>0.11-SNAPSHOT</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-assembly</artifactId>
-                <version>0.11-SNAPSHOT</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.gossip</groupId>
-            <artifactId>gossip-slf4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <modules>
         <module>mvnsh-commands</module>
         <module>mvnsh-bootstrap</module>
         <module>mvnsh-personality</module>
-        <module>mvnsh-assembly</module>
     </modules>
-    
+
     <build>
         <defaultGoal>install</defaultGoal>
 
@@ -387,13 +374,13 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.3.1</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>2.4.1</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -449,10 +436,11 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.5</version>
+                    <groupId>org.sonatype.maven.plugins</groupId>
+                    <artifactId>maven-sisu-assembler-plugin</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
                 </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -475,12 +463,19 @@
                                 <requireJavaVersion>
                                     <version>[1.5,)</version>
                                 </requireJavaVersion>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <exclude>org.codehaus.plexus:plexus-container-default</exclude>
+                                        <exclude>org.sonatype.spice:spice-inject-plexus</exclude>
+                                        <exclude>com.google.inject:guice</exclude>
+                                    </excludes>
+                                </bannedDependencies>
                             </rules>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-component-metadata</artifactId>
@@ -514,5 +509,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>assembly</id>
+            <activation>
+                <property>
+                    <name>!skipAssembly</name>
+                </property>
+            </activation>
+            <modules>
+                <module>mvnsh-dist</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>

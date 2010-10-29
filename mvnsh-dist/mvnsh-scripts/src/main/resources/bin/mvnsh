@@ -61,12 +61,12 @@ if [ -z "$JAVACMD" ]; then
     fi
 fi
 
-BOOTJAR="$SHELL_HOME/lib/bootstrap.jar"
+BOOTJAR="$SHELL_HOME/boot/bootstrap.jar"
 if $cygwin ; then
     BOOTJAR=`cygpath --windows "$BOOTJAR"`
 fi
 
-COMMAND="mvn -- "
+COMMAND=""
 
-exec "$JAVACMD" $MAVEN_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND $QUOTED_ARGS
+exec "$JAVACMD" $JAVA_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND $QUOTED_ARGS
 

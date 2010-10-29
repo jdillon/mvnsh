@@ -26,6 +26,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-inject-plexus</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.grrrowl</groupId>
             <artifactId>grrrowl</artifactId>
         </dependency>
@@ -54,7 +59,39 @@
             <version>1.0-beta-6</version>
             <scope>runtime</scope>
         </dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
+    
+    <profiles>
+        <profile>
+            <id>assembly</id>
+            <activation>
+                <property>
+                    <name>!skipAssembly</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.maven.plugins</groupId>
+                        <artifactId>maven-sisu-assembler-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>     
 
 </project>
 

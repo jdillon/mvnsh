@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+~ Copyright (c) 2010 Sonatype, Inc. All rights reserved.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.maven.shell</groupId>
+        <artifactId>mvnsh</artifactId>
+        <version>0.11-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.sonatype.maven.shell.dist</groupId>
+    <artifactId>mvnsh-dist</artifactId>
+    <name>Maven Shell Dist</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>mvnsh-scripts</module>
+        <module>mvnsh-assembly</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-standard</artifactId>
+                <version>${gshellVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-file</artifactId>
+                <version>${gshellVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-logging</artifactId>
+                <version>${gshellVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-network</artifactId>
+                <version>${gshellVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-pref</artifactId>
+                <version>${gshellVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.sisu.assembler</groupId>
+                <artifactId>sisu-assembler-gshell</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sonatype.sisu.assembler</groupId>
+                <artifactId>sisu-assembler-gshell-p2-runtime</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>            
+                            
+            <!-- INTERNAL -->
+
+            <dependency>
+                <groupId>org.sonatype.maven.shell.dist</groupId>
+                <artifactId>mvnsh-assembly</artifactId>
+                <version>0.11-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.maven.shell.dist</groupId>
+                <artifactId>mvnsh-scripts</artifactId>
+                <version>0.11-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <pluginManagement>
+        </pluginManagement>
+    </build>
+
+</project>

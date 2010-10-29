@@ -51,7 +51,7 @@ public class BrandingImpl
 
     @Override
     public String getPrompt() {
-        return String.format("@|bold %s|@(${%s}):${%s}> ", getProgramName(), SHELL_GROUP, SHELL_USER_DIR + "~");
+        return String.format("@|bold %s|@(${%s}):${%s}> ", getProgramName(), SHELL_GROUP, SHELL_USER_DIR + "~.");
     }
 
     @Override
