@@ -18,88 +18,51 @@
     <name>Maven Shell Dist</name>
     <packaging>pom</packaging>
 
-    <properties>
-        <tycho.p2.version>0.2.0</tycho.p2.version>
-        <tycho.p2.gshell.version>0.1.0-SNAPSHOT</tycho.p2.gshell.version>
-    </properties>
-
     <modules>
-        <module>mvnsh-commands</module>
-        <module>mvnsh-resources</module>
-        <module>mvnsh-advice</module>
+        <module>mvnsh-scripts</module>
         <module>mvnsh-assembly</module>
-        <module>mvnsh-nexus-assembly</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-        
+
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-standard</artifactId>
                 <version>${gshellVersion}</version>
-            </dependency>        
-        
+            </dependency>
             <dependency>
-                <groupId>org.sonatype.gshell.dist</groupId>
-                <artifactId>gshell-commands-basic</artifactId>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-file</artifactId>
                 <version>${gshellVersion}</version>
-                <type>pom</type>
             </dependency>
-                    
-            <!-- Tycho P2 Commands -->
-
             <dependency>
-                <groupId>org.sonatype.tycho.p2.gshell</groupId>
-                <artifactId>tycho-p2-shell-assembly</artifactId>
-                <version>${tycho.p2.gshell.version}</version>
-                <type>pom</type>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.codehaus.plexus</groupId>
-                        <artifactId>plexus-container-default</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-logging</artifactId>
+                <version>${gshellVersion}</version>
             </dependency>
-
-            <!-- Tycho P2 -->
-
             <dependency>
-                <groupId>org.sonatype.tycho.p2</groupId>
-                <artifactId>p2-touchpoint-runtime</artifactId>
-                <version>${tycho.p2.version}</version>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-network</artifactId>
+                <version>${gshellVersion}</version>
             </dependency>
-
             <dependency>
-                <groupId>org.sonatype.tycho.p2</groupId>
-                <artifactId>p2-touchpoint-mixin-generic</artifactId>
-                <version>${tycho.p2.version}</version>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-pref</artifactId>
+                <version>${gshellVersion}</version>
             </dependency>
-
             <dependency>
-                <groupId>org.sonatype.tycho.p2</groupId>
-                <artifactId>advices</artifactId>
-                <version>${tycho.p2.version}</version>
-                <classifier>maven</classifier>
-                <type>advice</type>
+                <groupId>org.sonatype.sisu.assembler</groupId>
+                <artifactId>sisu-assembler-gshell</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
-            
+            <dependency>
+                <groupId>org.sonatype.sisu.assembler</groupId>
+                <artifactId>sisu-assembler-gshell-p2-runtime</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>            
+                            
             <!-- INTERNAL -->
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-advice</artifactId>
-                <version>0.11-SNAPSHOT</version>
-                <type>advice</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-advice</artifactId>
-                <version>0.11-SNAPSHOT</version>
-                <type>advice</type>
-                <classifier>nexus</classifier>
-            </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell.dist</groupId>
@@ -109,14 +72,7 @@
 
             <dependency>
                 <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-commands</artifactId>
-                <version>0.11-SNAPSHOT</version>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-resources</artifactId>
+                <artifactId>mvnsh-scripts</artifactId>
                 <version>0.11-SNAPSHOT</version>
             </dependency>
         </dependencies>
@@ -125,18 +81,6 @@
 
     <build>
         <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.5</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.maven.plugins</groupId>
-                    <artifactId>maven-p2-publisher-plugin</artifactId>
-                    <version>${tycho.p2.version}</version>
-                </plugin>
-            </plugins>
         </pluginManagement>
     </build>
 

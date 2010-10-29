@@ -3,14 +3,13 @@
 ~ Copyright (c) 2010 Sonatype, Inc. All rights reserved.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.sonatype.maven.shell.dist</groupId>
-        <artifactId>mvnsh-dist</artifactId> 
+        <artifactId>mvnsh-dist</artifactId>
         <version>0.11-SNAPSHOT</version>
     </parent>
 
@@ -19,6 +18,7 @@
     <packaging>pom</packaging>
 
     <dependencies>
+
         <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-bootstrap</artifactId>
@@ -28,81 +28,76 @@
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-personality</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
-            <artifactId>gshell-standard</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.sonatype.gshell.dist</groupId>
-            <artifactId>gshell-commands-basic</artifactId>
-            <type>pom</type>
-        </dependency>
-              
-        <dependency>
-            <groupId>org.sonatype.maven.shell.dist</groupId>
-            <artifactId>mvnsh-commands</artifactId>
-            <type>pom</type>
-        </dependency> 
-        
-        <dependency>
-        	<groupId>org.sonatype.tycho.p2.gshell</groupId>
-        	<artifactId>tycho-p2-shell-assembly</artifactId>
-        	<type>pom</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.maven.shell.dist</groupId>
-            <artifactId>mvnsh-resources</artifactId>
-        </dependency>
-
-        <!-- Touchpoints -->
-
-        <dependency>
-            <groupId>org.sonatype.tycho.p2</groupId>
-            <artifactId>p2-touchpoint-runtime</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.tycho.p2</groupId>
-            <artifactId>p2-touchpoint-mixin-generic</artifactId>
-        </dependency>
-
-        <!-- Advices -->
-
-        <dependency>
-            <groupId>org.sonatype.maven.shell.dist</groupId>
-            <artifactId>mvnsh-advice</artifactId>
-            <type>advice</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.tycho.p2</groupId>
-            <artifactId>advices</artifactId>
-            <classifier>maven</classifier>
-            <type>advice</type>            
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.sonatype.maven.plugins</groupId>
-                <artifactId>maven-p2-publisher-plugin</artifactId>
+                <artifactId>maven-sisu-assembler-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
+                            <goal>generate</goal>
                             <goal>assemble</goal>
                             <goal>generate-assembly-xml</goal>
                         </goals>
                         <configuration>
-                        	<outputDirectory>mvnsh-${project.version}</outputDirectory>
+                            <fragments>
+                                <fragment>
+                                    <groupId>org.sonatype.maven.shell.dist</groupId>
+                                    <artifactId>mvnsh-scripts</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.maven.shell.dist</groupId>
+                                    <artifactId>mvnsh-assembly</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.gshell.commands</groupId>
+                                    <artifactId>gshell-standard</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.gshell.commands</groupId>
+                                    <artifactId>gshell-file</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.gshell.commands</groupId>
+                                    <artifactId>gshell-logging</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.gshell.commands</groupId>
+                                    <artifactId>gshell-network</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.gshell.commands</groupId>
+                                    <artifactId>gshell-pref</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.maven.shell</groupId>
+                                    <artifactId>mvnsh-maven</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.maven.shell</groupId>
+                                    <artifactId>mvnsh-archetype</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.sisu.assembler</groupId>
+                                    <artifactId>sisu-assembler-gshell</artifactId>
+                                </fragment>
+                                <fragment>
+                                    <groupId>org.sonatype.sisu.assembler</groupId>
+                                    <artifactId>sisu-assembler-gshell-p2-runtime</artifactId>
+                                </fragment>
+                            </fragments>
+                            <properties>
+                                <assembly:basedir>.</assembly:basedir>
+                            </properties>
+                            <outputDirectory>mvnsh-${project.version}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

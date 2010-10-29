@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<assembly>
+    <advices>
+    
+        <advice>
+            <unit>
+                <touchpoint id='org.sonatype.p2.touchpoint'/>
+                <touchpointData>
+                    <instructions>
+                        <instruction key='install'>
+                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/, exclude:META-INF/** );
+                        </instruction>
+                        <instruction key='uninstall'>
+                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly:basedir}/ );
+                        </instruction>
+                    </instructions>
+                </touchpointData>
+            </unit>
+        </advice>    
+
+        <advice>
+            <appliesTo>
+                <includes>
+                    <include>org.sonatype.maven.shell:mvnsh-bootstrap</include>
+                </includes>
+            </appliesTo>
+            <unit>
+                <touchpoint id='org.sonatype.p2.touchpoint'/>
+                <touchpointData>
+                    <instructions>
+                        <instruction key='install'>
+                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/boot/bootstrap.jar );
+                        </instruction>
+                        <instruction key='uninstall'>
+                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/boot/bootstrap.jar );
+                        </instruction>
+                    </instructions>
+                </touchpointData>
+            </unit>
+        </advice>
+
+        <advice>
+            <appliesTo>
+                <includes>
+                    <include>org.sonatype.maven.shell:mvnsh-personality</include>
+                </includes>
+            </appliesTo>
+            <appliesTransitively>true</appliesTransitively>
+            <unit>
+                <touchpoint id='org.sonatype.p2.touchpoint' version='0.1.0'/>
+                <touchpointData>
+                    <instructions>
+                        <instruction key='install'>
+                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${maven:fileName} );
+                        </instruction>
+                        <instruction key='uninstall'>
+                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${maven:fileName} );
+                        </instruction>
+                    </instructions>
+                </touchpointData>
+            </unit>
+        </advice>
+
+    </advices>
+</assembly>  

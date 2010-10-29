@@ -14,7 +14,7 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     
     <componentDescriptors>
-        <componentDescriptor>target/tycho-p2/assembly-descriptor.xml</componentDescriptor>
+        <componentDescriptor>target/p2/assembly-descriptor.xml</componentDescriptor>
     </componentDescriptors>
 
 </assembly>
