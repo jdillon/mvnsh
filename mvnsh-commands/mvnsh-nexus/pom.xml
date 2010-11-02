@@ -113,6 +113,13 @@
                                 <goals>
                                     <goal>generate</goal>
                                 </goals>
+                                <configuration>
+                                    <versionPolicy>
+                                        <artifactsPolicy>
+                                            <org.slf4j:jcl-over-slf4j:jar>[1,2)</org.slf4j:jcl-over-slf4j:jar>
+                                        </artifactsPolicy>
+                                    </versionPolicy>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

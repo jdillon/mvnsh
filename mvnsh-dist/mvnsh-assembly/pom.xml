@@ -82,6 +82,10 @@
                                     <artifactId>mvnsh-archetype</artifactId>
                                 </fragment>
                                 <fragment>
+                                    <groupId>org.sonatype.maven.shell</groupId>
+                                    <artifactId>mvnsh-nexus</artifactId>
+                                </fragment>
+                                <fragment>
                                     <groupId>org.sonatype.sisu.assembler</groupId>
                                     <artifactId>sisu-assembler-gshell</artifactId>
                                 </fragment>

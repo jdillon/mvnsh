@@ -4,19 +4,12 @@
     <advices>
 
         <advice>
+            <generateAsItIs />
             <appliesTransitively>true</appliesTransitively>
             <unit>
-                <touchpoint id='org.sonatype.p2.touchpoint' version='0.1.0'/>
-                <touchpointData>
-                    <instructions>
-                        <instruction key='install'>
-                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${maven:fileName} );
-                        </instruction>
-                        <instruction key='uninstall'>
-                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${maven:fileName} );
-                        </instruction>
-                    </instructions>
-                </touchpointData>
+                <provides>
+                    <provided namespace='org.sonatype.sisu.assembler.type' name='lib' version='1.0.0' />
+                </provides>
             </unit>
         </advice>
         

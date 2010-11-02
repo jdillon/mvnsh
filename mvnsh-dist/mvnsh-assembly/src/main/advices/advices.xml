@@ -43,24 +43,37 @@
         <advice>
             <appliesTo>
                 <includes>
-                    <include>org.sonatype.maven.shell:mvnsh-personality</include>
+                    <include>org.sonatype.gshell:gshell-personality</include>
                 </includes>
             </appliesTo>
             <appliesTransitively>true</appliesTransitively>
+            <generateAsItIs />
             <unit>
-                <touchpoint id='org.sonatype.p2.touchpoint' version='0.1.0'/>
+                <provides>
+                    <provided namespace='org.sonatype.sisu.assembler.type' name='lib' version='1.0.0' />
+                </provides>
+            </unit>
+        </advice>
+        
+        <advice>
+            <generateAsItIs />
+            <unit id="${maven:featureId}/libraries">
+                <hostRequirements>
+                    <required namespace='org.sonatype.sisu.assembler.type' name='lib' range='1.0.0' multiple='true' greedy='false' optional='true' />
+                </hostRequirements>
+                <touchpoint id='org.sonatype.p2.touchpoint' />
                 <touchpointData>
                     <instructions>
                         <instruction key='install'>
-                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${maven:fileName} );
+                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${artifact.fileName} );
                         </instruction>
                         <instruction key='uninstall'>
-                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${maven:fileName} );
+                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${artifact.fileName} );
                         </instruction>
                     </instructions>
                 </touchpointData>
             </unit>
-        </advice>
+        </advice> 
 
     </advices>
 </assembly>  
