@@ -43,7 +43,7 @@
         <advice>
             <appliesTo>
                 <includes>
-                    <include>org.sonatype.gshell:gshell-personality</include>
+                    <include>org.sonatype.maven.shell:mvnsh-personality</include>
                 </includes>
             </appliesTo>
             <appliesTransitively>true</appliesTransitively>
