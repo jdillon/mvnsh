@@ -9,10 +9,10 @@
                 <touchpointData>
                     <instructions>
                         <instruction key='install'>
-                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/, exclude:META-INF/** );
+                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/, exclude:META-INF/** );
                         </instruction>
                         <instruction key='uninstall'>
-                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly:basedir}/ );
+                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly.basedir}/ );
                         </instruction>
                     </instructions>
                 </touchpointData>
@@ -30,10 +30,10 @@
                 <touchpointData>
                     <instructions>
                         <instruction key='install'>
-                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/boot/bootstrap.jar );
+                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/boot/bootstrap.jar );
                         </instruction>
                         <instruction key='uninstall'>
-                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/boot/bootstrap.jar );
+                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/boot/bootstrap.jar );
                         </instruction>
                     </instructions>
                 </touchpointData>
@@ -65,10 +65,10 @@
                 <touchpointData>
                     <instructions>
                         <instruction key='install'>
-                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${artifact.fileName} );
+                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/${artifact.fileName} );
                         </instruction>
                         <instruction key='uninstall'>
-                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/lib/${artifact.fileName} );
+                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/${artifact.fileName} );
                         </instruction>
                     </instructions>
                 </touchpointData>

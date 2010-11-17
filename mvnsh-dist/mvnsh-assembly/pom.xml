@@ -95,7 +95,7 @@
                                 </fragment>
                             </fragments>
                             <properties>
-                                <assembly:basedir>.</assembly:basedir>
+                                <assembly.basedir>.</assembly.basedir>
                             </properties>
                             <outputDirectory>mvnsh-${project.version}</outputDirectory>
                         </configuration>

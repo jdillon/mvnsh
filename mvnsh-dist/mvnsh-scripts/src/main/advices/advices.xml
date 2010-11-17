@@ -9,12 +9,12 @@
                 <touchpointData>
                     <instructions>
                         <instruction key='install'>
-                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly:basedir}/, exclude:META-INF/** );
-                            generic:chmod( targetDir:${installFolder}/${assembly:basedir}, targetFile:bin/mvn, permissions:755 );
-                            generic:chmod( targetDir:${installFolder}/${assembly:basedir}, targetFile:bin/mvnsh, permissions:755 );
+                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/, exclude:META-INF/** );
+                            generic:chmod( targetDir:${installFolder}/${assembly.basedir}, targetFile:bin/mvn, permissions:755 );
+                            generic:chmod( targetDir:${installFolder}/${assembly.basedir}, targetFile:bin/mvnsh, permissions:755 );
                         </instruction>
                         <instruction key='uninstall'>
-                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly:basedir}/ );
+                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly.basedir}/ );
                         </instruction>
                     </instructions>
                 </touchpointData>
