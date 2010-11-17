@@ -54,12 +54,12 @@
             <dependency>
                 <groupId>org.sonatype.sisu.assembler</groupId>
                 <artifactId>sisu-assembler-gshell</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>${sisu-assembler-gshell.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.sonatype.sisu.assembler</groupId>
                 <artifactId>sisu-assembler-gshell-p2-runtime</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>${sisu-assembler-gshell.version}</version>
             </dependency>            
                             
             <!-- INTERNAL -->
