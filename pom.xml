@@ -76,7 +76,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gshellVersion>2.6.2</gshellVersion>
         <mavenVersion>3.0</mavenVersion>
-        <sisu-assembler-gshell.version>1.0.2</sisu-assembler-gshell.version>
+        <sisu-assembler-gshell.version>1.0.4</sisu-assembler-gshell.version>
     </properties>
 
     <repositories>
@@ -439,7 +439,7 @@
                 <plugin>
                     <groupId>org.sonatype.maven.plugins</groupId>
                     <artifactId>maven-sisu-assembler-plugin</artifactId>
-                    <version>1.0.4</version>
+                    <version>1.0.5-SNAPSHOT</version>
                 </plugin>
 
             </plugins>
