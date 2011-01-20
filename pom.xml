@@ -117,6 +117,16 @@
                 <artifactId>sisu-guice</artifactId>
                 <version>2.9.1</version>
                 <classifier>noaop</classifier>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.inject</groupId>
+                        <artifactId>javax.inject</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>aopalliance</groupId>
+                        <artifactId>aopalliance</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
