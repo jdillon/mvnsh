@@ -17,4 +17,33 @@
         <componentDescriptor>target/p2/assembly-descriptor.xml</componentDescriptor>
     </componentDescriptors>
 
+    <fileSets>
+        <fileSet>
+            <directory>${mavenDir}</directory>
+            <outputDirectory>${mvnshDir}</outputDirectory>
+            <excludes>
+                <exclude>bin/**</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${mavenDir}/bin</directory>
+            <outputDirectory>${mvnshDir}/bin</outputDirectory>
+            <includes>
+                <include>*.bat</include>
+            </includes>
+            <lineEnding>dos</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>${mavenDir}/bin</directory>
+            <outputDirectory>${mvnshDir}/bin</outputDirectory>
+            <includes>
+                <include>mvn</include>
+                <include>mvnDebug</include>
+                <include>mvnyjp</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+    </fileSets>
+
 </assembly>

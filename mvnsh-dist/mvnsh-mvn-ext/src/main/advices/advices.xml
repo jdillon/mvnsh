@@ -4,16 +4,17 @@
     <advices>
 
         <advice>
+            <appliesToSelf>false</appliesToSelf>
+            <appliesTransitively>true</appliesTransitively>
             <unit>
                 <touchpoint id='org.sonatype.p2.touchpoint'/>
                 <touchpointData>
                     <instructions>
                         <instruction key='install'>
-                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/, exclude:META-INF/**, include:bin/mvnsh* );
-                            generic:chmod( targetDir:${installFolder}/${assembly.basedir}, targetFile:bin/mvnsh, permissions:755 );
+                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/ext/${artifact.fileName} );
                         </instruction>
                         <instruction key='uninstall'>
-                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly.basedir}/ );
+                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/ext/${artifact.fileName} );
                         </instruction>
                     </instructions>
                 </touchpointData>

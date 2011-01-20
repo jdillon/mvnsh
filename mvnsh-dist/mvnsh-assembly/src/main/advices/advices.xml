@@ -17,7 +17,7 @@
                     </instructions>
                 </touchpointData>
             </unit>
-        </advice>    
+        </advice>
 
         <advice>
             <appliesTo>
@@ -65,15 +65,15 @@
                 <touchpointData>
                     <instructions>
                         <instruction key='install'>
-                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/${artifact.fileName} );
+                            natives:copy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/mvnsh/${artifact.fileName} );
                         </instruction>
                         <instruction key='uninstall'>
-                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/${artifact.fileName} );
+                            natives:cleanupcopy( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/lib/mvnsh/${artifact.fileName} );
                         </instruction>
                     </instructions>
                 </touchpointData>
             </unit>
-        </advice> 
+        </advice>
 
     </advices>
-</assembly>  
+</assembly>

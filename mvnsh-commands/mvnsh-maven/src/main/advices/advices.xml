@@ -4,8 +4,13 @@
     <advices>
 
         <advice>
+            <appliesTo>
+                <includes>
+                    <include>org.sonatype.maven.shell</include>
+                    <include>org.sonatype.grrrowl</include>
+                </includes>
+            </appliesTo>
             <generateAsItIs />
-            <appliesTransitively>true</appliesTransitively>
             <unit>
                 <provides>
                     <provided namespace='org.sonatype.sisu.assembler.type' name='lib' version='1.0.0' />
@@ -14,4 +19,4 @@
         </advice>
         
     </advices>
-</assembly>  
+</assembly>
