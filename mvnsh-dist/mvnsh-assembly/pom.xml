@@ -17,12 +17,14 @@
     <name>Maven Shell Dist :: Assembly</name>
     <packaging>jar</packaging>
 
-    <properties>
-        <mavenDir>${project.build.directory}/dependency/apache-maven-${mavenVersion}</mavenDir>
-        <mvnshDir>mvnsh-${project.version}</mvnshDir>
-    </properties>
-
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>apache-maven</artifactId>
+            <type>zip</type>
+            <classifier>bin</classifier>
+        </dependency>
 
         <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
@@ -38,29 +40,6 @@
 
     <build>
         <plugins>
-			      <plugin>
-			        <artifactId>maven-dependency-plugin</artifactId>
-			        <executions>
-			          <execution>
-			            <id>unpack-apache-maven</id>
-			            <phase>generate-resources</phase>
-			            <goals>
-			              <goal>unpack</goal>
-			            </goals>
-			            <configuration>
-			              <artifactItems>
-			                <artifactItem>
-			                  <groupId>org.apache.maven</groupId>
-			                  <artifactId>apache-maven</artifactId>
-			                  <version>${mavenVersion}</version>
-			                  <classifier>bin</classifier>
-			                  <type>zip</type>
-			                </artifactItem>
-			              </artifactItems>
-			            </configuration>
-			          </execution>
-			        </executions>
-			      </plugin>
             <plugin>
                 <groupId>org.sonatype.maven.plugins</groupId>
                 <artifactId>maven-sisu-assembler-plugin</artifactId>
@@ -128,6 +107,7 @@
                             </fragments>
                             <properties>
                                 <assembly.basedir>.</assembly.basedir>
+                                <maven.basedir>apache-maven-${mavenVersion}</maven.basedir>
                             </properties>
                             <versionPolicy>
                                 <artifactsPolicy>

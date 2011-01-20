@@ -157,6 +157,13 @@
                 <artifactId>maven-model</artifactId>
                 <version>${mavenVersion}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>apache-maven</artifactId>
+                <version>${mavenVersion}</version>
+                <classifier>bin</classifier>
+                <type>zip</type>
+            </dependency>
             
             <dependency>
                 <groupId>org.sonatype.aether</groupId>

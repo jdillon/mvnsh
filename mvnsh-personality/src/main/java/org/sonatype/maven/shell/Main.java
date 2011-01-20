@@ -7,13 +7,6 @@
 
 package org.sonatype.maven.shell;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -72,40 +65,6 @@ public class Main
     }
 
     public static void main(final String[] args) throws Exception {
-        setupClassLoader();
         new Main().boot(args);
     }
-
-    private static void setupClassLoader() throws Exception {
-        String shellHome = System.getProperty("shell.home", "");
-        if (shellHome.length() <= 0) {
-            throw new IllegalStateException("system property shell.home not set");
-        }
-
-        File libDir = new File(shellHome, "lib").getAbsoluteFile();
-
-        Collection<URL> urls = new ArrayList<URL>();
-        collectJars(urls, libDir);
-        collectJars(urls, new File(libDir, "ext"));
-
-        ClassLoader cl = new URLClassLoader(urls.toArray(new URL[urls.size()]), Thread.currentThread()
-                .getContextClassLoader());
-
-        Thread.currentThread().setContextClassLoader(cl);
-    }
-
-    private static void collectJars(Collection<URL> urls, File directory) throws Exception {
-        File[] files = directory.listFiles(new FileFilter() {
-            public boolean accept(File pathname) {
-                return pathname.isFile() && pathname.getName().toLowerCase().endsWith(".jar");
-            }
-        });
-
-        if (files != null) {
-            for (File file : files) {
-                urls.add(file.toURI().toURL());
-            }
-        }
-    }
-
 }

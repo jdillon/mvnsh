@@ -2,6 +2,29 @@
 
 <assembly>
     <advices>
+
+        <advice>
+            <appliesTo>
+                <includes>
+                    <include>org.apache.maven:apache-maven</include>
+                </includes>
+            </appliesTo>
+            <unit>
+                <touchpoint id='org.sonatype.p2.touchpoint'/>
+                <touchpointData>
+                    <instructions>
+                        <instruction key='install'>
+                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/, path:${maven.basedir} );
+                            generic:chmod( targetDir:${installFolder}/${assembly.basedir}, permissions:755, targetFile:bin/mvn );
+                            generic:chmod( targetDir:${installFolder}/${assembly.basedir}, permissions:755, targetFile:bin/mvnDebug );
+                        </instruction>
+                        <instruction key='uninstall'>
+                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly.basedir}/ );
+                        </instruction>
+                    </instructions>
+                </touchpointData>
+            </unit>
+        </advice>
     
         <advice>
             <unit>
