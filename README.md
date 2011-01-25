@@ -12,11 +12,24 @@ Features
 --------
 
 * Interactive shell
-* Maven 3.x `mvn` command
-* Colorized Maven output
 * Integrated archetype support
 * [Growl][1] build notifications (Using AppleScript or [JNA][2])
 * Optional support for ANSI color on Windows (using [JNA][2])
+
+Maven Specific Features
+--------
+
+* Maven 3.x `mvn` command
+* Colorized Maven output
+* AHC Aether Connector
+
+This Aether connector is backed by the Async HTTP Client (AHC) with the default HTTP provider being Netty. We actively work on AHC and will continually be improving AHC to make the transport 100% reliable. The features implemented so far are:
+
+-  Resumable Downloads
+-  Arbitrarily large file support (using AHC zero byte copy)
+-  HTTP to HTTPS redirect support
+-  NTLM support (v1 and v2)
+-  WebDAV PUT support
 
 Support
 -------
