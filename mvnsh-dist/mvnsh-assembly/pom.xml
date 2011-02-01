@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sonatype.maven.shell.dist</groupId>
         <artifactId>mvnsh-dist</artifactId>
-        <version>0.11-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>mvnsh-assembly</artifactId>

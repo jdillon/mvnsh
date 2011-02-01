@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sonatype.maven.shell</groupId>
         <artifactId>mvnsh</artifactId>
-        <version>0.11-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.sonatype.maven.shell.dist</groupId>
@@ -77,19 +77,19 @@
             <dependency>
                 <groupId>org.sonatype.maven.shell.dist</groupId>
                 <artifactId>mvnsh-assembly</artifactId>
-                <version>0.11-SNAPSHOT</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell.dist</groupId>
                 <artifactId>mvnsh-scripts</artifactId>
-                <version>0.11-SNAPSHOT</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell.dist</groupId>
                 <artifactId>mvnsh-mvn-ext</artifactId>
-                <version>0.11-SNAPSHOT</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
