@@ -121,9 +121,12 @@
                                 </goals>
                                 <configuration>
                                     <versionPolicy>
-                                        <artifactsPolicy>
-                                            <org.slf4j:jcl-over-slf4j:jar>[1,2)</org.slf4j:jcl-over-slf4j:jar>
-                                        </artifactsPolicy>
+                                        <policies>
+                                            <policy>
+                                                <artifact>org.slf4j:jcl-over-slf4j:jar</artifact>
+                                                <version>[1,2)</version>
+                                            </policy>
+                                        </policies>
                                     </versionPolicy>
                                 </configuration>
                             </execution>

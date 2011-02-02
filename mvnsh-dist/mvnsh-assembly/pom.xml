@@ -123,9 +123,12 @@
                                 <maven.basedir>apache-maven-${mavenVersion}</maven.basedir>
                             </properties>
                             <versionPolicy>
-                                <artifactsPolicy>
-                                    <org.sonatype.sisu:sisu-guice:jar:noaop>[=,+)</org.sonatype.sisu:sisu-guice:jar:noaop>
-                                </artifactsPolicy>
+                                <policies>
+                                    <policy>
+                                        <artifact>org.sonatype.sisu:sisu-guice:jar:noaop</artifact>
+                                        <version>[=,+)</version>
+                                    </policy>
+                                </policies>
                             </versionPolicy>
                             <outputDirectory>mvnsh-${project.version}</outputDirectory>
                         </configuration>
