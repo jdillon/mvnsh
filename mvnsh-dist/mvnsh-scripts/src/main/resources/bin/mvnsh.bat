@@ -69,7 +69,7 @@ set BOOTJAR=%SHELL_HOME%\boot\bootstrap.jar
 set COMMAND=
 
 @REM Start the JVM
-"%JAVACMD%" %JAVA_OPTS% -jar "%BOOTJAR%" %COMMAND% %ARGS%
+"%JAVACMD%" %MAVEN_OPTS% -jar "%BOOTJAR%" %COMMAND% %ARGS%
 
 :end
 
