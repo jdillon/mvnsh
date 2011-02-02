@@ -25,7 +25,7 @@
     <groupId>org.sonatype.maven.shell</groupId>
     <artifactId>mvnsh</artifactId>
     <name>Maven Shell</name>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <organization>
@@ -322,31 +322,31 @@
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-bootstrap</artifactId>
-                <version>1.0</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
-                <version>1.0</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-archetype</artifactId>
-                <version>1.0</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-nexus</artifactId>
-                <version>1.0</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-personality</artifactId>
-                <version>1.0</version>
+                <version>1.0.1-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

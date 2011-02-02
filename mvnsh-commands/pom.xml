@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sonatype.maven.shell</groupId>
         <artifactId>mvnsh</artifactId>
-        <version>1.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>mvnsh-commands</artifactId>
