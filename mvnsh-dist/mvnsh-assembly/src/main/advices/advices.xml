@@ -29,6 +29,10 @@
                             natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/, path:${maven.basedir} );
                             generic:chmod( targetDir:${installFolder}/${assembly.basedir}, permissions:755, targetFile:bin/mvn );
                             generic:chmod( targetDir:${installFolder}/${assembly.basedir}, permissions:755, targetFile:bin/mvnDebug );
+                            generic:convertLineEndings( format:dos,  target:${installFolder}/${assembly.basedir}/bin/mvn.bat );
+                            generic:convertLineEndings( format:unix, target:${installFolder}/${assembly.basedir}/bin/mvn );
+                            generic:convertLineEndings( format:dos,  target:${installFolder}/${assembly.basedir}/bin/mvnDebug.bat );
+                            generic:convertLineEndings( format:unix, target:${installFolder}/${assembly.basedir}/bin/mvnDebug );
                         </instruction>
                         <instruction key='uninstall'>
                             natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly.basedir}/ );
