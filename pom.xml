@@ -88,6 +88,7 @@
         <gshellVersion>2.6.3</gshellVersion>
         <mavenVersion>3.0.2</mavenVersion>
         <sisu-assembler-gshell.version>1.0.5</sisu-assembler-gshell.version>
+        <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl>
     </properties>
 
     <repositories>
