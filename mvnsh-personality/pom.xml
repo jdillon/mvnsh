@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sonatype.maven.shell</groupId>
         <artifactId>mvnsh</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>mvnsh-personality</artifactId>
