@@ -189,7 +189,13 @@
                 <classifier>bin</classifier>
                 <type>zip</type>
             </dependency>
-            
+
+            <dependency>
+                <groupId>org.sonatype.aether</groupId>
+                <artifactId>aether-connector-asynchttpclient</artifactId>
+                <version>1.9</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.sonatype.aether</groupId>
                 <artifactId>aether-connector-wagon</artifactId>

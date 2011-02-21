@@ -51,6 +51,12 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-connector-asynchttpclient</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <profiles>

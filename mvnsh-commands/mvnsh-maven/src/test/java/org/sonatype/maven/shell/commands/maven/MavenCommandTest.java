@@ -58,14 +58,14 @@ public class MavenCommandTest
         String pom = new File(getClass().getResource("test1.pom").toURI()).toString();
         System.out.println("POM: " + pom);
 
-//        File repoDir = new File(new File(System.getProperty("basedir")), "target/test-repo");
-//        System.out.println("Repo Dir: " + repoDir);
+        File repoDir = new File(new File(System.getProperty("basedir")), "target/test-repo");
+        System.out.println("Repo Dir: " + repoDir);
 
         Object result = executeWithArgs(
             "-B", "-e", "-V",
             "-f", pom,
             "-s", settings,
-//            "-Dmaven.repo.local=" + repoDir,
+            "-Dmaven.repo.local=" + repoDir,
             "package");
 
         System.out.println("OUT: " + getIo().getOutputString());
