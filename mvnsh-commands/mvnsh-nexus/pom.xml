@@ -33,7 +33,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell</groupId>
+            <groupId>org.sonatype.gshell.ext</groupId>
             <artifactId>gshell-plexus</artifactId>
             <scope>provided</scope>
         </dependency>

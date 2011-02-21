@@ -32,12 +32,12 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell</groupId>
+            <groupId>org.sonatype.gshell.ext</groupId>
             <artifactId>gshell-gossip</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell</groupId>
+            <groupId>org.sonatype.gshell.ext</groupId>
             <artifactId>gshell-plexus</artifactId>
         </dependency>
 

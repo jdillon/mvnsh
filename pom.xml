@@ -310,13 +310,13 @@
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.gshell</groupId>
+                <groupId>org.sonatype.gshell.ext</groupId>
                 <artifactId>gshell-gossip</artifactId>
                 <version>${gshellVersion}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.gshell</groupId>
+                <groupId>org.sonatype.gshell.ext</groupId>
                 <artifactId>gshell-plexus</artifactId>
                 <version>${gshellVersion}</version>
                 <exclusions>
