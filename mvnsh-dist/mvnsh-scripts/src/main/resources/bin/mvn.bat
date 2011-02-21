@@ -21,7 +21,7 @@ if "%DIRNAME%" == "" set DIRNAME=.\
 
 if "%HOME%" == "" (set "HOME=%HOMEDRIVE%%HOMEPATH%")
 
-set BOOTSCRIPT="%HOME%\.m2\mvnsh.boot.bat"
+set BOOTSCRIPT=%HOME%\.m2\mvnsh.boot.bat
 if exist "%BOOTSCRIPT%" call "%BOOTSCRIPT%"
 
 :check_JAVACMD
