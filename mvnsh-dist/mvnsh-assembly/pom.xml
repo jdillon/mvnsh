@@ -27,13 +27,13 @@
     <packaging>jar</packaging>
 
     <dependencies>
-
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>apache-maven</artifactId>
             <type>zip</type>
             <classifier>bin</classifier>
         </dependency>
+
         <dependency>
             <groupId>org.sonatype.sisu</groupId>
             <artifactId>sisu-inject-bean</artifactId>
@@ -48,7 +48,6 @@
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-personality</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -135,6 +134,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

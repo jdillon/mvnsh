@@ -27,49 +27,48 @@
     <name>Maven Shell Dist</name>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>mvnsh-scripts</module>
-        <module>mvnsh-mvn-ext</module>
-        <module>mvnsh-assembly</module>
-    </modules>
-
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-standard</artifactId>
                 <version>${gshellVersion}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-file</artifactId>
                 <version>${gshellVersion}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-logging</artifactId>
                 <version>${gshellVersion}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-network</artifactId>
                 <version>${gshellVersion}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-pref</artifactId>
                 <version>${gshellVersion}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.sonatype.sisu.assembler</groupId>
                 <artifactId>sisu-assembler-gshell</artifactId>
-                <version>${sisu-assembler-gshell.version}</version>
+                <version>1.0.7</version>
             </dependency>
+
             <dependency>
                 <groupId>org.sonatype.sisu.assembler</groupId>
                 <artifactId>sisu-assembler-gshell-p2-runtime</artifactId>
-                <version>${sisu-assembler-gshell.version}</version>
+                <version>1.0.7</version>
             </dependency>            
                             
             <!-- INTERNAL -->
@@ -94,10 +93,10 @@
         </dependencies>
     </dependencyManagement>
 
-
-    <build>
-        <pluginManagement>
-        </pluginManagement>
-    </build>
+    <modules>
+        <module>mvnsh-scripts</module>
+        <module>mvnsh-mvn-ext</module>
+        <module>mvnsh-assembly</module>
+    </modules>
 
 </project>

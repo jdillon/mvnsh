@@ -88,7 +88,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <gshellVersion>2.6.4</gshellVersion>
         <mavenVersion>3.0.3</mavenVersion>
-        <sisu-assembler-gshell.version>1.0.5</sisu-assembler-gshell.version>
         <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl>
     </properties>
 
