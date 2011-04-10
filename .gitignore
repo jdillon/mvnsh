@@ -1,5 +1,7 @@
-target
-.project
+.idea
+*.iml
+*.ipr
 .classpath
-.settings/
-bin/
+.project
+.settings
+target
