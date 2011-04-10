@@ -37,13 +37,6 @@ public class MavenCommandTest
     }
 
     @Override
-    protected void configureModules(final List<Module> modules) {
-        assert modules != null;
-        super.configureModules(modules);
-        modules.add(new MavenModule());
-    }
-
-    @Override
     @Test
     @Ignore
     public void testDefault() throws Exception {
