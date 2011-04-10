@@ -264,6 +264,16 @@ public class MavenCommand
     }
 
     public Object execute(final CommandContext context) throws Exception {
+        final ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        try {
+            return doExecute(context);
+        }
+        finally {
+            Thread.currentThread().setContextClassLoader(cl);
+        }
+    }
+
+    private Object doExecute(final CommandContext context) throws Exception {
         assert context != null;
         IO io = context.getIo();
         Variables vars = context.getVariables();
