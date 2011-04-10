@@ -81,12 +81,6 @@
 
             <dependency>
                 <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-scripts</artifactId>
-                <version>1.0.2-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
                 <artifactId>mvnsh-mvn-ext</artifactId>
                 <version>1.0.2-SNAPSHOT</version>
             </dependency>
@@ -94,7 +88,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>mvnsh-scripts</module>
         <module>mvnsh-mvn-ext</module>
         <module>mvnsh-assembly</module>
     </modules>

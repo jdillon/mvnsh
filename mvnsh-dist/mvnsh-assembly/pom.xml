@@ -66,10 +66,6 @@
                             <fragments>
                                 <fragment>
                                     <groupId>org.sonatype.maven.shell.dist</groupId>
-                                    <artifactId>mvnsh-scripts</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.maven.shell.dist</groupId>
                                     <artifactId>mvnsh-mvn-ext</artifactId>
                                 </fragment>
                                 <fragment>

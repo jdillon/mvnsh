@@ -16,6 +16,30 @@
     <advices>
 
         <advice>
+            <unit>
+                <touchpoint id='org.sonatype.p2.touchpoint'/>
+                <touchpointData>
+                    <instructions>
+                        <instruction key='install'>
+                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/, exclude:META-INF/** );
+
+                            generic:chmod( targetDir:${installFolder}/${assembly.basedir}, targetFile:bin/mvnsh, permissions:755 );
+                            generic:convertLineEndings( format:dos,  target:${installFolder}/${assembly.basedir}/bin/mvnsh.bat );
+                            generic:convertLineEndings( format:unix, target:${installFolder}/${assembly.basedir}/bin/mvnsh );
+
+                            generic:chmod( targetDir:${installFolder}/${assembly.basedir}, targetFile:bin/mvnx, permissions:755 );
+                            generic:convertLineEndings( format:dos,  target:${installFolder}/${assembly.basedir}/bin/mvnx.bat );
+                            generic:convertLineEndings( format:unix, target:${installFolder}/${assembly.basedir}/bin/mvnx );
+                        </instruction>
+                        <instruction key='uninstall'>
+                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly.basedir}/ );
+                        </instruction>
+                    </instructions>
+                </touchpointData>
+            </unit>
+        </advice>
+
+        <advice>
             <appliesTo>
                 <includes>
                     <include>org.apache.maven:apache-maven</include>
@@ -42,22 +66,6 @@
             </unit>
         </advice>
     
-        <advice>
-            <unit>
-                <touchpoint id='org.sonatype.p2.touchpoint'/>
-                <touchpointData>
-                    <instructions>
-                        <instruction key='install'>
-                            natives:unzip( source:${artifact.location}, target:${installFolder}/${assembly.basedir}/, exclude:META-INF/** );
-                        </instruction>
-                        <instruction key='uninstall'>
-                            natives:cleanupzip( source:${artifact.location},target:${installFolder}/${assembly.basedir}/ );
-                        </instruction>
-                    </instructions>
-                </touchpointData>
-            </unit>
-        </advice>
-
         <advice>
             <appliesTo>
                 <includes>
