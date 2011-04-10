@@ -12,9 +12,6 @@
 
 package com.sonatype.maven.shell.nexus.internal;
 
-import org.sonatype.guice.bean.binders.WireModule;
-import org.sonatype.guice.bean.locators.DefaultBeanLocator;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.sonatype.maven.shell.nexus.AdminClient;
@@ -25,38 +22,31 @@ import com.sonatype.maven.shell.nexus.RepositoryClient;
 import com.sonatype.maven.shell.nexus.StagingClient;
 import com.sonatype.maven.shell.nexus.UserClient;
 
+import javax.inject.Named;
+
 /**
  * Nexus client module.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.9
  */
+@Named
 public class NexusClientModule
     extends AbstractModule
 {
     @Override
     protected void configure() {
-        bind( DefaultBeanLocator.class );
+        bind( NexusClient.class ).to(NexusClientImpl.class);
+        bind(BasicClient.class, BasicClientImpl.class);
+        bind( AdminClient.class, AdminClientImpl.class );
+        bind( UserClient.class, UserClientImpl.class );
+        bind( RepositoryClient.class, RepositoryClientImpl.class );
+        bind( M2SettingsClient.class, M2SettingsClientImpl.class );
+        bind( StagingClient.class, StagingClientImpl.class );
+    }
 
-        install( new WireModule( new AbstractModule()
-        {
-
-            @Override
-            protected void configure()
-            {
-                bind( NexusClient.class ).to( NexusClientImpl.class );
-                bind( BasicClient.class, BasicClientImpl.class );
-                bind( AdminClient.class, AdminClientImpl.class );
-                bind( UserClient.class, UserClientImpl.class );
-                bind( RepositoryClient.class, RepositoryClientImpl.class );
-                bind( M2SettingsClient.class, M2SettingsClientImpl.class );
-                bind( StagingClient.class, StagingClientImpl.class );
-            }
-
-            private <T extends NexusClient.Extension> void bind( Class<T> key, Class<? extends T> impl )
-            {
-                bind( NexusClient.Extension.class ).annotatedWith( Names.named( key.getName() ) ).to( impl );
-            }
-        } ) );
+    private <T extends NexusClient.Extension> void bind( Class<T> key, Class<? extends T> impl )
+    {
+        bind( NexusClient.Extension.class ).annotatedWith( Names.named( key.getName() ) ).to( impl );
     }
 }
