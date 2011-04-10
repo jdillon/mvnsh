@@ -40,12 +40,6 @@
             <groupId>org.sonatype.gshell.ext</groupId>
             <artifactId>gshell-plexus</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.sisu</groupId>
-            <artifactId>sisu-guice</artifactId>
-            <classifier>noaop</classifier>
-        </dependency>
     </dependencies>
 
 </project>
