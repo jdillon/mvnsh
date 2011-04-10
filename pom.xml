@@ -85,8 +85,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gshellVersion>2.6.4-SNAPSHOT</gshellVersion>
-        <mavenVersion>3.0.2</mavenVersion>
+        <gshellVersion>2.6.4</gshellVersion>
+        <mavenVersion>3.0.3</mavenVersion>
         <sisu-assembler-gshell.version>1.0.5</sisu-assembler-gshell.version>
         <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl>
     </properties>
@@ -477,7 +477,7 @@
                 <plugin>
                     <groupId>org.sonatype.maven.plugins</groupId>
                     <artifactId>maven-sisu-assembler-plugin</artifactId>
-                    <version>1.0.7-SNAPSHOT</version>
+                    <version>1.0.7</version>
                 </plugin>
 
             </plugins>
