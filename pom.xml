@@ -116,19 +116,19 @@
             <dependency>
                 <groupId>org.sonatype.sisu</groupId>
                 <artifactId>sisu-inject-bean</artifactId>
-                <version>1.4.3.1</version>
+                <version>2.1.1</version>
             </dependency>
             
             <dependency>
                 <groupId>org.sonatype.sisu</groupId>
                 <artifactId>sisu-inject-plexus</artifactId>
-                <version>1.4.3.1</version>
+                <version>2.1.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.sisu</groupId>
                 <artifactId>sisu-guice</artifactId>
-                <version>2.9.1</version>
+                <version>2.9.4</version>
                 <classifier>noaop</classifier>
                 <exclusions>
                     <exclusion>
@@ -145,7 +145,7 @@
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
                 <artifactId>gossip-slf4j</artifactId>
-                <version>1.5</version>
+                <version>1.7</version>
             </dependency>
 
             <dependency>
