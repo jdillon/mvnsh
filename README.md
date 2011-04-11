@@ -7,6 +7,7 @@ License
 -------
 
 [Eclipse Public License 1.0](http://www.eclipse.org/org/documents/epl-v10.html)
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 Features
 --------
