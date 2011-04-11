@@ -41,6 +41,7 @@ import java.util.Properties;
 public class EncryptPasswordCommand
     extends CommandActionSupport
 {
+    // FIXME: This may not be the correct configuration, pull out the container setup form MavenCommand and use that?
     private final PlexusRuntime plexus;
 
     private Properties props;
