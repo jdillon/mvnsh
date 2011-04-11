@@ -37,6 +37,7 @@ import org.apache.maven.settings.building.SettingsProblem;
 import org.codehaus.plexus.ContainerConfiguration;
 import org.codehaus.plexus.DefaultContainerConfiguration;
 import org.codehaus.plexus.DefaultPlexusContainer;
+import org.codehaus.plexus.classworlds.ClassWorld;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
@@ -44,7 +45,6 @@ import org.slf4j.LoggerFactory;
 import org.sonatype.aether.transfer.TransferListener;
 import org.sonatype.gshell.util.io.Closer;
 import org.sonatype.gshell.util.io.StreamSet;
-import org.sonatype.gshell.plexus.PlexusRuntime;
 import org.sonatype.gshell.util.yarn.Yarn;
 import org.sonatype.maven.shell.maven.internal.BatchModeMavenTransferListener;
 import org.sonatype.maven.shell.maven.internal.ConsoleMavenTransferListener;
@@ -70,14 +70,10 @@ public class MavenSystemImpl
 {
     private static final Logger log = LoggerFactory.getLogger(MavenSystemImpl.class);
 
-    private final PlexusRuntime plexus;
-
     private final Provider<Terminal> terminal;
 
     @Inject
-    public MavenSystemImpl(final PlexusRuntime plexus, final Provider<Terminal> terminal) {
-        assert plexus != null;
-        this.plexus = plexus;
+    public MavenSystemImpl(final Provider<Terminal> terminal) {
         assert terminal != null;
         this.terminal = terminal;
     }
@@ -156,7 +152,7 @@ public class MavenSystemImpl
 
             // Setup defaults
             if (config.getClassWorld() == null) {
-                config.setClassWorld(plexus.getClassWorld());
+                config.setClassWorld(new ClassWorld("plexus.core", Thread.currentThread().getContextClassLoader()));
             }
 
             if (config.getBaseDirectory() == null) {
@@ -205,6 +201,8 @@ public class MavenSystemImpl
             // Setup the container
             this.container = createContainer();
             log.debug("Using container: {}", container);
+
+            Thread.currentThread().setContextClassLoader(container.getContainerRealm());
         }
 
         private DefaultPlexusContainer createContainer() throws Exception {
@@ -221,6 +219,7 @@ public class MavenSystemImpl
         protected void configureContainer(final DefaultPlexusContainer c) throws Exception {
             assert c != null;
 
+            c.setLookupRealm(null);
             c.setLoggerManager(new MavenLoggerManager(config.getLogger()));
             c.getLoggerManager().setThresholds(logger.getThreshold());
 
