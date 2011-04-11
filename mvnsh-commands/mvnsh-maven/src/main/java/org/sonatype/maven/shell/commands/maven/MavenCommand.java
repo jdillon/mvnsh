@@ -226,7 +226,7 @@ public class MavenCommand
     @Option(name="ep", longName="encrypt-password")
     private String encryptPassword;
 
-    @Argument()
+    @Argument
     private List<String> goals;
 
     private static enum Notifications
@@ -441,6 +441,7 @@ public class MavenCommand
                 gc.run();
                 
                 // HACK: Dispose all realms, to help avoid problems
+                //noinspection unchecked
                 for (ClassRealm realm : (List<ClassRealm>)world.getRealms()) {
                     world.disposeRealm(realm.getId());
                 }
