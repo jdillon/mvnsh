@@ -28,6 +28,7 @@ import org.apache.maven.execution.MavenExecutionRequestPopulator;
 import org.apache.maven.execution.MavenExecutionResult;
 import org.apache.maven.lifecycle.LifecycleExecutionException;
 import org.apache.maven.model.building.ModelProcessor;
+import org.apache.maven.plugin.PluginRealmCache;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.building.DefaultSettingsBuildingRequest;
 import org.apache.maven.settings.building.SettingsBuilder;
@@ -38,6 +39,7 @@ import org.codehaus.plexus.ContainerConfiguration;
 import org.codehaus.plexus.DefaultContainerConfiguration;
 import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.classworlds.ClassWorld;
+import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
@@ -55,6 +57,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -232,7 +235,7 @@ public class MavenSystemImpl
         public MavenExecutionRequest create() throws Exception {
             MavenExecutionRequest request = new DefaultMavenExecutionRequest();
             request.setCacheNotFound( true );
-            request.setCacheTransferError( false );
+            request.setCacheTransferError(false);
             configureSettings(request);
             return request;
         }
@@ -253,10 +256,34 @@ public class MavenSystemImpl
                 return 1;
             }
             finally {
-                container.dispose();
-                
+                cleanup();
                 Closer.close(logStream);
             }
+        }
+
+        private void cleanup() {
+            try {
+                PluginRealmCache cache = container.lookup(PluginRealmCache.class);
+                cache.flush();
+            }
+            catch (Exception e) {
+                log.warn("Failed to flush plugin realm cache");
+            }
+
+            ClassWorld world = config.getClassWorld();
+            //noinspection unchecked
+            for (ClassRealm realm : (List<ClassRealm>)world.getRealms()) {
+                String id = realm.getId();
+                try {
+                    log.debug("Disposing class realm: {}", id);
+                    world.disposeRealm(id);
+                }
+                catch (Exception e) {
+                    log.warn("Failed to dispose class realm: {}", id, e);
+                }
+            }
+
+            container.dispose();
         }
 
         private void configureSettings(final MavenExecutionRequest request) throws Exception {

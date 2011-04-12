@@ -14,9 +14,6 @@ package org.sonatype.maven.shell.commands.maven;
 
 import com.google.inject.Inject;
 import org.apache.maven.execution.MavenExecutionRequest;
-import org.codehaus.plexus.classworlds.ClassWorld;
-import org.codehaus.plexus.classworlds.realm.ClassRealm;
-import org.codehaus.plexus.util.Os;
 import org.sonatype.grrrowl.Growler;
 import org.sonatype.gshell.command.Command;
 import org.sonatype.gshell.command.support.CommandActionSupport;
@@ -275,20 +272,7 @@ public class MavenCommand
 
         // HACK: support --encrypt-master-password and --encrypt-password
         if (encryptMasterPassword != null || encryptPassword != null) {
-            // TODO: Inspect the registry to find the EncryptPasswordCommand's name, for now just hard-code
-            String command = "encrypt-password";
-
-            // HACK: Put all props into System, the security muck needs it
-            if (props != null) {
-                System.getProperties().putAll(props);
-            }
-
-            if (encryptMasterPassword != null) {
-                return context.getShell().execute(command, "-m", encryptMasterPassword);
-            }
-            if (encryptPassword != null) {
-                return context.getShell().execute(command, encryptPassword);
-            }
+            return doEncryptPassword(context);
         }
 
         System.setProperty(MavenSystem.MAVEN_HOME, vars.get(SHELL_HOME, File.class).getAbsolutePath());
@@ -297,9 +281,6 @@ public class MavenCommand
 
         config.setBaseDirectory(vars.get(SHELL_USER_DIR, File.class));
 
-        ClassWorld world = new ClassWorld("plexus.core", Thread.currentThread().getContextClassLoader());
-        config.setClassWorld(world);
-        
         if (file != null) {
             config.setPomFile(file);
         }
@@ -421,34 +402,8 @@ public class MavenCommand
         }
         finally {
             StreamJack.deregister();
-
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
             io.getTerminal().reset();
-
-            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                Runnable gc = new Runnable()
-                {
-                    public void run() {
-                        for (int i=0; i<2; i++) {
-                            System.runFinalization();
-                            Thread.yield();
-                            System.gc();
-                            Thread.yield();
-                        }
-                    }
-                };
-
-                gc.run();
-                
-                // HACK: Dispose all realms, to help avoid problems
-                //noinspection unchecked
-                for (ClassRealm realm : (List<ClassRealm>)world.getRealms()) {
-                    world.disposeRealm(realm.getId());
-                }
-                world = null;
-
-                gc.run();
-            }
         }
 
         if (growl) {
@@ -469,6 +424,24 @@ public class MavenCommand
         }
 
         return result;
+    }
+
+    private Object doEncryptPassword(final CommandContext context) throws Exception {
+        assert context != null;
+
+        // Put all props into System, the security muck needs it
+        if (props != null) {
+            System.getProperties().putAll(props);
+        }
+
+        String command = "/encrypt-password";
+        if (encryptMasterPassword != null) {
+            return context.getShell().execute(command, "-m", encryptMasterPassword);
+        }
+        if (encryptPassword != null) {
+            return context.getShell().execute(command, encryptPassword);
+        }
+        throw new Error();
     }
 
     /**
