@@ -28,7 +28,6 @@ import org.apache.maven.execution.MavenExecutionRequestPopulator;
 import org.apache.maven.execution.MavenExecutionResult;
 import org.apache.maven.lifecycle.LifecycleExecutionException;
 import org.apache.maven.model.building.ModelProcessor;
-import org.apache.maven.plugin.PluginRealmCache;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.building.DefaultSettingsBuildingRequest;
 import org.apache.maven.settings.building.SettingsBuilder;
@@ -56,6 +55,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,6 +75,12 @@ public class MavenSystemImpl
     implements MavenSystem
 {
     private static final Logger log = LoggerFactory.getLogger(MavenSystemImpl.class);
+
+    static {
+        // This prevents a thread leak in the org.apache.maven.artifact.resolver.  DefaultArtifactResolver (maven-compat)
+        // which uses a thread pool that gets only shutdown when the artifact resolver is finalized.
+        System.setProperty("maven.artifact.threads", "0");
+    }
 
     private final Provider<Terminal> terminal;
 
@@ -153,11 +162,6 @@ public class MavenSystemImpl
                 System.setProperty(MAVEN_HOME, new File(mavenHome).getAbsolutePath());
             }
 
-            // Setup defaults
-            if (config.getClassWorld() == null) {
-                config.setClassWorld(new ClassWorld("plexus.core", Thread.currentThread().getContextClassLoader()));
-            }
-
             if (config.getBaseDirectory() == null) {
                 config.setBaseDirectory(new File(System.getProperty("user.dir")));
             }
@@ -213,6 +217,10 @@ public class MavenSystemImpl
                 .setClassWorld(config.getClassWorld())
                 .setName("maven");
 
+            // NOTE: This causes wiring failures for jline.Terminal, investigate further
+            //.setAutoWiring(true)
+            //.setClassPathScanning(PlexusConstants.SCANNING_CACHE);
+
             DefaultPlexusContainer c = new DefaultPlexusContainer(cc);
             configureContainer(c);
 
@@ -234,7 +242,7 @@ public class MavenSystemImpl
 
         public MavenExecutionRequest create() throws Exception {
             MavenExecutionRequest request = new DefaultMavenExecutionRequest();
-            request.setCacheNotFound( true );
+            request.setCacheNotFound(true);
             request.setCacheTransferError(false);
             configureSettings(request);
             return request;
@@ -259,31 +267,6 @@ public class MavenSystemImpl
                 cleanup();
                 Closer.close(logStream);
             }
-        }
-
-        private void cleanup() {
-            try {
-                PluginRealmCache cache = container.lookup(PluginRealmCache.class);
-                cache.flush();
-            }
-            catch (Exception e) {
-                log.warn("Failed to flush plugin realm cache");
-            }
-
-            ClassWorld world = config.getClassWorld();
-            //noinspection unchecked
-            for (ClassRealm realm : (List<ClassRealm>)world.getRealms()) {
-                String id = realm.getId();
-                try {
-                    log.debug("Disposing class realm: {}", id);
-                    world.disposeRealm(id);
-                }
-                catch (Exception e) {
-                    log.warn("Failed to dispose class realm: {}", id, e);
-                }
-            }
-
-            container.dispose();
         }
 
         private void configureSettings(final MavenExecutionRequest request) throws Exception {
@@ -378,7 +361,7 @@ public class MavenSystemImpl
             // HACK: Some bits of Maven still require using System.properties :-(
             sys.putAll(user);
             System.getProperties().putAll(user);
-            
+
             request.setSystemProperties(sys);
         }
 
@@ -492,6 +475,8 @@ public class MavenSystemImpl
                 log.debug("Executing request: {}", Yarn.render(request, Yarn.Style.MULTI));
             }
 
+            // FIXME: Hook up EventSpy support
+
             MavenExecutionResult result;
             Maven maven = container.lookup(Maven.class);
             try {
@@ -591,6 +576,77 @@ public class MavenSystemImpl
 
             for (ExceptionSummary child : summary.getChildren()) {
                 logSummary(child, references, indent, showErrors);
+            }
+        }
+
+        private void cleanup() {
+            ClassWorld world = container.getClassWorld();
+            log.debug("Removing all realms from: {}", world);
+
+            //noinspection unchecked
+            for (ClassRealm realm : (List<ClassRealm>)world.getRealms()) {
+                String id = realm.getId();
+                try {
+                    log.debug("Disposing class realm: {}", id);
+                    world.disposeRealm(id);
+                }
+                catch (Exception e) {
+                    log.warn("Failed to dispose class realm: {}", id, e);
+                }
+            }
+
+            //noinspection unchecked
+            purgeStrayShutdownHooks(world.getRealms());
+
+            container.dispose();
+        }
+
+        private void purgeStrayShutdownHooks(final Collection<? extends ClassLoader> loaders) {
+            // CommandLineUtils from plexus-utils registers a (needless) shutdown hook which in turn causes a mem leak. As
+            // counter measure, we inspect all created (plugin) class loaders and try to unregister the hook.
+            final String[] CLASSES = {
+                "org.codehaus.plexus.util.cli.CommandLineUtils",
+                "org.apache.maven.surefire.booter.shade.org.codehaus.plexus.util.cli.CommandLineUtils"
+            };
+
+            for (ClassLoader loader : loaders) {
+                for (String className : CLASSES) {
+                    String resName = className.replace('.', '/') + ".class";
+                    if (loader.getResource(resName) != null) {
+                        try {
+                            Class<?> type = loader.loadClass(className);
+                            Method method = type.getMethod("removeShutdownHook", Boolean.TYPE);
+                            log.debug("Invoking: {}", method);
+                            method.invoke(null, Boolean.TRUE);
+                        }
+                        catch (Exception e) {
+                            // to be expected for plexus-utils 1.5.12-
+                        }
+                    }
+                }
+            }
+
+            // The above block only works for recent plexus-utils versions, the following block is a fallback attempt to remove hooks directly from the JRE.
+            try {
+                Class<?> shutdown = ClassLoader.getSystemClassLoader().loadClass("java.lang.ApplicationShutdownHooks");
+                Field field = shutdown.getDeclaredField("hooks");
+                field.setAccessible(true);
+
+                @SuppressWarnings("unchecked")
+                Collection<Thread> hooks = new ArrayList<Thread>(((Map<Thread, ?>) field.get(null)).keySet());
+
+                Runtime rt = Runtime.getRuntime();
+                for (Thread hook : hooks) {
+                    String name = hook.getClass().getName();
+                    log.debug("Inspecting hook: {}", name);
+                    if (name.contains("CommandLineUtils$") || name.equals("jline.TerminalSupport$RestoreHook")) {
+                        rt.removeShutdownHook(hook);
+                        log.debug("Removed shutdown hook: {} - {}", name, hook);
+                    }
+                }
+            }
+            catch (Exception e) {
+                // to be expected on jre != 1.6
             }
         }
     }
