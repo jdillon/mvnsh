@@ -601,6 +601,8 @@ public class MavenSystemImpl
             container.dispose();
         }
 
+        // TODO: May actually want to snapshot current hooks before executing mvn, then remove all that leaked in after execution when we clean up
+
         private void purgeStrayShutdownHooks(final Collection<? extends ClassLoader> loaders) {
             // CommandLineUtils from plexus-utils registers a (needless) shutdown hook which in turn causes a mem leak. As
             // counter measure, we inspect all created (plugin) class loaders and try to unregister the hook.
