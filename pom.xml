@@ -87,7 +87,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <gshellVersion>2.6.5-SNAPSHOT</gshellVersion>
-        <mavenVersion>3.0.3</mavenVersion>
+        <mavenVersion>3.0.5</mavenVersion>
         <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl>
     </properties>
 
@@ -205,13 +205,13 @@
             <dependency>
                 <groupId>org.sonatype.aether</groupId>
                 <artifactId>aether-connector-asynchttpclient</artifactId>
-                <version>1.11</version>
+                <version>1.13.1</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.aether</groupId>
                 <artifactId>aether-connector-wagon</artifactId>
-                <version>1.11</version>
+                <version>1.13.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.codehaus.plexus</groupId>
