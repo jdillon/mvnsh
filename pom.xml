@@ -86,7 +86,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <gshellVersion>2.6.5-SNAPSHOT</gshellVersion>
+        <gshellVersion>2.6.5</gshellVersion>
         <mavenVersion>3.0.5</mavenVersion>
         <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl>
     </properties>
