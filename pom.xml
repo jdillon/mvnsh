@@ -93,6 +93,9 @@
         <!-- <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl> -->
     </properties>
 
+    <!--
+    repository.sonatype.org has staging rules which presently disallow these repositories to be configured on a release (stupid).
+
     <repositories>
         <repository>
             <id>sonatype-public-grid</id>
@@ -106,6 +109,7 @@
             <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
         </pluginRepository>
     </pluginRepositories>
+    -->
 
     <dependencyManagement>
         <dependencies>
