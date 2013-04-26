@@ -1,7 +1,7 @@
 Description
 -----------
 
-Sonatype [Maven Shell](http://mvnsh.sonatype.org) (`mvnsh`) - OSS Version
+Sonatype Maven Shell (`mvnsh`)
 
 License
 -------
@@ -47,7 +47,7 @@ Building
 
 Check-out and build:
 
-    git clone git://github.com/sonatype/mvnsh.git
+    git clone git://github.com/jdillon/mvnsh.git
     cd mvnsh
     mvn install
 

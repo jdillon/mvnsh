@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sonatype.forge</groupId>
         <artifactId>forge-parent</artifactId>
-        <version>9</version>
+        <version>35</version>
     </parent>
 
     <groupId>org.sonatype.maven.shell</groupId>
@@ -45,19 +45,21 @@
         </license>
     </licenses>
 
-    <url>http://shell.sonatype.org/</url>
+    <url>https://github.com/jdillon/mvnsh</url>
 
     <scm>
-        <connection>scm:git:git://github.com/sonatype/mvnsh.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/sonatype/mvnsh.git</developerConnection>
-        <url>https://github.com/sonatype/mvnsh</url>
+        <connection>scm:git:git://github.com/jdillon/mvnsh.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jdillon/mvnsh.git</developerConnection>
+        <url>https://github.com/jdillon/mvnsh</url>
     </scm>
 
+    <!--
     <ciManagement>
         <system>Hudson</system>
         <url>https://grid.sonatype.org/ci/job/Maven-Shell</url>
     </ciManagement>
-
+    -->
+    
     <issueManagement>
         <system>JIRA</system>
         <url>https://issues.sonatype.org/browse/MVNSH</url>
@@ -88,7 +90,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <gshellVersion>2.6.5</gshellVersion>
         <mavenVersion>3.0.5</mavenVersion>
-        <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl>
+        <!-- <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl> -->
     </properties>
 
     <repositories>
@@ -375,42 +377,6 @@
 
     <build>
         <defaultGoal>install</defaultGoal>
-
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-
-            <resource>
-                <directory>${project.basedir}/src/main/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
-
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-
-            <testResource>
-                <directory>${project.basedir}/src/test/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-        </testResources>
 
         <pluginManagement>
             <plugins>
