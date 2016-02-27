@@ -23,10 +23,61 @@
         <format>tar.gz</format>
     </formats>
 
-    <includeBaseDirectory>false</includeBaseDirectory>
-    
-    <componentDescriptors>
-        <componentDescriptor>target/p2/assembly-descriptor.xml</componentDescriptor>
-    </componentDescriptors>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory/>
+            <fileMode>0644</fileMode>
+            <directoryMode>0755</directoryMode>
+            <excludes>
+                <exclude>bin/*</exclude>
+            </excludes>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory/>
+            <fileMode>0644</fileMode>
+            <directoryMode>0755</directoryMode>
+            <lineEnding>dos</lineEnding>
+            <includes>
+                <include>bin/*.bat</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory/>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <lineEnding>unix</lineEnding>
+            <includes>
+                <include>bin/*</include>
+            </includes>
+            <excludes>
+                <exclude>bin/*.bat</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>boot</outputDirectory>
+            <outputFileNameMapping>bootstrap.jar</outputFileNameMapping>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>org.sonatype.maven.shell:mvnsh-bootstrap</include>
+            </includes>
+        </dependencySet>
+
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useProjectArtifact>false</useProjectArtifact>
+            <excludes>
+                <exclude>org.sonatype.maven.shell:mvnsh-bootstrap</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
 
 </assembly>

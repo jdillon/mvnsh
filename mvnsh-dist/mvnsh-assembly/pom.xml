@@ -24,21 +24,9 @@
 
     <artifactId>mvnsh-assembly</artifactId>
     <name>Maven Shell Dist :: Assembly</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>apache-maven</artifactId>
-            <type>zip</type>
-            <classifier>bin</classifier>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.sisu</groupId>
-            <artifactId>sisu-inject-bean</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-bootstrap</artifactId>
@@ -48,89 +36,50 @@
             <groupId>org.sonatype.maven.shell</groupId>
             <artifactId>mvnsh-personality</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-maven</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-archetype</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.maven.shell</groupId>
+            <artifactId>mvnsh-nexus</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-standard</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-file</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-network</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell.commands</groupId>
+            <artifactId>gshell-pref</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.sonatype.maven.plugins</groupId>
-                <artifactId>maven-sisu-assembler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                            <goal>assemble</goal>
-                            <goal>generate-assembly-xml</goal>
-                        </goals>
-                        <configuration>
-                            <fragments>
-                                <fragment>
-                                    <groupId>org.sonatype.maven.shell.dist</groupId>
-                                    <artifactId>mvnsh-mvn-ext</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.maven.shell.dist</groupId>
-                                    <artifactId>mvnsh-assembly</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.gshell.commands</groupId>
-                                    <artifactId>gshell-standard</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.gshell.commands</groupId>
-                                    <artifactId>gshell-file</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.gshell.commands</groupId>
-                                    <artifactId>gshell-logging</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.gshell.commands</groupId>
-                                    <artifactId>gshell-network</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.gshell.commands</groupId>
-                                    <artifactId>gshell-pref</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.maven.shell</groupId>
-                                    <artifactId>mvnsh-maven</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.maven.shell</groupId>
-                                    <artifactId>mvnsh-archetype</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.maven.shell</groupId>
-                                    <artifactId>mvnsh-nexus</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.sisu.assembler</groupId>
-                                    <artifactId>sisu-assembler-gshell</artifactId>
-                                </fragment>
-                                <fragment>
-                                    <groupId>org.sonatype.sisu.assembler</groupId>
-                                    <artifactId>sisu-assembler-gshell-p2-runtime</artifactId>
-                                </fragment>
-                            </fragments>
-                            <properties>
-                                <assembly.basedir>.</assembly.basedir>
-                                <maven.basedir>apache-maven-${mavenVersion}</maven.basedir>
-                            </properties>
-                            <versionPolicy>
-                                <policies>
-                                    <policy>
-                                        <artifact>org.sonatype.sisu:sisu-guice:jar:noaop</artifact>
-                                        <version>[=,+)</version>
-                                    </policy>
-                                </policies>
-                            </versionPolicy>
-                            <outputDirectory>mvnsh-${project.version}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

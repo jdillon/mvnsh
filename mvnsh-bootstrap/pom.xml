@@ -69,7 +69,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.sonatype.maven.shell.launcher.Launcher</mainClass>
+                            <mainClass>org.sonatype.gshell.launcher.Launcher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -32,31 +32,31 @@
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-standard</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-file</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-logging</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-network</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.commands</groupId>
                 <artifactId>gshell-pref</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
             </dependency>
 
             <dependency>
