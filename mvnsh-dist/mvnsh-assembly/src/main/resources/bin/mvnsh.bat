@@ -1,14 +1,14 @@
-@rem .
-@rem Copyright (c) 2009-present Sonatype, Inc.
-@rem All rights reserved. This program and the accompanying materials
-@rem are made available under the terms of the Eclipse Public License v1.0
-@rem and Apache License v2.0 which accompanies this distribution.
-@rem The Eclipse Public License is available at 
-@rem   http://www.eclipse.org/legal/epl-v10.html
-@rem The Apache License v2.0 is available at
-@rem   http://www.apache.org/licenses/LICENSE-2.0.html
-@rem You may elect to redistribute this code under either of these licenses. 
-@rem .
+@REM
+@REM Copyright (c) 2009-present Sonatype, Inc.
+@REM All rights reserved. This program and the accompanying materials
+@REM are made available under the terms of the Eclipse Public License v1.0
+@REM and Apache License v2.0 which accompanies this distribution.
+@REM The Eclipse Public License is available at
+@REM   http://www.eclipse.org/legal/epl-v10.html
+@REM The Apache License v2.0 is available at
+@REM   http://www.apache.org/licenses/LICENSE-2.0.html
+@REM You may elect to redistribute this code under either of these licenses.
+@REM
 
 @if "%SHELL_DEBUG%" == "" @echo off
 
