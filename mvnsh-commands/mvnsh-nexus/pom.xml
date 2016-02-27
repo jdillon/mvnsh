@@ -23,7 +23,7 @@
     </parent>
 
     <artifactId>mvnsh-nexus</artifactId>
-    <name>Maven Shell Commands :: Nexus</name>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <dependencies>
         <dependency>

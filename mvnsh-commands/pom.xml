@@ -23,7 +23,7 @@
     </parent>
 
     <artifactId>mvnsh-commands</artifactId>
-    <name>Maven Shell Commands</name>
+    <name>${project.groupId}:${project.artifactId}</name>
     <packaging>pom</packaging>
 
     <dependencies>

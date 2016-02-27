@@ -23,7 +23,7 @@
     </parent>
 
     <artifactId>mvnsh-assembly</artifactId>
-    <name>Maven Shell Dist :: Assembly</name>
+    <name>${project.groupId}:${project.artifactId}</name>
     <packaging>pom</packaging>
 
     <dependencies>
