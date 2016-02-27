@@ -17,9 +17,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.forge</groupId>
-        <artifactId>forge-parent</artifactId>
-        <version>35</version>
+        <groupId>org.sonatype.buildsupport</groupId>
+        <artifactId>public-parent</artifactId>
+        <version>9</version>
+        <relativePath/>
     </parent>
 
     <groupId>org.sonatype.maven.shell</groupId>
@@ -86,8 +87,9 @@
     </developers>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.5</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
+
         <gshell.version>2.6.5</gshell.version>
         <maven.version>3.0.5</maven.version>
     </properties>
@@ -418,49 +420,10 @@
         <module>mvnsh-commands</module>
         <module>mvnsh-bootstrap</module>
         <module>mvnsh-personality</module>
+        <module>mvnsh-dist</module>
     </modules>
 
     <build>
-        <defaultGoal>install</defaultGoal>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.6</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                        <forkMode>once</forkMode>
-                        <argLine>-ea</argLine>
-                        <failIfNoTests>false</failIfNoTests>
-                        <workingDirectory>${project.build.directory}</workingDirectory>
-                        <excludes>
-                            <exclude>**/Abstract*.java</exclude>
-                            <exclude>**/Test*.java</exclude>
-                        </excludes>
-                        <includes>
-                            <include>**/*Test.java</include>
-                        </includes>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.5</source>
-                        <target>1.5</target>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -520,43 +483,6 @@
                 </executions>
             </plugin>
 
-            <!--
-            mvn license:format -N
-            If its a new year, update the year range in the header.txt file
-            -->
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <strictCheck>true</strictCheck>
-                    <header>${project.basedir}/header.txt</header>
-                    <useDefaultExcludes>false</useDefaultExcludes>
-                    <includes>
-                        <include>**/pom.xml</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.xsd</include>
-                        <include>**/*.xjb</include>
-                        <include>**/*.mdo</include>
-                        <include>**/*.properties</include>
-                        <include>**/*.java</include>
-                        <include>**/*.groovy</include>
-                        <include>**/*.scala</include>
-                        <include>**/*.aj</include>
-                        <include>**/*.js</include>
-                        <include>**/*.css</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/target/**</exclude>
-                    </excludes>
-                    <mapping>
-                        <scala>JAVADOC_STYLE</scala>
-                        <xjb>XML_STYLE</xjb>
-                        <mdo>XML_STYLE</mdo>
-                    </mapping>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
@@ -588,19 +514,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>assembly</id>
-            <activation>
-                <property>
-                    <name>!skipAssembly</name>
-                </property>
-            </activation>
-            <modules>
-                <module>mvnsh-dist</module>
-            </modules>
-        </profile>
-    </profiles>
 
 </project>
