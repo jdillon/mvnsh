@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- ~ Copyright (c) 2009-2011 Sonatype, Inc.
+ ~ Copyright (c) 2009-present Sonatype, Inc.
  ~ All rights reserved. This program and the accompanying materials
  ~ are made available under the terms of the Eclipse Public License v1.0
  ~ and Apache License v2.0 which accompanies this distribution.
@@ -27,68 +27,7 @@
     <name>Maven Shell Dist</name>
     <packaging>pom</packaging>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-standard</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-file</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-logging</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-network</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-pref</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.sisu.assembler</groupId>
-                <artifactId>sisu-assembler-gshell</artifactId>
-                <version>1.0.7</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.sisu.assembler</groupId>
-                <artifactId>sisu-assembler-gshell-p2-runtime</artifactId>
-                <version>1.0.7</version>
-            </dependency>            
-                            
-            <!-- INTERNAL -->
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-assembly</artifactId>
-                <version>1.1.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-mvn-ext</artifactId>
-                <version>1.1.1-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <modules>
-        <module>mvnsh-mvn-ext</module>
         <module>mvnsh-assembly</module>
     </modules>
 

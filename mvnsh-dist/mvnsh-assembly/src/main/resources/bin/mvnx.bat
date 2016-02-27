@@ -1,5 +1,5 @@
 @rem .
-@rem Copyright (c) 2009-2011 Sonatype, Inc.
+@rem Copyright (c) 2009-present Sonatype, Inc.
 @rem All rights reserved. This program and the accompanying materials
 @rem are made available under the terms of the Eclipse Public License v1.0
 @rem and Apache License v2.0 which accompanies this distribution.
