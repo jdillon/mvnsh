@@ -37,9 +37,16 @@
             </exclusions>
         </dependency>
 
+<!--
         <dependency>
-            <groupId>org.sonatype.sisu</groupId>
-            <artifactId>sisu-inject-plexus</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-archetype-plugin</artifactId>
+        </dependency>
+-->
+
+        <dependency>
+            <groupId>org.eclipse.sisu</groupId>
+            <artifactId>org.eclipse.sisu.plexus</artifactId>
         </dependency>
 
         <dependency>
@@ -53,6 +60,17 @@
         </dependency>
         
         <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+          <dependency>
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-core</artifactId>
             <classifier>tests</classifier>

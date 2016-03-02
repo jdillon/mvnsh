@@ -32,8 +32,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.sisu</groupId>
-            <artifactId>sisu-inject-plexus</artifactId>
+            <groupId>org.eclipse.sisu</groupId>
+            <artifactId>org.eclipse.sisu.plexus</artifactId>
         </dependency>
 
         <dependency>
@@ -53,7 +53,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.aether</groupId>
+            <groupId>org.eclipse.aether</groupId>
             <artifactId>aether-connector-asynchttpclient</artifactId>
             <scope>test</scope>
         </dependency>
