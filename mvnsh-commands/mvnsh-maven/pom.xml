@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
- ~ Copyright (c) 2009-2011 Sonatype, Inc.
- ~ All rights reserved. This program and the accompanying materials
- ~ are made available under the terms of the Eclipse Public License v1.0
- ~ and Apache License v2.0 which accompanies this distribution.
- ~ The Eclipse Public License is available at 
- ~   http://www.eclipse.org/legal/epl-v10.html
- ~ The Apache License v2.0 is available at
- ~   http://www.apache.org/licenses/LICENSE-2.0.html
- ~ You may elect to redistribute this code under either of these licenses. 
--->
 
+    Copyright (c) 2009-present Sonatype, Inc.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    and Apache License v2.0 which accompanies this distribution.
+    The Eclipse Public License is available at
+      http://www.eclipse.org/legal/epl-v10.html
+    The Apache License v2.0 is available at
+      http://www.apache.org/licenses/LICENSE-2.0.html
+    You may elect to redistribute this code under either of these licenses.
+
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -19,11 +19,11 @@
     <parent>
         <groupId>org.sonatype.maven.shell</groupId>
         <artifactId>mvnsh-commands</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>mvnsh-maven</artifactId>
-    <name>Maven Shell Commands :: Maven</name>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <dependencies>
         <dependency>
@@ -58,32 +58,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
-    <profiles>
-        <profile>
-            <id>assembly</id>
-            <activation>
-                <property>
-                    <name>!skipAssembly</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonatype.maven.plugins</groupId>
-                        <artifactId>maven-sisu-assembler-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>     
 
 </project>
 

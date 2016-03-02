@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
- ~ Copyright (c) 2009-2011 Sonatype, Inc.
- ~ All rights reserved. This program and the accompanying materials
- ~ are made available under the terms of the Eclipse Public License v1.0
- ~ and Apache License v2.0 which accompanies this distribution.
- ~ The Eclipse Public License is available at 
- ~   http://www.eclipse.org/legal/epl-v10.html
- ~ The Apache License v2.0 is available at
- ~   http://www.apache.org/licenses/LICENSE-2.0.html
- ~ You may elect to redistribute this code under either of these licenses. 
--->
 
+    Copyright (c) 2009-present Sonatype, Inc.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    and Apache License v2.0 which accompanies this distribution.
+    The Eclipse Public License is available at
+      http://www.eclipse.org/legal/epl-v10.html
+    The Apache License v2.0 is available at
+      http://www.apache.org/licenses/LICENSE-2.0.html
+    You may elect to redistribute this code under either of these licenses.
+
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.forge</groupId>
-        <artifactId>forge-parent</artifactId>
-        <version>35</version>
+        <groupId>org.sonatype.buildsupport</groupId>
+        <artifactId>public-parent</artifactId>
+        <version>9</version>
+        <relativePath/>
     </parent>
 
     <groupId>org.sonatype.maven.shell</groupId>
     <artifactId>mvnsh</artifactId>
-    <name>Maven Shell</name>
-    <version>1.1.1-SNAPSHOT</version>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <organization>
@@ -86,11 +87,11 @@
     </developers>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <gshellVersion>2.6.5</gshellVersion>
-        <mavenVersion>3.0.5</mavenVersion>
-        <!-- <forgeReleaseUrl>https://repository.sonatype.org/service/local/staging/deploy/maven2</forgeReleaseUrl> -->
+        <maven.compiler.source>1.5</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
+
+        <gshell.version>2.6.5</gshell.version>
+        <maven.version>3.0.5</maven.version>
     </properties>
 
     <!--
@@ -169,7 +170,7 @@
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-embedder</artifactId>
-                <version>${mavenVersion}</version>
+                <version>${maven.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>junit</groupId>
@@ -197,13 +198,13 @@
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-model</artifactId>
-                <version>${mavenVersion}</version>
+                <version>${maven.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>apache-maven</artifactId>
-                <version>${mavenVersion}</version>
+                <version>${maven.version}</version>
                 <classifier>bin</classifier>
                 <type>zip</type>
             </dependency>
@@ -293,7 +294,7 @@
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.inject</groupId>
@@ -306,7 +307,7 @@
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
                 <classifier>tests</classifier>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.inject</groupId>
@@ -318,19 +319,19 @@
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-launcher</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.ext</groupId>
                 <artifactId>gshell-gossip</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.gshell.ext</groupId>
                 <artifactId>gshell-plexus</artifactId>
-                <version>${gshellVersion}</version>
+                <version>${gshell.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.codehaus.plexus</groupId>
@@ -338,36 +339,78 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-standard</artifactId>
+                <version>${gshell.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-file</artifactId>
+                <version>${gshell.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-logging</artifactId>
+                <version>${gshell.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-network</artifactId>
+                <version>${gshell.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gshell.commands</groupId>
+                <artifactId>gshell-pref</artifactId>
+                <version>${gshell.version}</version>
+            </dependency>
+
             <!-- INTERNAL -->
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-bootstrap</artifactId>
-                <version>1.1.1-SNAPSHOT</version>
+                <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
-                <version>1.1.1-SNAPSHOT</version>
+                <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-archetype</artifactId>
-                <version>1.1.1-SNAPSHOT</version>
+                <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-nexus</artifactId>
-                <version>1.1.1-SNAPSHOT</version>
+                <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.maven.shell</groupId>
                 <artifactId>mvnsh-personality</artifactId>
+                <version>1.2.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.maven.shell.dist</groupId>
+                <artifactId>mvnsh-assembly</artifactId>
+                <version>1.2.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.maven.shell.dist</groupId>
+                <artifactId>mvnsh-mvn-ext</artifactId>
                 <version>1.1.1-SNAPSHOT</version>
             </dependency>
         </dependencies>
@@ -377,49 +420,10 @@
         <module>mvnsh-commands</module>
         <module>mvnsh-bootstrap</module>
         <module>mvnsh-personality</module>
+        <module>mvnsh-dist</module>
     </modules>
 
     <build>
-        <defaultGoal>install</defaultGoal>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                        <forkMode>once</forkMode>
-                        <argLine>-ea</argLine>
-                        <failIfNoTests>false</failIfNoTests>
-                        <workingDirectory>${project.build.directory}</workingDirectory>
-                        <excludes>
-                            <exclude>**/Abstract*.java</exclude>
-                            <exclude>**/Test*.java</exclude>
-                        </excludes>
-                        <includes>
-                            <include>**/*Test.java</include>
-                        </includes>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.5</source>
-                        <target>1.5</target>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.sonatype.maven.plugins</groupId>
-                    <artifactId>maven-sisu-assembler-plugin</artifactId>
-                    <version>1.0.7</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -479,43 +483,6 @@
                 </executions>
             </plugin>
 
-            <!--
-            mvn license:format -N
-            If its a new year, update the year range in the header.txt file
-            -->
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <strictCheck>true</strictCheck>
-                    <header>${project.basedir}/header.txt</header>
-                    <useDefaultExcludes>false</useDefaultExcludes>
-                    <includes>
-                        <include>**/pom.xml</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.xsd</include>
-                        <include>**/*.xjb</include>
-                        <include>**/*.mdo</include>
-                        <include>**/*.properties</include>
-                        <include>**/*.java</include>
-                        <include>**/*.groovy</include>
-                        <include>**/*.scala</include>
-                        <include>**/*.aj</include>
-                        <include>**/*.js</include>
-                        <include>**/*.css</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/target/**</exclude>
-                    </excludes>
-                    <mapping>
-                        <scala>JAVADOC_STYLE</scala>
-                        <xjb>XML_STYLE</xjb>
-                        <mdo>XML_STYLE</mdo>
-                    </mapping>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
@@ -547,19 +514,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>assembly</id>
-            <activation>
-                <property>
-                    <name>!skipAssembly</name>
-                </property>
-            </activation>
-            <modules>
-                <module>mvnsh-dist</module>
-            </modules>
-        </profile>
-    </profiles>
 
 </project>
