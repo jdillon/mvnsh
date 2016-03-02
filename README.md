@@ -55,7 +55,7 @@ Building
 
 ### Requirements
 
-* [Maven](http://maven.apache.org) 2+
+* [Maven](http://maven.apache.org) 3+
 * [Java](http://java.sun.com/) 5+
 
 Check-out and build:
