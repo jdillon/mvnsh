@@ -11,13 +11,21 @@
  */
 package org.sonatype.maven.shell.maven;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import jline.Terminal;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.maven.Maven;
 import org.apache.maven.cli.CLIReportingUtils;
-import org.apache.maven.cli.MavenLoggerManager;
-import org.apache.maven.cli.PrintStreamLogger;
 import org.apache.maven.exception.DefaultExceptionHandler;
 import org.apache.maven.exception.ExceptionHandler;
 import org.apache.maven.exception.ExceptionSummary;
@@ -38,11 +46,13 @@ import org.codehaus.plexus.DefaultContainerConfiguration;
 import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
+import org.codehaus.plexus.logging.LoggerManager;
+import org.codehaus.plexus.logging.console.ConsoleLoggerManager;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
+import org.eclipse.aether.transfer.TransferListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonatype.aether.transfer.TransferListener;
 import org.sonatype.gshell.util.io.Closer;
 import org.sonatype.gshell.util.io.StreamSet;
 import org.sonatype.gshell.util.yarn.Yarn;
@@ -50,19 +60,10 @@ import org.sonatype.maven.shell.maven.internal.BatchModeMavenTransferListener;
 import org.sonatype.maven.shell.maven.internal.ConsoleMavenTransferListener;
 import org.sonatype.maven.shell.maven.internal.ExecutionEventLogger;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import jline.Terminal;
 
 /**
  * {@link MavenSystem} implementation.
@@ -90,11 +91,7 @@ public class MavenSystemImpl
     }
 
     public String getVersion() {
-        ByteArrayOutputStream buff = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(buff);
-        CLIReportingUtils.showVersion(out);
-        Closer.close(out);
-        return new String(buff.toByteArray());
+        return CLIReportingUtils.showVersion();
     }
 
     public MavenRuntime create(final MavenRuntimeConfiguration config) throws Exception {
@@ -133,11 +130,14 @@ public class MavenSystemImpl
     private class MavenRuntimeImpl
         implements MavenRuntime
     {
-        private final Logger log = LoggerFactory.getLogger(MavenRuntimeImpl.class);
+        private static final String MVNSH = "mvnsh";
+
+		private final Logger log = LoggerFactory.getLogger(MavenRuntimeImpl.class);
 
         private final MavenRuntimeConfiguration config;
 
-        private PrintStreamLogger logger;
+        private LoggerManager loggerManager;
+        private org.codehaus.plexus.logging.Logger plexusLogger;
 
         private PrintStream logStream;
 
@@ -172,14 +172,12 @@ public class MavenSystemImpl
             config.setStreams(streams);
 
             // Configure logging
-            this.logger = config.getLogger();
-            if (logger == null) {
-                logger = new PrintStreamLogger(streams.out);
+            this.loggerManager = config.getLogger();
+            if (loggerManager == null) {
+                loggerManager = new ConsoleLoggerManager();
+                config.setLogger(loggerManager);
             }
-            else {
-                logger.setStream(streams.out);
-            }
-            config.setLogger(logger);
+            this.plexusLogger = loggerManager.getLoggerForComponent(MVNSH);
 
             int level = MavenExecutionRequest.LOGGING_LEVEL_INFO;
             if (config.isDebug()) {
@@ -188,20 +186,20 @@ public class MavenSystemImpl
             else if (config.isQuiet()) {
                 level = MavenExecutionRequest.LOGGING_LEVEL_ERROR;
             }
-            logger.setThreshold(level);
+            loggerManager.setThreshold(level);
 
             File logFile = config.getLogFile();
             if (logFile != null) {
-                logFile = resolveFile(logFile, config.getBaseDirectory());
-
-                try {
-                    logStream = new PrintStream(logFile);
-                    logger.setStream(logStream);
-                }
-                catch (FileNotFoundException e) {
-                    log.warn("Failed to open logging stream for file: " + logFile, e);
-                    logger.setStream(streams.out);
-                }
+//                logFile = resolveFile(logFile, config.getBaseDirectory());
+//
+//                try {
+//                    logStream = new PrintStream(logFile);
+//                    logger.setStream(logStream);
+//                }
+//                catch (FileNotFoundException e) {
+//                    log.warn("Failed to open logging stream for file: " + logFile, e);
+//                    logger.setStream(streams.out);
+//                }
             }
 
             // Setup the container
@@ -230,8 +228,7 @@ public class MavenSystemImpl
             assert c != null;
 
             c.setLookupRealm(null);
-            c.setLoggerManager(new MavenLoggerManager(config.getLogger()));
-            c.getLoggerManager().setThresholds(logger.getThreshold());
+            c.setLoggerManager(config.getLogger());
 
             // If there is a configuration delegate then call it
             if (config.getDelegate() != null) {
@@ -259,7 +256,7 @@ public class MavenSystemImpl
                 return doExecute(request);
             }
             catch (Exception e) {
-                CLIReportingUtils.showError(logger, "Error executing Maven.", e, request.isShowErrors()); // TODO: i81n
+                CLIReportingUtils.showError(log, "Error executing Maven.", e, request.isShowErrors()); // TODO: i81n
                 return 1;
             }
             finally {
@@ -283,7 +280,7 @@ public class MavenSystemImpl
                 userSettingsFile = DEFAULT_USER_SETTINGS_FILE;
             }
 
-            logger.debug("Reading user settings from: " + userSettingsFile);
+            plexusLogger.debug("Reading user settings from: " + userSettingsFile);
             request.setUserSettingsFile(userSettingsFile);
 
             File globalSettingsFile = config.getGlobalSettingsFile();
@@ -297,7 +294,7 @@ public class MavenSystemImpl
                 globalSettingsFile = DEFAULT_GLOBAL_SETTINGS_FILE;
             }
 
-            logger.debug("Reading global settings from: " + globalSettingsFile);
+            plexusLogger.debug("Reading global settings from: " + globalSettingsFile);
             request.setGlobalSettingsFile(globalSettingsFile);
 
             configureProperties(request);
@@ -326,15 +323,15 @@ public class MavenSystemImpl
                 container.release(populator);
             }
 
-            if (!settingsResult.getProblems().isEmpty() && logger.isWarnEnabled()) {
-                logger.warn("");
-                logger.warn("Some problems were encountered while building the effective settings"); // TODO: i18n
+            if (!settingsResult.getProblems().isEmpty() && plexusLogger.isWarnEnabled()) {
+                plexusLogger.warn("");
+                plexusLogger.warn("Some problems were encountered while building the effective settings"); // TODO: i18n
 
                 for (SettingsProblem problem : settingsResult.getProblems()) {
-                    logger.warn(problem.getMessage() + " @ " + problem.getLocation()); // TODO: i18n
+                    plexusLogger.warn(problem.getMessage() + " @ " + problem.getLocation()); // TODO: i18n
                 }
 
-                logger.warn("");
+                plexusLogger.warn("");
             }
         }
 
@@ -444,8 +441,8 @@ public class MavenSystemImpl
             request.setTransferListener(transferListener);
 
             // Configure request logging
-            request.setLoggingLevel(logger.getThreshold());
-            request.setExecutionListener(new ExecutionEventLogger(terminal.get(), logger));
+            request.setLoggingLevel(plexusLogger.getThreshold());
+            request.setExecutionListener(new ExecutionEventLogger(terminal.get(), plexusLogger));
         }
 
         private int doExecute(final MavenExecutionRequest request) throws Exception {
@@ -453,7 +450,7 @@ public class MavenSystemImpl
             assert config != null;
 
             if (config.isDebug() || config.isShowVersion()) {
-                CLIReportingUtils.showVersion(config.getStreams().out);
+                plexusLogger.info(CLIReportingUtils.showVersion());
             }
 
             //
@@ -461,13 +458,13 @@ public class MavenSystemImpl
             //
 
             if (request.isShowErrors()) {
-                logger.info("Error stack-traces are turned on.");
+            	plexusLogger.info("Error stack-traces are turned on.");
             }
             if (MavenExecutionRequest.CHECKSUM_POLICY_WARN.equals(request.getGlobalChecksumPolicy())) {
-                logger.info("Disabling strict checksum verification on all artifact downloads.");
+            	plexusLogger.info("Disabling strict checksum verification on all artifact downloads.");
             }
             else if (MavenExecutionRequest.CHECKSUM_POLICY_FAIL.equals(request.getGlobalChecksumPolicy())) {
-                logger.info("Enabling strict checksum verification on all artifact downloads.");
+            	plexusLogger.info("Enabling strict checksum verification on all artifact downloads.");
             }
 
             if (log.isDebugEnabled()) {
@@ -504,32 +501,32 @@ public class MavenSystemImpl
                 }
             }
 
-            logger.error("");
+            plexusLogger.error("");
 
             if (!request.isShowErrors()) {
-                logger.error("To see the full stack-trace of the errors, re-run Maven with the -e switch.");
+            	plexusLogger.error("To see the full stack-trace of the errors, re-run Maven with the -e switch.");
             }
-            if (!logger.isDebugEnabled()) {
-                logger.error("Re-run Maven using the -X switch to enable full debug logging.");
+            if (!plexusLogger.isDebugEnabled()) {
+            	plexusLogger.error("Re-run Maven using the -X switch to enable full debug logging.");
             }
 
             if (!references.isEmpty()) {
-                logger.error("");
-                logger.error("For more information about the errors and possible solutions, please read the following articles:");
+            	plexusLogger.error("");
+                plexusLogger.error("For more information about the errors and possible solutions, please read the following articles:");
 
                 for (Map.Entry<String, String> entry : references.entrySet()) {
-                    logger.error(entry.getValue() + " " + entry.getKey());
+                	plexusLogger.error(entry.getValue() + " " + entry.getKey());
                 }
             }
 
             if (project != null && !project.equals(result.getTopologicallySortedProjects().get(0))) {
-                logger.error("");
-                logger.error("After correcting the problems, you can resume the build with the command");
-                logger.error("  mvn <goals> -rf :" + project.getArtifactId());
+            	plexusLogger.error("");
+            	plexusLogger.error("After correcting the problems, you can resume the build with the command");
+            	plexusLogger.error("  mvn <goals> -rf :" + project.getArtifactId());
             }
 
             if (MavenExecutionRequest.REACTOR_FAIL_NEVER.equals(request.getReactorFailureBehavior())) {
-                logger.info("Build failures were ignored.");
+            	plexusLogger.info("Build failures were ignored.");
                 return 0;
             }
             else {
@@ -565,10 +562,10 @@ public class MavenSystemImpl
 
             if (showErrors) {
                 //noinspection ThrowableResultOfMethodCallIgnored
-                logger.error(msg, summary.getException());
+            	plexusLogger.error(msg, summary.getException());
             }
             else {
-                logger.error(msg);
+            	plexusLogger.error(msg);
             }
 
             indent += "  ";
