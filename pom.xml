@@ -87,10 +87,10 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>1.5</maven.compiler.source>
-        <maven.compiler.target>1.5</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
 
-        <gshell.version>2.6.5</gshell.version>
+        <gshell.version>2.7.0-SNAPSHOT</gshell.version>
         <maven.version>3.0.5</maven.version>
     </properties>
 
@@ -131,23 +131,6 @@
                 <artifactId>sisu-inject-plexus</artifactId>
                 <version>2.3.4</version>
             </dependency>
-
-            <!--<dependency>-->
-                <!--<groupId>org.sonatype.sisu</groupId>-->
-                <!--<artifactId>sisu-guice</artifactId>-->
-                <!--<version>2.9.4</version>-->
-                <!--<classifier>noaop</classifier>-->
-                <!--<exclusions>-->
-                    <!--<exclusion>-->
-                        <!--<groupId>javax.inject</groupId>-->
-                        <!--<artifactId>javax.inject</artifactId>-->
-                    <!--</exclusion>-->
-                    <!--<exclusion>-->
-                        <!--<groupId>aopalliance</groupId>-->
-                        <!--<artifactId>aopalliance</artifactId>-->
-                    <!--</exclusion>-->
-                <!--</exclusions>-->
-            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.sonatype.gossip</groupId>
@@ -202,14 +185,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>apache-maven</artifactId>
-                <version>${maven.version}</version>
-                <classifier>bin</classifier>
-                <type>zip</type>
-            </dependency>
-
-            <dependency>
                 <groupId>org.sonatype.aether</groupId>
                 <artifactId>aether-connector-asynchttpclient</artifactId>
                 <version>1.13.1</version>
@@ -239,68 +214,12 @@
                 <version>1.1.1</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.4.4</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.wink</groupId>
-                <artifactId>wink-client</artifactId>
-                <version>1.3.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.wink</groupId>
-                <artifactId>wink-client-apache-httpclient</artifactId>
-                <version>1.3.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.ws.rs</groupId>
-                <artifactId>jsr311-api</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>1.4</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.security</groupId>
-                <artifactId>security-rest-api</artifactId>
-                <version>1.1.3</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.sonatype.plexus</groupId>
-                        <artifactId>plexus-restlet-bridge</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.sonatype.security.realms</groupId>
-                        <artifactId>security-xml-realm</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.sonatype.security</groupId>
-                        <artifactId>security-system</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
             <!-- GShell -->
 
             <dependency>
                 <groupId>org.sonatype.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
                 <version>${gshell.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.inject</groupId>
-                        <artifactId>guice</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -308,12 +227,6 @@
                 <artifactId>gshell-core</artifactId>
                 <classifier>tests</classifier>
                 <version>${gshell.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.inject</groupId>
-                        <artifactId>guice</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -407,12 +320,6 @@
                 <artifactId>mvnsh-assembly</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-mvn-ext</artifactId>
-                <version>1.1.1-SNAPSHOT</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -440,13 +347,13 @@
                                     <version>[3.0,)</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[1.5,)</version>
+                                    <version>[1.6,)</version>
                                 </requireJavaVersion>
                                 <bannedDependencies>
                                     <excludes>
                                         <exclude>org.codehaus.plexus:plexus-container-default</exclude>
                                         <exclude>org.sonatype.spice:spice-inject-plexus</exclude>
-                                        <exclude>com.google.inject:guice</exclude>
+                                        <!--<exclude>com.google.inject:guice</exclude>-->
                                     </excludes>
                                 </bannedDependencies>
                             </rules>
@@ -456,9 +363,9 @@
             </plugin>
 
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
+                <groupId>org.eclipse.sisu</groupId>
                 <artifactId>sisu-maven-plugin</artifactId>
-                <version>1.1</version>
+                <version>0.3.3</version>
                 <executions>
                     <execution>
                         <goals>
@@ -494,8 +401,8 @@
                         <configuration>
                             <signature>
                                 <groupId>org.codehaus.mojo.signature</groupId>
-                                <artifactId>java15</artifactId>
-                                <version>1.0</version>
+                                <artifactId>java16</artifactId>
+                                <version>1.1</version>
                             </signature>
                         </configuration>
                     </execution>

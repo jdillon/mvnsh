@@ -47,11 +47,6 @@
             <artifactId>mvnsh-archetype</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.sonatype.maven.shell</groupId>-->
-            <!--<artifactId>mvnsh-nexus</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.sonatype.gshell.commands</groupId>
             <artifactId>gshell-standard</artifactId>
