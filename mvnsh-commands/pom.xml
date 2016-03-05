@@ -26,24 +26,9 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.sonatype.gshell</groupId>
-            <artifactId>gshell-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.sonatype.gshell</groupId>
-            <artifactId>gshell-core</artifactId>
-            <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    
     <modules>
         <module>mvnsh-maven</module>
-        <module>mvnsh-archetype</module>
+        <!--<module>mvnsh-archetype</module>-->
     </modules>
 
 </project>

@@ -27,6 +27,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.gshell.ext</groupId>
             <artifactId>gshell-plexus</artifactId>
         </dependency>
@@ -44,6 +50,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-core</artifactId>
+            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
 

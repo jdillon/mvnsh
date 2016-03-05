@@ -27,6 +27,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.sonatype.gshell</groupId>
+            <artifactId>gshell-core</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.sonatype.maven.archetype</groupId>
             <artifactId>archetype-common</artifactId>
             <exclusions>
@@ -43,15 +48,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell</groupId>
-            <artifactId>gshell-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.sonatype.gshell.ext</groupId>
             <artifactId>gshell-plexus</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-core</artifactId>

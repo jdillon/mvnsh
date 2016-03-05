@@ -42,10 +42,10 @@
             <artifactId>mvnsh-maven</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.sonatype.maven.shell</groupId>
-            <artifactId>mvnsh-archetype</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.sonatype.maven.shell</groupId>-->
+            <!--<artifactId>mvnsh-archetype</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.sonatype.gshell.commands</groupId>
