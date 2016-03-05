@@ -13,7 +13,6 @@ package org.sonatype.maven.shell.commands.maven;
 
 import com.google.inject.Inject;
 import org.apache.maven.execution.MavenExecutionRequest;
-import org.sonatype.grrrowl.Growler;
 import org.sonatype.gshell.command.Command;
 import org.sonatype.gshell.command.support.CommandActionSupport;
 import org.sonatype.gshell.command.CommandContext;
@@ -232,26 +231,10 @@ public class MavenCommand
 
     private final MavenSystem maven;
 
-    private Growler growler;
-    
-    @Preference
-    private boolean growl = true;
-
     @Inject
     public MavenCommand(final MavenSystem maven) {
         assert maven != null;
         this.maven = maven;
-    }
-
-    // HACK: Setup growl once, so clones get the same instance, no real init or registered hook in gshell yet, so we have to use this
-    //       could setup up some support to register an event listener in CommandActionSupport or something later to really fix
-    @Override
-    public void setName(final String name) {
-        super.setName(name);
-
-        // Setup growl support
-        this.growler = new Growler(name, Notifications.class);
-        this.growler.register();
     }
 
     public void setProcessor(final CliProcessor processor) {
@@ -403,23 +386,6 @@ public class MavenCommand
             StreamJack.deregister();
             // HACK: Not sure why, but we need to reset the terminal after some mvn builds
             io.getTerminal().reset();
-        }
-
-        if (growl) {
-            String cl = String.format("%s %s", getName(), Strings.join(context.getArguments(), " "));
-
-            if (result == 0) {
-                growler.growl(
-                    Notifications.BUILD_PASSED,
-                    "BUILD SUCCESS", // TODO: i18n
-                    cl);
-            }
-            else {
-                growler.growl(
-                    Notifications.BUILD_FAILED,
-                    "BUILD FAILURE", // TODO: i18n
-                    cl);
-            }
         }
 
         return result;

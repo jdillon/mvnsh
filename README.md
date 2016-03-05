@@ -27,8 +27,7 @@ Features
 
 * Interactive shell
 * Integrated archetype support
-* [Growl][1] build notifications (Using AppleScript or [JNA][2])
-* Optional support for ANSI color on Windows (using [JNA][2])
+* Optional support for ANSI color on Windows (using [JNA][1])
 
 Maven Specific Features
 --------
@@ -69,5 +68,4 @@ Extract the assembly and execute the shell:
     unzip mvnsh-assembly/target/mvnsh-*-bin.zip
     ./mvnsh-*/bin/mvnsh
 
-[1]: http://growl.info/
-[2]: https://jna.dev.java.net/
+[1]: https://jna.dev.java.net/
