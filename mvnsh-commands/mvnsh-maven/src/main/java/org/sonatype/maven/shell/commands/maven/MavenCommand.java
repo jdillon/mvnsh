@@ -44,6 +44,7 @@ public class MavenCommand
     extends CommandActionSupport
     implements OpaqueArguments
 {
+    // HACK: no additional options due to use of OpaqueArguments
     private Boolean color = true;
 
     public Object execute(final CommandContext context) throws Exception {
