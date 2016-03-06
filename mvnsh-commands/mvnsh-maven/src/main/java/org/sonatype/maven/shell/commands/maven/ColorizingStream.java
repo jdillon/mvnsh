@@ -98,7 +98,7 @@ public class ColorizingStream
         if (line.startsWith("[INFO] Reactor Build Order:")) {
             line = ansi().a(INTENSITY_BOLD).a(line).reset().toString();
         }
-        else if (line.startsWith("[WARNING]")) {
+        else if (line.startsWith("[WARNING]") || line.startsWith("[WARN]")) {
             line = ansi().fg(RED).a(line).reset().toString();
         }
         else if (line.startsWith("ERROR") || line.contains("FAILURE") || line.contains("FAILED")) {
