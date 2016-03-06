@@ -16,8 +16,7 @@ import com.google.inject.Provider;
 import jline.Terminal;
 import org.apache.maven.Maven;
 import org.apache.maven.cli.CLIReportingUtils;
-import org.apache.maven.cli.MavenLoggerManager;
-import org.apache.maven.cli.PrintStreamLogger;
+import org.apache.maven.cli.logging.Slf4jLoggerManager;
 import org.apache.maven.exception.DefaultExceptionHandler;
 import org.apache.maven.exception.ExceptionHandler;
 import org.apache.maven.exception.ExceptionSummary;
@@ -40,9 +39,9 @@ import org.codehaus.plexus.classworlds.ClassWorld;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
+import org.eclipse.aether.transfer.TransferListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonatype.aether.transfer.TransferListener;
 import org.sonatype.gshell.util.io.Closer;
 import org.sonatype.gshell.util.io.StreamSet;
 import org.sonatype.gshell.util.yarn.Yarn;
@@ -90,11 +89,7 @@ public class MavenSystemImpl
     }
 
     public String getVersion() {
-        ByteArrayOutputStream buff = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(buff);
-        CLIReportingUtils.showVersion(out);
-        Closer.close(out);
-        return new String(buff.toByteArray());
+        return CLIReportingUtils.showVersion();
     }
 
     public MavenRuntime create(final MavenRuntimeConfiguration config) throws Exception {
@@ -137,8 +132,6 @@ public class MavenSystemImpl
 
         private final MavenRuntimeConfiguration config;
 
-        private PrintStreamLogger logger;
-
         private PrintStream logStream;
 
         private DefaultPlexusContainer container;
@@ -172,37 +165,37 @@ public class MavenSystemImpl
             config.setStreams(streams);
 
             // Configure logging
-            this.logger = config.getLogger();
-            if (logger == null) {
-                logger = new PrintStreamLogger(streams.out);
-            }
-            else {
-                logger.setStream(streams.out);
-            }
-            config.setLogger(logger);
+            //this.logger = config.getLogger();
+            //if (logger == null) {
+            //    logger = new PrintStreamLogger(streams.out);
+            //}
+            //else {
+            //    logger.setStream(streams.out);
+            //}
+            //config.setLogger(logger);
+            //
+            //int level = MavenExecutionRequest.LOGGING_LEVEL_INFO;
+            //if (config.isDebug()) {
+            //    level = MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
+            //}
+            //else if (config.isQuiet()) {
+            //    level = MavenExecutionRequest.LOGGING_LEVEL_ERROR;
+            //}
+            //logger.setThreshold(level);
 
-            int level = MavenExecutionRequest.LOGGING_LEVEL_INFO;
-            if (config.isDebug()) {
-                level = MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
-            }
-            else if (config.isQuiet()) {
-                level = MavenExecutionRequest.LOGGING_LEVEL_ERROR;
-            }
-            logger.setThreshold(level);
-
-            File logFile = config.getLogFile();
-            if (logFile != null) {
-                logFile = resolveFile(logFile, config.getBaseDirectory());
-
-                try {
-                    logStream = new PrintStream(logFile);
-                    logger.setStream(logStream);
-                }
-                catch (FileNotFoundException e) {
-                    log.warn("Failed to open logging stream for file: " + logFile, e);
-                    logger.setStream(streams.out);
-                }
-            }
+            //File logFile = config.getLogFile();
+            //if (logFile != null) {
+            //    logFile = resolveFile(logFile, config.getBaseDirectory());
+            //
+            //    try {
+            //        logStream = new PrintStream(logFile);
+            //        logger.setStream(logStream);
+            //    }
+            //    catch (FileNotFoundException e) {
+            //        log.warn("Failed to open logging stream for file: " + logFile, e);
+            //        logger.setStream(streams.out);
+            //    }
+            //}
 
             // Setup the container
             this.container = createContainer();
@@ -230,8 +223,8 @@ public class MavenSystemImpl
             assert c != null;
 
             c.setLookupRealm(null);
-            c.setLoggerManager(new MavenLoggerManager(config.getLogger()));
-            c.getLoggerManager().setThresholds(logger.getThreshold());
+            c.setLoggerManager(new Slf4jLoggerManager());
+            //c.getLoggerManager().setThresholds(logger.getThreshold());
 
             // If there is a configuration delegate then call it
             if (config.getDelegate() != null) {
@@ -259,7 +252,7 @@ public class MavenSystemImpl
                 return doExecute(request);
             }
             catch (Exception e) {
-                CLIReportingUtils.showError(logger, "Error executing Maven.", e, request.isShowErrors()); // TODO: i81n
+                CLIReportingUtils.showError(log, "Error executing Maven.", e, request.isShowErrors()); // TODO: i81n
                 return 1;
             }
             finally {
@@ -283,7 +276,7 @@ public class MavenSystemImpl
                 userSettingsFile = DEFAULT_USER_SETTINGS_FILE;
             }
 
-            logger.debug("Reading user settings from: " + userSettingsFile);
+            log.debug("Reading user settings from: {}", userSettingsFile);
             request.setUserSettingsFile(userSettingsFile);
 
             File globalSettingsFile = config.getGlobalSettingsFile();
@@ -297,7 +290,7 @@ public class MavenSystemImpl
                 globalSettingsFile = DEFAULT_GLOBAL_SETTINGS_FILE;
             }
 
-            logger.debug("Reading global settings from: " + globalSettingsFile);
+            log.debug("Reading global settings from: {}", globalSettingsFile);
             request.setGlobalSettingsFile(globalSettingsFile);
 
             configureProperties(request);
@@ -326,15 +319,15 @@ public class MavenSystemImpl
                 container.release(populator);
             }
 
-            if (!settingsResult.getProblems().isEmpty() && logger.isWarnEnabled()) {
-                logger.warn("");
-                logger.warn("Some problems were encountered while building the effective settings"); // TODO: i18n
+            if (!settingsResult.getProblems().isEmpty() && log.isWarnEnabled()) {
+                log.warn("");
+                log.warn("Some problems were encountered while building the effective settings"); // TODO: i18n
 
                 for (SettingsProblem problem : settingsResult.getProblems()) {
-                    logger.warn(problem.getMessage() + " @ " + problem.getLocation()); // TODO: i18n
+                    log.warn(problem.getMessage() + " @ " + problem.getLocation()); // TODO: i18n
                 }
 
-                logger.warn("");
+                log.warn("");
             }
         }
 
@@ -444,30 +437,30 @@ public class MavenSystemImpl
             request.setTransferListener(transferListener);
 
             // Configure request logging
-            request.setLoggingLevel(logger.getThreshold());
-            request.setExecutionListener(new ExecutionEventLogger(terminal.get(), logger));
+            //request.setLoggingLevel(logger.getThreshold());
+            request.setExecutionListener(new ExecutionEventLogger(terminal.get(), log));
         }
 
         private int doExecute(final MavenExecutionRequest request) throws Exception {
             assert request != null;
             assert config != null;
 
-            if (config.isDebug() || config.isShowVersion()) {
-                CLIReportingUtils.showVersion(config.getStreams().out);
-            }
+            //if (config.isDebug() || config.isShowVersion()) {
+            //    CLIReportingUtils.showVersion(config.getStreams().out);
+            //}
 
             //
             // TODO: i18n all of this
             //
 
             if (request.isShowErrors()) {
-                logger.info("Error stack-traces are turned on.");
+                log.info("Error stack-traces are turned on.");
             }
             if (MavenExecutionRequest.CHECKSUM_POLICY_WARN.equals(request.getGlobalChecksumPolicy())) {
-                logger.info("Disabling strict checksum verification on all artifact downloads.");
+                log.info("Disabling strict checksum verification on all artifact downloads.");
             }
             else if (MavenExecutionRequest.CHECKSUM_POLICY_FAIL.equals(request.getGlobalChecksumPolicy())) {
-                logger.info("Enabling strict checksum verification on all artifact downloads.");
+                log.info("Enabling strict checksum verification on all artifact downloads.");
             }
 
             if (log.isDebugEnabled()) {
@@ -504,32 +497,32 @@ public class MavenSystemImpl
                 }
             }
 
-            logger.error("");
+            log.error("");
 
             if (!request.isShowErrors()) {
-                logger.error("To see the full stack-trace of the errors, re-run Maven with the -e switch.");
+                log.error("To see the full stack-trace of the errors, re-run Maven with the -e switch.");
             }
-            if (!logger.isDebugEnabled()) {
-                logger.error("Re-run Maven using the -X switch to enable full debug logging.");
+            if (!log.isDebugEnabled()) {
+                log.error("Re-run Maven using the -X switch to enable full debug logging.");
             }
 
             if (!references.isEmpty()) {
-                logger.error("");
-                logger.error("For more information about the errors and possible solutions, please read the following articles:");
+                log.error("");
+                log.error("For more information about the errors and possible solutions, please read the following articles:");
 
                 for (Map.Entry<String, String> entry : references.entrySet()) {
-                    logger.error(entry.getValue() + " " + entry.getKey());
+                    log.error(entry.getValue() + " " + entry.getKey());
                 }
             }
 
             if (project != null && !project.equals(result.getTopologicallySortedProjects().get(0))) {
-                logger.error("");
-                logger.error("After correcting the problems, you can resume the build with the command");
-                logger.error("  mvn <goals> -rf :" + project.getArtifactId());
+                log.error("");
+                log.error("After correcting the problems, you can resume the build with the command");
+                log.error("  mvn <goals> -rf :" + project.getArtifactId());
             }
 
             if (MavenExecutionRequest.REACTOR_FAIL_NEVER.equals(request.getReactorFailureBehavior())) {
-                logger.info("Build failures were ignored.");
+                log.info("Build failures were ignored.");
                 return 0;
             }
             else {
@@ -565,10 +558,10 @@ public class MavenSystemImpl
 
             if (showErrors) {
                 //noinspection ThrowableResultOfMethodCallIgnored
-                logger.error(msg, summary.getException());
+                log.error(msg, summary.getException());
             }
             else {
-                logger.error(msg);
+                log.error(msg);
             }
 
             indent += "  ";

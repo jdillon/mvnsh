@@ -91,7 +91,7 @@
         <maven.compiler.target>1.6</maven.compiler.target>
 
         <gshell.version>2.7.0-SNAPSHOT</gshell.version>
-        <maven.version>3.0.5</maven.version>
+        <maven.version>3.3.9</maven.version>
     </properties>
 
     <!--
@@ -115,167 +115,30 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.11</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.sisu</groupId>
-                <artifactId>sisu-inject-bean</artifactId>
-                <version>2.3.4</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.sonatype.sisu</groupId>
-                <artifactId>sisu-inject-plexus</artifactId>
-                <version>2.3.4</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gossip</groupId>
-                <artifactId>gossip-bootstrap</artifactId>
-                <version>1.8</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gossip</groupId>
-                <artifactId>gossip-slf4j</artifactId>
-                <version>1.8</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gossip</groupId>
-                <artifactId>gossip-support</artifactId>
-                <version>1.8</version>
+                <groupId>org.sonatype.gshell</groupId>
+                <artifactId>gshell</artifactId>
+                <type>pom</type>
+                <version>${gshell.version}</version>
+                <scope>import</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-embedder</artifactId>
                 <version>${maven.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.sonatype.spice</groupId>
-                        <artifactId>spice-inject-plexus</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.sonatype.sisu</groupId>
-                        <artifactId>sisu-inject-plexus</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.maven</groupId>
-                <artifactId>maven-model</artifactId>
+                <artifactId>maven-compat</artifactId>
                 <version>${maven.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.sonatype.aether</groupId>
-                <artifactId>aether-connector-asynchttpclient</artifactId>
-                <version>1.13.1</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.aether</groupId>
-                <artifactId>aether-connector-wagon</artifactId>
-                <version>1.13.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.codehaus.plexus</groupId>
-                        <artifactId>plexus-container-default</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.maven.archetype</groupId>
-                <artifactId>archetype-common</artifactId>
-                <version>0.8.5</version>
-            </dependency>
-
-            <!-- GShell -->
-
-            <dependency>
-                <groupId>org.sonatype.gshell</groupId>
-                <artifactId>gshell-core</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell</groupId>
-                <artifactId>gshell-core</artifactId>
-                <classifier>tests</classifier>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell</groupId>
-                <artifactId>gshell-launcher</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.ext</groupId>
-                <artifactId>gshell-gossip</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.ext</groupId>
-                <artifactId>gshell-plexus</artifactId>
-                <version>${gshell.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.codehaus.plexus</groupId>
-                        <artifactId>plexus-container-default</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-standard</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-file</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-logging</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-network</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.sonatype.gshell.commands</groupId>
-                <artifactId>gshell-pref</artifactId>
-                <version>${gshell.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.sonatype.maven.archetype</groupId>-->
+                <!--<artifactId>archetype-common</artifactId>-->
+                <!--<version>0.8.5</version>-->
+            <!--</dependency>-->
 
             <!-- INTERNAL -->
 
@@ -343,13 +206,13 @@
                                 <requireJavaVersion>
                                     <version>[1.6,)</version>
                                 </requireJavaVersion>
-                                <bannedDependencies>
-                                    <excludes>
-                                        <exclude>org.codehaus.plexus:plexus-container-default</exclude>
-                                        <exclude>org.sonatype.spice:spice-inject-plexus</exclude>
+                                <!--<bannedDependencies>-->
+                                    <!--<excludes>-->
+                                        <!--<exclude>org.codehaus.plexus:plexus-container-default</exclude>-->
+                                        <!--<exclude>org.sonatype.spice:spice-inject-plexus</exclude>-->
                                         <!--<exclude>com.google.inject:guice</exclude>-->
-                                    </excludes>
-                                </bannedDependencies>
+                                    <!--</excludes>-->
+                                <!--</bannedDependencies>-->
                             </rules>
                         </configuration>
                     </execution>
@@ -370,19 +233,19 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-component-metadata</artifactId>
-                <version>1.5.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate-metadata</goal>
-                            <goal>generate-test-metadata</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.plexus</groupId>-->
+                <!--<artifactId>plexus-component-metadata</artifactId>-->
+                <!--<version>1.5.4</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>generate-metadata</goal>-->
+                            <!--<goal>generate-test-metadata</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

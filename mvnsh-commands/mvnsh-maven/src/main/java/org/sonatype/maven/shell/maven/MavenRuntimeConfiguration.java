@@ -11,7 +11,6 @@
  */
 package org.sonatype.maven.shell.maven;
 
-import org.apache.maven.cli.PrintStreamLogger;
 import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.sonatype.gshell.util.io.StreamSet;
@@ -54,8 +53,6 @@ public class MavenRuntimeConfiguration
     private File globalSettingsFile;
 
     private File logFile;
-
-    private PrintStreamLogger logger;
 
     private boolean showVersion;
 
@@ -145,14 +142,6 @@ public class MavenRuntimeConfiguration
 
     public void setLogFile(File logFile) {
         this.logFile = logFile;
-    }
-
-    public PrintStreamLogger getLogger() {
-        return logger;
-    }
-
-    public void setLogger(PrintStreamLogger logger) {
-        this.logger = logger;
     }
 
     public boolean isShowVersion() {

@@ -11,17 +11,14 @@
  */
 package org.sonatype.maven.shell.commands.maven;
 
-import com.google.inject.Module;
+import java.io.File;
+
+import org.sonatype.gshell.command.support.CommandTestSupport;
+
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sonatype.gshell.command.support.CommandTestSupport;
-import org.sonatype.maven.shell.maven.MavenModule;
 
-import java.io.File;
-import java.net.URL;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the {@link MavenCommand}.
