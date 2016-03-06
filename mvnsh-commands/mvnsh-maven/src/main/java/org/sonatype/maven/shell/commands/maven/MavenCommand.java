@@ -52,10 +52,15 @@ public class MavenCommand
 
         CliRequestBuilder request = new CliRequestBuilder();
         request.setArguments(strings(context.getArguments()));
-        request.setWorkingDirectory(vars.get(SHELL_USER_DIR, File.class));
 
-        // FIXME: This should follow same logic in bin/mvn script to search for .mvn directory
-        request.setProjectDirectory(vars.get(SHELL_USER_DIR, File.class));
+        File baseDir = vars.get(SHELL_USER_DIR, File.class);
+        request.setWorkingDirectory(baseDir);
+
+        File projectDir = vars.get("maven.multiModuleProjectDirectory", File.class);
+        if (projectDir == null) {
+            projectDir = findProjectDir(baseDir);
+        }
+        request.setProjectDirectory(projectDir);
 
         MavenCli cli = new MavenCli();
         return cli.doMain(request.build());
@@ -67,5 +72,19 @@ public class MavenCommand
             result.add(String.valueOf(value));
         }
         return result;
+    }
+
+    // @Nullable
+    private static File findProjectDir(final File baseDir) {
+        File dir = baseDir;
+        while (dir != null) {
+            File file = new File(dir, ".mvn");
+            if (file.isDirectory()) {
+                return file;
+            }
+            dir = file.getParentFile();
+        }
+
+        return null;
     }
 }
