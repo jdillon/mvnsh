@@ -6,7 +6,7 @@
     </encoder>
   </appender>
 
-  <root level="${shell.logging:-INFO}">
+  <root level="${shell.logging}">
     <appender-ref ref="console"/>
   </root>
 </configuration>
