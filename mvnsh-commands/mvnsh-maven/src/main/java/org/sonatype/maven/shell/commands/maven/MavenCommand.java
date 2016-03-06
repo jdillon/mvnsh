@@ -24,12 +24,10 @@ import org.sonatype.gshell.util.io.StreamJack;
 import org.sonatype.gshell.util.io.StreamSet;
 import org.sonatype.gshell.util.pref.Preferences;
 import org.sonatype.gshell.variables.Variables;
-import org.sonatype.maven.shell.maven.MavenSystem;
 
 import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
 
-import static org.sonatype.gshell.variables.VariableNames.SHELL_HOME;
 import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
@@ -52,8 +50,6 @@ public class MavenCommand
 
         IO io = context.getIo();
         Variables vars = context.getVariables();
-
-        System.setProperty(MavenSystem.MAVEN_HOME, vars.get(SHELL_HOME, File.class).getAbsolutePath());
 
         CliRequestBuilder request = new CliRequestBuilder();
         request.setArguments(strings(context.getArguments()));
