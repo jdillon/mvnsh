@@ -20,6 +20,8 @@ import org.sonatype.gshell.command.CommandContext;
 import org.sonatype.gshell.command.IO;
 import org.sonatype.gshell.command.support.CommandActionSupport;
 import org.sonatype.gshell.util.cli2.OpaqueArguments;
+import org.sonatype.gshell.util.io.StreamJack;
+import org.sonatype.gshell.util.io.StreamSet;
 import org.sonatype.gshell.util.pref.Preferences;
 import org.sonatype.gshell.variables.Variables;
 import org.sonatype.maven.shell.maven.MavenSystem;
@@ -42,6 +44,8 @@ public class MavenCommand
     extends CommandActionSupport
     implements OpaqueArguments
 {
+    private Boolean color = true;
+
     public Object execute(final CommandContext context) throws Exception {
         assert context != null;
 
@@ -56,17 +60,40 @@ public class MavenCommand
         File baseDir = vars.get(SHELL_USER_DIR, File.class);
         request.setWorkingDirectory(baseDir);
 
-        File projectDir = vars.get("maven.multiModuleProjectDirectory", File.class);
+        File projectDir = vars.get(MavenCli.MULTIMODULE_PROJECT_DIRECTORY, File.class, null);
         if (projectDir == null) {
             projectDir = findProjectDir(baseDir);
         }
         request.setProjectDirectory(projectDir);
 
-        MavenCli cli = new MavenCli();
-        return cli.doMain(request.build());
+        // Setup output colorization
+        StreamSet current = StreamJack.current();
+        StreamSet streams;
+        if (color == null || color) {
+            // Complain if the user asked for color and its not supported
+            if (color != null && !io.getTerminal().isAnsiSupported()) {
+                log.warn("ANSI color is not supported by the current terminal");
+            }
+            streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
+        }
+        else {
+            streams = current;
+        }
+        StreamJack.register(streams);
+
+        int result = -1;
+        try {
+            MavenCli cli = new MavenCli();
+            result = cli.doMain(request.build());
+        }
+        finally {
+            StreamJack.deregister();
+        }
+
+        return result;
     }
 
-    private static List<String> strings(final Object[] input) {
+    private List<String> strings(final Object[] input) {
         List<String> result = new ArrayList<String>(input.length);
         for (Object value : input) {
             result.add(String.valueOf(value));
@@ -74,17 +101,16 @@ public class MavenCommand
         return result;
     }
 
-    // @Nullable
-    private static File findProjectDir(final File baseDir) {
+    private File findProjectDir(final File baseDir) {
         File dir = baseDir;
         while (dir != null) {
             File file = new File(dir, ".mvn");
             if (file.isDirectory()) {
-                return file;
+                return dir;
             }
-            dir = file.getParentFile();
+            dir = dir.getParentFile();
         }
 
-        return null;
+        return baseDir;
     }
 }

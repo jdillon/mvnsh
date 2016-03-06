@@ -6,7 +6,9 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
- * ???
+ * Helper to create {@link CliRequest} instances.
+ *
+ * This is needed to configure package-private options needed to setup the environment for Maven execution.
  *
  * @since 1.2
  */
