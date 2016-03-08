@@ -84,7 +84,7 @@
         <maven.compiler.target>1.6</maven.compiler.target>
 
         <gshell.version>2.7.0-SNAPSHOT</gshell.version>
-        <maven.version>3.3.9</maven.version>
+        <apache-maven.version>3.3.9</apache-maven.version>
     </properties>
 
     <!--
@@ -131,7 +131,7 @@
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven</artifactId>
                 <type>pom</type>
-                <version>${maven.version}</version>
+                <version>${apache-maven.version}</version>
                 <scope>import</scope>
             </dependency>
 

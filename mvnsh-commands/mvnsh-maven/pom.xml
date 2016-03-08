@@ -48,6 +48,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-connector-basic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-transport-wagon</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-file</artifactId>
         </dependency>
