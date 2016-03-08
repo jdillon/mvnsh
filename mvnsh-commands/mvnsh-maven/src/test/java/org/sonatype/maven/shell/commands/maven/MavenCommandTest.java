@@ -62,4 +62,19 @@ public class MavenCommandTest
 
         assertEquals(0, result);
     }
+
+    /**
+     * Customized help test as this isn't using the default help support by gshell.
+     */
+    @Override
+    @Test
+    public void testHelp() throws Exception {
+        Object result;
+
+        result = executeWithArgs("--help");
+        assertEquals(0, result);
+
+        result = executeWithArgs("-h");
+        assertEquals(0, result);
+    }
 }
