@@ -38,13 +38,40 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.sisu</groupId>
-            <artifactId>sisu-inject-plexus</artifactId>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-embedder</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.apache.maven</groupId>
-            <artifactId>maven-embedder</artifactId>
+            <artifactId>maven-compat</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-connector-basic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.aether</groupId>
+            <artifactId>aether-transport-wagon</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-file</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-http</artifactId>
+            <classifier>shaded</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -57,12 +84,6 @@
             <groupId>org.sonatype.gshell</groupId>
             <artifactId>gshell-core</artifactId>
             <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.aether</groupId>
-            <artifactId>aether-connector-asynchttpclient</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

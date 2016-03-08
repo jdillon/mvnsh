@@ -11,29 +11,19 @@
  */
 package org.sonatype.maven.shell;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.Stage;
-import com.google.inject.name.Names;
-import org.sonatype.gshell.MainSupport;
+import java.util.List;
+
 import org.sonatype.gshell.branding.Branding;
-import org.sonatype.gshell.command.registry.CommandRegistrar;
-import org.sonatype.gshell.command.IO;
 import org.sonatype.gshell.console.ConsoleErrorHandler;
 import org.sonatype.gshell.console.ConsolePrompt;
-import org.sonatype.gshell.guice.CoreModule;
 import org.sonatype.gshell.guice.GuiceMainSupport;
 import org.sonatype.gshell.logging.LoggingSystem;
-import org.sonatype.gshell.logging.gossip.GossipLoggingSystem;
-import org.sonatype.gshell.shell.Shell;
+import org.sonatype.gshell.logging.logback.LogbackLoggingSystem;
 import org.sonatype.gshell.shell.ShellErrorHandler;
-import org.sonatype.gshell.shell.ShellImpl;
 import org.sonatype.gshell.shell.ShellPrompt;
-import org.sonatype.gshell.variables.Variables;
 
-import java.util.List;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
 
 /**
  * Command-line bootstrap for Apache Maven Shell (<tt>mvnsh</tt>).
@@ -57,7 +47,7 @@ public class Main
         {
             @Override
             protected void configure() {
-                bind(LoggingSystem.class).to(GossipLoggingSystem.class);
+                bind(LoggingSystem.class).to(LogbackLoggingSystem.class);
                 bind(ConsolePrompt.class).to(ShellPrompt.class);
                 bind(ConsoleErrorHandler.class).to(ShellErrorHandler.class);
             }

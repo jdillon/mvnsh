@@ -11,41 +11,23 @@
  */
 package org.sonatype.maven.shell.commands.maven;
 
-import com.google.inject.Inject;
-import org.apache.maven.execution.MavenExecutionRequest;
-import org.sonatype.gshell.command.Command;
-import org.sonatype.gshell.command.support.CommandActionSupport;
-import org.sonatype.gshell.command.CommandContext;
-import org.sonatype.gshell.command.IO;
-import org.sonatype.gshell.util.io.StreamJack;
-import org.sonatype.gshell.util.io.StreamSet;
-import org.sonatype.gshell.util.NameValue;
-import org.sonatype.gshell.util.Strings;
-import org.sonatype.gshell.util.cli2.Argument;
-import org.sonatype.gshell.util.cli2.CliProcessor;
-import org.sonatype.gshell.util.cli2.CliProcessorAware;
-import org.sonatype.gshell.util.cli2.Option;
-import org.sonatype.gshell.util.pref.Preference;
-import org.sonatype.gshell.util.pref.Preferences;
-import org.sonatype.gshell.variables.Variables;
-import org.sonatype.maven.shell.maven.MavenRuntime;
-import org.sonatype.maven.shell.maven.MavenRuntimeConfiguration;
-import org.sonatype.maven.shell.maven.MavenSystem;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import static org.apache.maven.execution.MavenExecutionRequest.CHECKSUM_POLICY_FAIL;
-import static org.apache.maven.execution.MavenExecutionRequest.CHECKSUM_POLICY_WARN;
-import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_FAIL_AT_END;
-import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_FAIL_FAST;
-import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_FAIL_NEVER;
-import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_BOTH;
-import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_DOWNSTREAM;
-import static org.apache.maven.execution.MavenExecutionRequest.REACTOR_MAKE_UPSTREAM;
-import static org.sonatype.gshell.variables.VariableNames.SHELL_HOME;
+import org.sonatype.gshell.command.Command;
+import org.sonatype.gshell.command.CommandContext;
+import org.sonatype.gshell.command.IO;
+import org.sonatype.gshell.command.support.CommandActionSupport;
+import org.sonatype.gshell.util.cli2.OpaqueArguments;
+import org.sonatype.gshell.util.io.StreamJack;
+import org.sonatype.gshell.util.io.StreamSet;
+import org.sonatype.gshell.util.pref.Preferences;
+import org.sonatype.gshell.variables.Variables;
+
+import org.apache.maven.cli.CliRequestBuilder;
+import org.apache.maven.cli.MavenCli;
+
 import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
@@ -58,307 +40,28 @@ import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
 @Preferences(path = "commands/mvn")
 public class MavenCommand
     extends CommandActionSupport
-    implements CliProcessorAware
+    implements OpaqueArguments
 {
-    @Option(name="v", longName="version")
-    private boolean version;
-
-    @Option(name="f", longName="file")
-    private File file;
-
-    private Properties props;
-
-    @Option(name="D", longName="define")
-    protected void setProperty(final String input) {
-        assert input != null;
-
-        if (props == null) {
-            props = new Properties();
-        }
-
-        NameValue nv = NameValue.parse(input);
-        props.setProperty(nv.name, nv.value);
-    }
-
-    /**
-     * @since 0.10
-     */
-    @Option(name="M", longName="maven")
-    protected void setMavenProperty(final String input) {
-        assert input != null;
-
-        if (props == null) {
-            props = new Properties();
-        }
-
-        NameValue nv = NameValue.parse(input);
-        props.setProperty("maven." + nv.name, nv.value);
-    }
-
-    @Preference
-    @Option(name="o", longName="offline")
-    private Boolean offline;
-
-    @Preference
-    @Option(name="q", longName="quiet")
-    private Boolean quiet;
-
-    @Preference
-    @Option(name="X", longName="debug")
-    private Boolean debug;
-
-    @Preference
-    @Option(name="e", longName="errors")
-    private Boolean showErrors;
-
-    @Option(name="N", longName="non-recursive")
-    private Boolean nonRecursive;
-
-    @Option(name="U", longName="update-snapshots")
-    private Boolean updateSnapshots;
-
-    private List<String> profiles;
-
-    @Option(name="P", longName="activate-profiles")
-    private void addProfile(final String profile) {
-        assert profile != null;
-
-        if (profiles == null) {
-            profiles = new ArrayList<String>();
-        }
-
-        for (String p : profile.split(",")) {
-            profiles.add(p.trim());
-        }
-    }
-
-    @Preference
-    @Option(name="B", longName="batch-mode")
-    private Boolean batch;
-
-    @Option(name="cpu", longName="check-plugin-updates")
-    private boolean checkPluginUpdates;
-
-    @Option(name="up", longName="update-plugins")
-    private boolean updatePlugins;
-
-    @Option(name="npu", longName="no-plugin-updates")
-    private boolean noPluginUpdates;
-
-    @Option(name="nsu", longName="no-shapshot-updates")
-    private Boolean noSnapshotUpdates;
-
-    @Option(name="C", longName="strict-checksums")
-    private boolean strictChecksums;
-
-    @Option(name="c", longName="lax-checksums")
-    private boolean laxChecksums;
-
-    @Preference
-    @Option(name="s", longName="settings")
-    private File settingsFile;
-
-    @Preference
-    @Option(name="gs", longName="global-settings")
-    private File globalSettingsFile;
-
-    @Preference
-    @Option(name="t", longName="toolchains")
-    private File toolChainsFile;
-
-    @Option(name="ff", longName="fail-fast")
-    private boolean failFast;
-
-    @Option(name="fae", longName="fail-at-end")
-    private boolean failAtEnd;
-
-    @Option(name="fn", longName="fail-never")
-    private boolean failNever;
-
-    @Option(name="rf", longName="resume-from")
-    private String resumeFrom;
-
-    private List<String> selectedProjects;
-
-    @Option(name="pl", longName="projects")
-    private void addSelectedProject(final String project) {
-        assert project != null;
-
-        if (selectedProjects == null) {
-            selectedProjects = new ArrayList<String>();
-        }
-
-        for (String p : project.split(",")) {
-            selectedProjects.add(p.trim());
-        }
-    }
-
-    @Option(name="am", longName="also-make")
-    private boolean alsoMake;
-
-    @Option(name="amd", longName="also-make-dependents")
-    private boolean alsoMakeDependents;
-
-    @Option(name="l", longName="log-file")
-    private File logFile;
-
-    @Preference
-    @Option(name="V", longName="show-version")
-    private Boolean showVersion;
-
-    /**
-     * @since 0.10
-     */
-    @Preference
-    @Option(longName="color", args=1, optionalArg=true)
-    private Boolean color;
-
-    // HACK: Support --encrypt-master-password
-    @Option(name="emp", longName="encrypt-master-password")
-    private String encryptMasterPassword;
-
-    // HACK: Support --encrypt-password
-    @Option(name="ep", longName="encrypt-password")
-    private String encryptPassword;
-
-    @Argument
-    private List<String> goals;
-
-    private static enum Notifications
-    {
-        BUILD_PASSED, BUILD_FAILED
-    }
-
-    private final MavenSystem maven;
-
-    @Inject
-    public MavenCommand(final MavenSystem maven) {
-        assert maven != null;
-        this.maven = maven;
-    }
-
-    public void setProcessor(final CliProcessor processor) {
-        assert processor != null;
-        processor.setFlavor(CliProcessor.Flavor.GNU);
-    }
+    // HACK: no additional options due to use of OpaqueArguments
+    private Boolean color = true;
 
     public Object execute(final CommandContext context) throws Exception {
         assert context != null;
+
         IO io = context.getIo();
         Variables vars = context.getVariables();
-        
-        if (version) {
-            io.println(maven.getVersion());
-            return Result.SUCCESS;
-        }
 
-        // HACK: support --encrypt-master-password and --encrypt-password
-        if (encryptMasterPassword != null || encryptPassword != null) {
-            return doEncryptPassword(context);
-        }
+        CliRequestBuilder request = new CliRequestBuilder();
+        request.setArguments(strings(context.getArguments()));
 
-        System.setProperty(MavenSystem.MAVEN_HOME, vars.get(SHELL_HOME, File.class).getAbsolutePath());
+        File baseDir = vars.get(SHELL_USER_DIR, File.class);
+        request.setWorkingDirectory(baseDir);
 
-        MavenRuntimeConfiguration config = new MavenRuntimeConfiguration();
-
-        config.setBaseDirectory(vars.get(SHELL_USER_DIR, File.class));
-
-        if (file != null) {
-            config.setPomFile(file);
+        File projectDir = vars.get(MavenCli.MULTIMODULE_PROJECT_DIRECTORY, File.class, null);
+        if (projectDir == null) {
+            projectDir = findProjectDir(baseDir);
         }
-        if (profiles != null) {
-            config.getProfiles().addAll(profiles);
-        }
-        if (quiet != null) {
-            config.setQuiet(quiet);
-        }
-        if (debug != null) {
-            config.setDebug(debug);
-        }
-        if (showVersion != null) {
-            config.setShowVersion(showVersion);
-        }
-        if (props != null) {
-            config.getProperties().putAll(props);
-        }
-        if (settingsFile != null) {
-            config.setSettingsFile(settingsFile);
-        }
-        if (globalSettingsFile != null) {
-            config.setGlobalSettingsFile(globalSettingsFile);
-        }
-        if (logFile != null) {
-            config.setLogFile(logFile);
-        }
-
-        customize(config);
-
-        MavenRuntime runtime = maven.create(config);
-        MavenExecutionRequest request = runtime.create();
-
-        if (offline != null) {
-            request.setOffline(offline);
-        }
-        if (goals != null) {
-            request.setGoals(goals);
-        }
-        if (batch != null) {
-            request.setInteractiveMode(!batch);
-        }
-        if (resumeFrom != null) {
-            request.setResumeFrom(resumeFrom);
-        }
-        if (toolChainsFile != null) {
-            request.setUserToolchainsFile(toolChainsFile);
-        }
-        if (showErrors != null) {
-            request.setShowErrors(showErrors);
-        }
-        if (nonRecursive != null) {
-            request.setRecursive(!nonRecursive);
-        }
-        if (updateSnapshots != null) {
-            request.setUpdateSnapshots(updateSnapshots);
-        }
-        if (noSnapshotUpdates != null) {
-            request.setNoSnapshotUpdates(noSnapshotUpdates);
-        }
-        if (selectedProjects != null) {
-            request.setSelectedProjects(selectedProjects);
-        }
-
-        if (strictChecksums) {
-            request.setGlobalChecksumPolicy(CHECKSUM_POLICY_FAIL);
-        }
-        if (laxChecksums) {
-            request.setGlobalChecksumPolicy(CHECKSUM_POLICY_WARN);
-        }
-
-        if (failFast) {
-            request.setReactorFailureBehavior(REACTOR_FAIL_FAST);
-        }
-        else if (failAtEnd) {
-            request.setReactorFailureBehavior(REACTOR_FAIL_AT_END);
-        }
-        else if (failNever) {
-            request.setReactorFailureBehavior(REACTOR_FAIL_NEVER);
-        }
-
-        if (alsoMake && !alsoMakeDependents) {
-            request.setMakeBehavior(REACTOR_MAKE_UPSTREAM);
-        }
-        else if (!alsoMake && alsoMakeDependents) {
-            request.setMakeBehavior(REACTOR_MAKE_DOWNSTREAM);
-        }
-        else if (alsoMake && alsoMakeDependents) {
-            request.setMakeBehavior(REACTOR_MAKE_BOTH);
-        }
-
-        // Customize the plugin groups
-        request.addPluginGroup("org.apache.maven.plugins");
-        request.addPluginGroup("org.codehaus.mojo");
-        request.addPluginGroup("com.sonatype.maven.plugins");
-        request.addPluginGroup("org.sonatype.maven.plugins");
+        request.setProjectDirectory(projectDir);
 
         // Setup output colorization
         StreamSet current = StreamJack.current();
@@ -373,46 +76,38 @@ public class MavenCommand
         else {
             streams = current;
         }
-        config.setStreams(streams);
-
         StreamJack.register(streams);
 
-        // Execute Maven
-        int result = 0;
+        int result = -1;
         try {
-            result = runtime.execute(request);
+            MavenCli cli = new MavenCli();
+            result = cli.doMain(request.build());
         }
         finally {
             StreamJack.deregister();
-            // HACK: Not sure why, but we need to reset the terminal after some mvn builds
-            io.getTerminal().reset();
         }
 
         return result;
     }
 
-    private Object doEncryptPassword(final CommandContext context) throws Exception {
-        assert context != null;
-
-        // Put all props into System, the security muck needs it
-        if (props != null) {
-            System.getProperties().putAll(props);
+    private List<String> strings(final Object[] input) {
+        List<String> result = new ArrayList<String>(input.length);
+        for (Object value : input) {
+            result.add(String.valueOf(value));
         }
-
-        String command = "/encrypt-password";
-        if (encryptMasterPassword != null) {
-            return context.getShell().execute(command, "-m", encryptMasterPassword);
-        }
-        if (encryptPassword != null) {
-            return context.getShell().execute(command, encryptPassword);
-        }
-        throw new Error();
+        return result;
     }
 
-    /**
-     * @since 0.9
-     */
-    protected void customize(final MavenRuntimeConfiguration config) {
-        // empty
+    private File findProjectDir(final File baseDir) {
+        File dir = baseDir;
+        while (dir != null) {
+            File file = new File(dir, ".mvn");
+            if (file.isDirectory()) {
+                return dir;
+            }
+            dir = dir.getParentFile();
+        }
+
+        return baseDir;
     }
 }
