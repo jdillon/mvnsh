@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.maven.shell.dist</groupId>
+        <groupId>com.planet57.maven.shell.dist</groupId>
         <artifactId>mvnsh-dist</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
@@ -28,22 +28,22 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sonatype.maven.shell</groupId>
+            <groupId>com.planet57.maven.shell</groupId>
             <artifactId>mvnsh-bootstrap</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.maven.shell</groupId>
+            <groupId>com.planet57.maven.shell</groupId>
             <artifactId>mvnsh-personality</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.maven.shell</groupId>
+            <groupId>com.planet57.maven.shell</groupId>
             <artifactId>mvnsh-maven</artifactId>
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.sonatype.maven.shell</groupId>-->
+            <!--<groupId>com.planet57.maven.shell</groupId>-->
             <!--<artifactId>mvnsh-archetype</artifactId>-->
         <!--</dependency>-->
 

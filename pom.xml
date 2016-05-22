@@ -23,7 +23,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.sonatype.maven.shell</groupId>
+    <groupId>com.planet57.maven.shell</groupId>
     <artifactId>mvnsh</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <version>1.2.0-SNAPSHOT</version>
@@ -80,24 +80,6 @@
         <apache-maven.version>3.3.9</apache-maven.version>
     </properties>
 
-    <!--
-    repository.sonatype.org has staging rules which presently disallow these repositories to be configured on a release (stupid).
-
-    <repositories>
-        <repository>
-            <id>sonatype-public-grid</id>
-            <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype-public-grid</id>
-            <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
-        </pluginRepository>
-    </pluginRepositories>
-    -->
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -131,37 +113,37 @@
             <!-- INTERNAL -->
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-bootstrap</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-archetype</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-nexus</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-personality</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
+                <groupId>com.planet57.maven.shell.dist</groupId>
                 <artifactId>mvnsh-assembly</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>

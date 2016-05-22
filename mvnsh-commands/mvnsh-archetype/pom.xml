@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.maven.shell</groupId>
+        <groupId>com.planet57.maven.shell</groupId>
         <artifactId>mvnsh-commands</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
