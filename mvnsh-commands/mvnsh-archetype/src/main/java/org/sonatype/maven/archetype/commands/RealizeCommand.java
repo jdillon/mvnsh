@@ -11,28 +11,28 @@
  */
 package org.sonatype.maven.archetype.commands;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.Properties;
+
 import com.google.inject.Inject;
+import com.planet57.gshell.command.Command;
+import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.command.IO;
+import com.planet57.gshell.command.support.CommandActionSupport;
+import com.planet57.gshell.plexus.PlexusRuntime;
+import com.planet57.gshell.util.NameValue;
+import com.planet57.gshell.util.cli2.Argument;
+import com.planet57.gshell.util.cli2.Option;
+import com.planet57.gshell.variables.Variables;
 import org.apache.maven.archetype.ArchetypeGenerationRequest;
 import org.apache.maven.archetype.ArchetypeGenerationResult;
 import org.apache.maven.archetype.ArchetypeManager;
 import org.apache.maven.archetype.ui.ArchetypeGenerationConfigurator;
 import org.apache.maven.archetype.ui.ArchetypeSelector;
 import org.apache.maven.repository.RepositorySystem;
-import org.sonatype.gshell.command.Command;
-import org.sonatype.gshell.command.CommandContext;
-import org.sonatype.gshell.command.IO;
-import org.sonatype.gshell.command.support.CommandActionSupport;
-import org.sonatype.gshell.plexus.PlexusRuntime;
-import org.sonatype.gshell.util.NameValue;
-import org.sonatype.gshell.util.cli2.Argument;
-import org.sonatype.gshell.util.cli2.Option;
-import org.sonatype.gshell.variables.Variables;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.Properties;
-
-import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
+import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
  * Realize a project from an archetype.

@@ -11,15 +11,15 @@
  */
 package org.sonatype.maven.shell;
 
-import org.sonatype.gshell.branding.BrandingSupport;
-import org.sonatype.gshell.branding.License;
-import org.sonatype.gshell.branding.LicenseSupport;
-import org.sonatype.gshell.util.PrintBuffer;
-
 import java.io.File;
 
-import static org.sonatype.gshell.variables.VariableNames.SHELL_GROUP;
-import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
+import com.planet57.gshell.branding.BrandingSupport;
+import com.planet57.gshell.branding.License;
+import com.planet57.gshell.branding.LicenseSupport;
+import com.planet57.gshell.util.PrintBuffer;
+
+import static com.planet57.gshell.variables.VariableNames.SHELL_GROUP;
+import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
  * Branding for <tt>mvnsh</tt>.

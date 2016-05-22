@@ -11,9 +11,9 @@
  */
 package org.sonatype.maven.archetype.commands;
 
+import com.planet57.gshell.command.support.CommandTestSupport;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sonatype.gshell.command.support.CommandTestSupport;
 
 /**
  * Tests for the {@link CrawlCommand}.

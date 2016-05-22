@@ -11,23 +11,24 @@
  */
 package org.sonatype.maven.shell.commands.maven;
 
-import com.google.inject.Inject;
-import org.sonatype.gshell.command.Command;
-import org.sonatype.gshell.command.support.CommandActionSupport;
-import org.sonatype.gshell.command.CommandContext;
-import org.sonatype.gshell.command.IO;
-import org.sonatype.gshell.plexus.PlexusRuntime;
-import org.sonatype.gshell.util.NameValue;
-import org.sonatype.gshell.util.cli2.Argument;
-import org.sonatype.gshell.util.cli2.Option;
-import org.sonatype.gshell.util.pref.Preferences;
+import java.util.Properties;
+
 import org.sonatype.plexus.components.cipher.DefaultPlexusCipher;
 import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.SecUtil;
 import org.sonatype.plexus.components.sec.dispatcher.model.SettingsSecurity;
 
-import java.util.Properties;
+import com.google.inject.Inject;
+import com.planet57.gshell.command.Command;
+import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.command.IO;
+import com.planet57.gshell.command.support.CommandActionSupport;
+import com.planet57.gshell.plexus.PlexusRuntime;
+import com.planet57.gshell.util.NameValue;
+import com.planet57.gshell.util.cli2.Argument;
+import com.planet57.gshell.util.cli2.Option;
+import com.planet57.gshell.util.pref.Preferences;
 
 /**
  * Encrypt passwords.

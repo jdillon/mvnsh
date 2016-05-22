@@ -13,17 +13,16 @@ package org.sonatype.maven.shell;
 
 import java.util.List;
 
-import org.sonatype.gshell.branding.Branding;
-import org.sonatype.gshell.console.ConsoleErrorHandler;
-import org.sonatype.gshell.console.ConsolePrompt;
-import org.sonatype.gshell.guice.GuiceMainSupport;
-import org.sonatype.gshell.logging.LoggingSystem;
-import org.sonatype.gshell.logging.logback.LogbackLoggingSystem;
-import org.sonatype.gshell.shell.ShellErrorHandler;
-import org.sonatype.gshell.shell.ShellPrompt;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.planet57.gshell.branding.Branding;
+import com.planet57.gshell.console.ConsoleErrorHandler;
+import com.planet57.gshell.console.ConsolePrompt;
+import com.planet57.gshell.guice.GuiceMainSupport;
+import com.planet57.gshell.logging.LoggingSystem;
+import com.planet57.gshell.logging.logback.LogbackLoggingSystem;
+import com.planet57.gshell.shell.ShellErrorHandler;
+import com.planet57.gshell.shell.ShellPrompt;
 
 /**
  * Command-line bootstrap for Apache Maven Shell (<tt>mvnsh</tt>).

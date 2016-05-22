@@ -27,7 +27,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sonatype.gshell</groupId>
+            <groupId>com.planet57.gshell</groupId>
             <artifactId>gshell-core</artifactId>
         </dependency>
 
@@ -38,12 +38,12 @@
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.ext</groupId>
+            <groupId>com.planet57.gshell.ext</groupId>
             <artifactId>gshell-logback</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.ext</groupId>
+            <groupId>com.planet57.gshell.ext</groupId>
             <artifactId>gshell-plexus</artifactId>
         </dependency>
     </dependencies>

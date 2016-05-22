@@ -76,14 +76,14 @@
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
 
-        <gshell.version>2.7.0-SNAPSHOT</gshell.version>
+        <gshell.version>3.0.0-SNAPSHOT</gshell.version>
         <apache-maven.version>3.3.9</apache-maven.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.sonatype.gshell</groupId>
+                <groupId>com.planet57.gshell</groupId>
                 <artifactId>gshell</artifactId>
                 <type>pom</type>
                 <version>${gshell.version}</version>
@@ -91,7 +91,7 @@
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.gshell</groupId>
+                <groupId>com.planet57.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
                 <version>${gshell.version}</version>
                 <exclusions>

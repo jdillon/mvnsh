@@ -11,19 +11,19 @@
  */
 package org.sonatype.maven.archetype.commands;
 
+import java.io.File;
+
 import com.google.inject.Inject;
+import com.planet57.gshell.command.Command;
+import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.command.IO;
+import com.planet57.gshell.command.support.CommandActionSupport;
+import com.planet57.gshell.plexus.PlexusRuntime;
+import com.planet57.gshell.util.FileAssert;
+import com.planet57.gshell.util.cli2.Argument;
+import com.planet57.gshell.util.cli2.Option;
 import org.apache.maven.archetype.catalog.ArchetypeCatalog;
 import org.apache.maven.archetype.repositorycrawler.RepositoryCrawler;
-import org.sonatype.gshell.command.Command;
-import org.sonatype.gshell.command.support.CommandActionSupport;
-import org.sonatype.gshell.command.CommandContext;
-import org.sonatype.gshell.command.IO;
-import org.sonatype.gshell.plexus.PlexusRuntime;
-import org.sonatype.gshell.util.FileAssert;
-import org.sonatype.gshell.util.cli2.Argument;
-import org.sonatype.gshell.util.cli2.Option;
-
-import java.io.File;
 
 /**
  * Crawl a repository looking for archetypes.

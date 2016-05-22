@@ -13,8 +13,7 @@ package org.sonatype.maven.shell.commands.maven;
 
 import java.io.File;
 
-import org.sonatype.gshell.command.support.CommandTestSupport;
-
+import com.planet57.gshell.command.support.CommandTestSupport;
 import org.junit.Ignore;
 import org.junit.Test;
 

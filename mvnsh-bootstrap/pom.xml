@@ -27,7 +27,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sonatype.gshell</groupId>
+            <groupId>com.planet57.gshell</groupId>
             <artifactId>gshell-launcher</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -47,7 +47,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.sonatype.gshell</groupId>
+                                    <groupId>com.planet57.gshell</groupId>
                                     <artifactId>gshell-launcher</artifactId>
                                 </artifactItem>
                             </artifactItems>
@@ -64,7 +64,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.sonatype.gshell.launcher.Launcher</mainClass>
+                            <mainClass>com.planet57.gshell.launcher.Launcher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -48,27 +48,27 @@
         <!--</dependency>-->
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-standard</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-file</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-logging</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-network</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-pref</artifactId>
         </dependency>
     </dependencies>

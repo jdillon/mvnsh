@@ -15,20 +15,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sonatype.gshell.command.Command;
-import org.sonatype.gshell.command.CommandContext;
-import org.sonatype.gshell.command.IO;
-import org.sonatype.gshell.command.support.CommandActionSupport;
-import org.sonatype.gshell.util.cli2.OpaqueArguments;
-import org.sonatype.gshell.util.io.StreamJack;
-import org.sonatype.gshell.util.io.StreamSet;
-import org.sonatype.gshell.util.pref.Preferences;
-import org.sonatype.gshell.variables.Variables;
-
+import com.planet57.gshell.command.Command;
+import com.planet57.gshell.command.CommandContext;
+import com.planet57.gshell.command.IO;
+import com.planet57.gshell.command.support.CommandActionSupport;
+import com.planet57.gshell.util.cli2.OpaqueArguments;
+import com.planet57.gshell.util.io.StreamJack;
+import com.planet57.gshell.util.io.StreamSet;
+import com.planet57.gshell.util.pref.Preferences;
+import com.planet57.gshell.variables.Variables;
 import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
 
-import static org.sonatype.gshell.variables.VariableNames.SHELL_USER_DIR;
+import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
  * Execute Maven.
