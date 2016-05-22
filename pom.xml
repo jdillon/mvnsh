@@ -64,18 +64,11 @@
             <id>jdillon</id>
             <name>Jason Dillon</name>
             <email>jason@planet57.com</email>
-            <roles>
-                <role>Build Master</role>
-                <role>Developer</role>
-            </roles>
         </developer>
         <developer>
             <id>adreghiciu</id>
             <name>Alin Dreghiciu</name>
             <email>adreghiciu@gmail.com</email>
-            <roles>
-                <role>Distribution Master</role>
-            </roles>
         </developer>
     </developers>
 
