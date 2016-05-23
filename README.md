@@ -14,7 +14,7 @@
 Description
 -----------
 
-Sonatype Maven Shell (`mvnsh`)
+Maven Shell (`mvnsh`)
 
 License
 -------
