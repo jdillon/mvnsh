@@ -175,13 +175,6 @@
                                 <requireJavaVersion>
                                     <version>[1.6,)</version>
                                 </requireJavaVersion>
-                                <!--<bannedDependencies>-->
-                                    <!--<excludes>-->
-                                        <!--<exclude>org.codehaus.plexus:plexus-container-default</exclude>-->
-                                        <!--<exclude>org.sonatype.spice:spice-inject-plexus</exclude>-->
-                                        <!--<exclude>com.google.inject:guice</exclude>-->
-                                    <!--</excludes>-->
-                                <!--</bannedDependencies>-->
                             </rules>
                         </configuration>
                     </execution>
