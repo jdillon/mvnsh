@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2009-present Sonatype, Inc.
+    Copyright (c) 2009-present the original author or authors.
+
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     and Apache License v2.0 which accompanies this distribution.
+
     The Eclipse Public License is available at
       http://www.eclipse.org/legal/epl-v10.html
+
     The Apache License v2.0 is available at
       http://www.apache.org/licenses/LICENSE-2.0.html
+
     You may elect to redistribute this code under either of these licenses.
 
 -->
@@ -17,22 +21,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.buildsupport</groupId>
+        <groupId>com.planet57.buildsupport</groupId>
         <artifactId>public-parent</artifactId>
-        <version>9</version>
+        <version>1-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
-    <groupId>org.sonatype.maven.shell</groupId>
+    <groupId>com.planet57.maven.shell</groupId>
     <artifactId>mvnsh</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
-    <organization>
-        <name>Sonatype</name>
-        <url>http://sonatype.org</url>
-    </organization>
 
     <licenses>
         <license>
@@ -64,18 +63,11 @@
             <id>jdillon</id>
             <name>Jason Dillon</name>
             <email>jason@planet57.com</email>
-            <roles>
-                <role>Build Master</role>
-                <role>Developer</role>
-            </roles>
         </developer>
         <developer>
             <id>adreghiciu</id>
             <name>Alin Dreghiciu</name>
             <email>adreghiciu@gmail.com</email>
-            <roles>
-                <role>Distribution Master</role>
-            </roles>
         </developer>
     </developers>
 
@@ -83,32 +75,14 @@
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
 
-        <gshell.version>2.7.0-SNAPSHOT</gshell.version>
+        <gshell.version>3.0.0-SNAPSHOT</gshell.version>
         <apache-maven.version>3.3.9</apache-maven.version>
     </properties>
-
-    <!--
-    repository.sonatype.org has staging rules which presently disallow these repositories to be configured on a release (stupid).
-
-    <repositories>
-        <repository>
-            <id>sonatype-public-grid</id>
-            <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype-public-grid</id>
-            <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
-        </pluginRepository>
-    </pluginRepositories>
-    -->
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.sonatype.gshell</groupId>
+                <groupId>com.planet57.gshell</groupId>
                 <artifactId>gshell</artifactId>
                 <type>pom</type>
                 <version>${gshell.version}</version>
@@ -116,7 +90,7 @@
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.gshell</groupId>
+                <groupId>com.planet57.gshell</groupId>
                 <artifactId>gshell-core</artifactId>
                 <version>${gshell.version}</version>
                 <exclusions>
@@ -138,37 +112,37 @@
             <!-- INTERNAL -->
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-bootstrap</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-maven</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-archetype</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-nexus</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
+                <groupId>com.planet57.maven.shell</groupId>
                 <artifactId>mvnsh-personality</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
+                <groupId>com.planet57.maven.shell.dist</groupId>
                 <artifactId>mvnsh-assembly</artifactId>
                 <version>1.2.0-SNAPSHOT</version>
             </dependency>
@@ -201,13 +175,6 @@
                                 <requireJavaVersion>
                                     <version>[1.6,)</version>
                                 </requireJavaVersion>
-                                <!--<bannedDependencies>-->
-                                    <!--<excludes>-->
-                                        <!--<exclude>org.codehaus.plexus:plexus-container-default</exclude>-->
-                                        <!--<exclude>org.sonatype.spice:spice-inject-plexus</exclude>-->
-                                        <!--<exclude>com.google.inject:guice</exclude>-->
-                                    <!--</excludes>-->
-                                <!--</bannedDependencies>-->
                             </rules>
                         </configuration>
                     </execution>

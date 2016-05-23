@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2009-present Sonatype, Inc.
+    Copyright (c) 2009-present the original author or authors.
+
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     and Apache License v2.0 which accompanies this distribution.
+
     The Eclipse Public License is available at
       http://www.eclipse.org/legal/epl-v10.html
+
     The Apache License v2.0 is available at
       http://www.apache.org/licenses/LICENSE-2.0.html
+
     You may elect to redistribute this code under either of these licenses.
 
 -->
@@ -17,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.maven.shell.dist</groupId>
+        <groupId>com.planet57.maven.shell.dist</groupId>
         <artifactId>mvnsh-dist</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
@@ -28,47 +32,47 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sonatype.maven.shell</groupId>
+            <groupId>com.planet57.maven.shell</groupId>
             <artifactId>mvnsh-bootstrap</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.maven.shell</groupId>
+            <groupId>com.planet57.maven.shell</groupId>
             <artifactId>mvnsh-personality</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.maven.shell</groupId>
+            <groupId>com.planet57.maven.shell</groupId>
             <artifactId>mvnsh-maven</artifactId>
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.sonatype.maven.shell</groupId>-->
+            <!--<groupId>com.planet57.maven.shell</groupId>-->
             <!--<artifactId>mvnsh-archetype</artifactId>-->
         <!--</dependency>-->
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-standard</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-file</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-logging</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-network</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.sonatype.gshell.commands</groupId>
+            <groupId>com.planet57.gshell.commands</groupId>
             <artifactId>gshell-pref</artifactId>
         </dependency>
     </dependencies>
