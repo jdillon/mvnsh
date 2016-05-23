@@ -13,7 +13,7 @@
  *
  * You may elect to redistribute this code under either of these licenses.
  */
-package org.sonatype.maven.shell.commands.maven;
+package com.planet57.maven.shell.commands.maven;
 
 import java.io.File;
 

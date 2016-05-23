@@ -1,4 +1,4 @@
-Copyright (c) 2009-present Sonatype, Inc. All rights reserved.
+Copyright (c) 2009-present the original author or authors.
 
 --------------------------------------------------------------------------
 

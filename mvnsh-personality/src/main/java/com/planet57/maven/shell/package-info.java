@@ -18,4 +18,4 @@
  *
  * @since 0.7
  */
-package org.sonatype.maven.shell;
+package com.planet57.maven.shell;
