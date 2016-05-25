@@ -1,5 +1,4 @@
-Sonatype Maven Shell
---------------------
+# Maven Shell
 
 Please see the following URLs for more information:
 

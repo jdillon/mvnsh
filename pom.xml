@@ -1,263 +1,231 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2009-present Sonatype, Inc.
+    Copyright (c) 2009-present the original author or authors.
+
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     and Apache License v2.0 which accompanies this distribution.
+
     The Eclipse Public License is available at
       http://www.eclipse.org/legal/epl-v10.html
+
     The Apache License v2.0 is available at
       http://www.apache.org/licenses/LICENSE-2.0.html
+
     You may elect to redistribute this code under either of these licenses.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.buildsupport</groupId>
-        <artifactId>public-parent</artifactId>
-        <version>9</version>
-        <relativePath/>
-    </parent>
+  <parent>
+    <groupId>com.planet57.buildsupport</groupId>
+    <artifactId>public-parent</artifactId>
+    <version>1</version>
+    <relativePath/>
+  </parent>
 
-    <groupId>org.sonatype.maven.shell</groupId>
-    <artifactId>mvnsh</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
-    <version>1.2.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+  <groupId>com.planet57.maven.shell</groupId>
+  <artifactId>mvnsh</artifactId>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <version>1.2.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <organization>
-        <name>Sonatype</name>
-        <url>http://sonatype.org</url>
-    </organization>
+  <licenses>
+    <license>
+      <name>Eclipse Public License</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+    </license>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
-    <licenses>
-        <license>
-            <name>Eclipse Public License</name>
-            <url>http://www.eclipse.org/legal/epl-v10.html</url>
-        </license>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+  <url>https://github.com/jdillon/mvnsh</url>
 
+  <scm>
+    <connection>scm:git:git://github.com/jdillon/mvnsh.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jdillon/mvnsh.git</developerConnection>
     <url>https://github.com/jdillon/mvnsh</url>
+  </scm>
 
-    <scm>
-        <connection>scm:git:git://github.com/jdillon/mvnsh.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jdillon/mvnsh.git</developerConnection>
-        <url>https://github.com/jdillon/mvnsh</url>
-    </scm>
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/jdillon/mvnsh/issues</url>
+  </issueManagement>
 
-    <issueManagement>
-        <system>Github</system>
-        <url>https://github.com/jdillon/mvnsh/issues</url>
-    </issueManagement>
+  <developers>
+    <developer>
+      <id>jdillon</id>
+      <name>Jason Dillon</name>
+      <email>jason@planet57.com</email>
+    </developer>
+    <developer>
+      <id>adreghiciu</id>
+      <name>Alin Dreghiciu</name>
+      <email>adreghiciu@gmail.com</email>
+    </developer>
+  </developers>
 
-    <developers>
-        <developer>
-            <id>jdillon</id>
-            <name>Jason Dillon</name>
-            <email>jason@planet57.com</email>
-            <roles>
-                <role>Build Master</role>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>adreghiciu</id>
-            <name>Alin Dreghiciu</name>
-            <email>adreghiciu@gmail.com</email>
-            <roles>
-                <role>Distribution Master</role>
-            </roles>
-        </developer>
-    </developers>
+  <properties>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
 
-    <properties>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
+    <gshell.version>3.0.0-SNAPSHOT</gshell.version>
+    <apache-maven.version>3.3.9</apache-maven.version>
+  </properties>
 
-        <gshell.version>2.7.0-SNAPSHOT</gshell.version>
-        <apache-maven.version>3.3.9</apache-maven.version>
-    </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.planet57.gshell</groupId>
+        <artifactId>gshell</artifactId>
+        <type>pom</type>
+        <version>${gshell.version}</version>
+        <scope>import</scope>
+      </dependency>
 
-    <!--
-    repository.sonatype.org has staging rules which presently disallow these repositories to be configured on a release (stupid).
+      <dependency>
+        <groupId>com.planet57.gshell</groupId>
+        <artifactId>gshell-core</artifactId>
+        <version>${gshell.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
 
-    <repositories>
-        <repository>
-            <id>sonatype-public-grid</id>
-            <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
-        </repository>
-    </repositories>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven</artifactId>
+        <type>pom</type>
+        <version>${apache-maven.version}</version>
+        <scope>import</scope>
+      </dependency>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype-public-grid</id>
-            <url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
-        </pluginRepository>
-    </pluginRepositories>
-    -->
+      <!-- INTERNAL -->
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.sonatype.gshell</groupId>
-                <artifactId>gshell</artifactId>
-                <type>pom</type>
-                <version>${gshell.version}</version>
-                <scope>import</scope>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.maven.shell</groupId>
+        <artifactId>mvnsh-bootstrap</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.sonatype.gshell</groupId>
-                <artifactId>gshell-core</artifactId>
-                <version>${gshell.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.inject</groupId>
-                        <artifactId>guice</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.maven.shell</groupId>
+        <artifactId>mvnsh-maven</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven</artifactId>
-                <type>pom</type>
-                <version>${apache-maven.version}</version>
-                <scope>import</scope>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.maven.shell</groupId>
+        <artifactId>mvnsh-archetype</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+      </dependency>
 
-            <!-- INTERNAL -->
+      <dependency>
+        <groupId>com.planet57.maven.shell</groupId>
+        <artifactId>mvnsh-nexus</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-bootstrap</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.maven.shell</groupId>
+        <artifactId>mvnsh-personality</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-maven</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
-            </dependency>
+      <dependency>
+        <groupId>com.planet57.maven.shell.dist</groupId>
+        <artifactId>mvnsh-assembly</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-            <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-archetype</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
-            </dependency>
+  <modules>
+    <module>mvnsh-commands</module>
+    <module>mvnsh-bootstrap</module>
+    <module>mvnsh-personality</module>
+    <module>mvnsh-dist</module>
+  </modules>
 
-            <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-nexus</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
-            </dependency>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.0,)</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[1.6,)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-            <dependency>
-                <groupId>org.sonatype.maven.shell</groupId>
-                <artifactId>mvnsh-personality</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
-            </dependency>
+      <plugin>
+        <groupId>org.eclipse.sisu</groupId>
+        <artifactId>sisu-maven-plugin</artifactId>
+        <version>0.3.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>main-index</goal>
+              <goal>test-index</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-            <dependency>
-                <groupId>org.sonatype.maven.shell.dist</groupId>
-                <artifactId>mvnsh-assembly</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <signature>
+                <groupId>org.codehaus.mojo.signature</groupId>
+                <artifactId>java16</artifactId>
+                <version>1.1</version>
+              </signature>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-    <modules>
-        <module>mvnsh-commands</module>
-        <module>mvnsh-bootstrap</module>
-        <module>mvnsh-personality</module>
-        <module>mvnsh-dist</module>
-    </modules>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>[3.0,)</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>[1.6,)</version>
-                                </requireJavaVersion>
-                                <!--<bannedDependencies>-->
-                                    <!--<excludes>-->
-                                        <!--<exclude>org.codehaus.plexus:plexus-container-default</exclude>-->
-                                        <!--<exclude>org.sonatype.spice:spice-inject-plexus</exclude>-->
-                                        <!--<exclude>com.google.inject:guice</exclude>-->
-                                    <!--</excludes>-->
-                                <!--</bannedDependencies>-->
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.eclipse.sisu</groupId>
-                <artifactId>sisu-maven-plugin</artifactId>
-                <version>0.3.3</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>main-index</goal>
-                            <goal>test-index</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <signature>
-                                <groupId>org.codehaus.mojo.signature</groupId>
-                                <artifactId>java16</artifactId>
-                                <version>1.1</version>
-                            </signature>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <goals>deploy</goals>
-                    <arguments>-B -Prelease</arguments>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <useReleaseProfile>false</useReleaseProfile>
+          <goals>deploy</goals>
+          <arguments>-B -Prelease</arguments>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
