@@ -73,8 +73,8 @@
   </developers>
 
   <properties>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
 
     <gshell.version>3.0.0-SNAPSHOT</gshell.version>
     <apache-maven.version>3.5.0</apache-maven.version>

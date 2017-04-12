@@ -73,6 +73,11 @@
     </dependency>
 
     <dependency>
+      <groupId>org.sonatype.jline</groupId>
+      <artifactId>jline</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.maven.wagon</groupId>
       <artifactId>wagon-file</artifactId>
     </dependency>
