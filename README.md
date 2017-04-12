@@ -20,7 +20,7 @@ Description
 
 Maven Shell (`mvnsh`)
 
-[![Build Status](https://travis-ci.org/jdillon/mvnsh.svg?branch=master)](https://travis-ci.org/jdillon/mvnsh)
+[![Build Status](https://travis-ci.org/olivierpaul/mvnsh.svg?branch=master)](https://travis-ci.org/olivierpaul/mvnsh)
 
 License
 -------
@@ -34,12 +34,18 @@ Building
 
 ### Requirements
 
-* [Maven](http://maven.apache.org) 3+
+* [Maven](http://maven.apache.org) 3.5.0
 * [Java](http://java.sun.com/) 6+
+
+Before building mvnsh, you must check-out and build [GShell](https://github.com/olivierpaul/gshell)
+
+    git clone git://github.com/olivierpaul/gshell.git
+    cd mvnsh
+    mvn install
 
 Check-out and build:
 
-    git clone git://github.com/jdillon/mvnsh.git
+    git clone git://github.com/olivierpaul/mvnsh.git
     cd mvnsh
     mvn install
 
