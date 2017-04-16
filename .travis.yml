@@ -2,7 +2,7 @@ language: java
 
 env:
   global:
-    - secure: 'mFUCLdRvMgBr7JAp6NStVrX2kuVH8WvnSP0qIF9KMNv4DEG3uHzS07eijOqDIWqjNRgEP9nYTiWueQ5lWrGZWK6O4zf8hY2pjWVzI5xQCwRa0UxTBVQOUxFFgcaeG4GIlvteKU07lvISwmx7X81AD/BnK3S0pGOWcUVPwekAasY='
+    - secure: 'I4Ju1i2D+EZgLUYBlnf2tWxJS8ds1HQGxBoum8XpNxMrp9QQ3Aq7EnHiVRfpAa5JsKvsPLd4jdQlponAy15GwZdYDHAXy2lPintIdSFkp/Xnrn/bi0qeNqSWFg71w7ELcXXP6VE4VJYsSZewRNPlyjfTIcYVykq27hOQCZqzKg8='
     - MAVEN_SETTINGS='.travis/settings.xml'
     - MAVEN_OPTIONS="-V -B -s $MAVEN_SETTINGS"
 
