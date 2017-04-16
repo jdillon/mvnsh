@@ -56,7 +56,3 @@
         alias build @{command.name} -o -Dmaven.test.skip
 
     Running @|bold build|@ will now run Maven offline and skip tests.
-
-    Always show error stack traces:
-
-        pref/set /mvnsh/commands/mvn showErrors true
