@@ -34,8 +34,14 @@ Building
 
 ### Requirements
 
-* [Maven](http://maven.apache.org) 3+
+* [Maven](http://maven.apache.org) 3.5.0
 * [Java](http://java.sun.com/) 6+
+
+Before building mvnsh, you must check-out and build [GShell](https://github.com/jdillon/gshell)
+
+    git clone git://github.com/jdillon/gshell.git
+    cd mvnsh
+    mvn install
 
 Check-out and build:
 
