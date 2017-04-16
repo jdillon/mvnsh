@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 basename=`basename $0`
 dirname=`dirname $0`
 dirname=`cd "$dirname" && pwd`
@@ -62,9 +62,14 @@ case "$command" in
         self license-check $*
         ;;
 
-    # build and deploy for CI
-    ci-deploy)
-        mvn clean deploy $*
+    # build for CI
+    ci-build)
+        if [ "$TRAVIS_PULL_REQUEST" != 'false' ]; then
+          goal=install
+        else
+          goal=deploy
+        fi
+        mvn clean ${goal} $*
         ;;
 
     # release automation
