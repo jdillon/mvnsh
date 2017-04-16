@@ -66,31 +66,8 @@ public class MavenCommand
     }
     request.setProjectDirectory(projectDir);
 
-    // Setup output colorization
-    StreamSet current = StreamJack.current();
-    StreamSet streams;
-    if (color == null || color) {
-      // Complain if the user asked for color and its not supported
-      if (color != null && !io.getTerminal().isAnsiSupported()) {
-        log.warn("ANSI color is not supported by the current terminal");
-      }
-      streams = new StreamSet(current.in, new ColorizingStream(current.out), new ColorizingStream(current.err));
-    }
-    else {
-      streams = current;
-    }
-    StreamJack.register(streams);
-
-    int result = -1;
-    try {
-      MavenCli cli = new MavenCli();
-      result = cli.doMain(request.build());
-    }
-    finally {
-      StreamJack.deregister();
-    }
-
-    return result;
+    MavenCli cli = new MavenCli();
+    return cli.doMain(request.build());
   }
 
   private List<String> strings(final Object[] input) {
