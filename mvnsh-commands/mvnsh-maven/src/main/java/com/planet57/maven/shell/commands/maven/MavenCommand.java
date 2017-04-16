@@ -21,11 +21,8 @@ import java.util.List;
 
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
-import com.planet57.gshell.command.IO;
 import com.planet57.gshell.command.support.CommandActionSupport;
 import com.planet57.gshell.util.cli2.OpaqueArguments;
-import com.planet57.gshell.util.io.StreamJack;
-import com.planet57.gshell.util.io.StreamSet;
 import com.planet57.gshell.util.pref.Preferences;
 import com.planet57.gshell.variables.Variables;
 import org.apache.maven.cli.CliRequestBuilder;
@@ -45,13 +42,9 @@ public class MavenCommand
     extends CommandActionSupport
     implements OpaqueArguments
 {
-  // HACK: no additional options due to use of OpaqueArguments
-  private Boolean color = true;
-
   public Object execute(final CommandContext context) throws Exception {
     assert context != null;
 
-    IO io = context.getIo();
     Variables vars = context.getVariables();
 
     CliRequestBuilder request = new CliRequestBuilder();
