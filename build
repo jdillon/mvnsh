@@ -4,6 +4,8 @@ dirname=`dirname $0`
 dirname=`cd "$dirname" && pwd`
 cd "$dirname"
 
+source build.config
+
 # load optional config
 if [ -f ./build.rc ]; then
   source ./build.rc
@@ -42,8 +44,8 @@ case "$command" in
 
         mvn org.eclipse.tycho:tycho-versions-plugin:0.25.0:set-version \
             -Dtycho.mode=maven \
-            -Dartifacts=mvnsh \
-            -Dproperties=mvnsh.version \
+            -Dartifacts=${project} \
+            -Dproperties=${project}.version \
             -DnewVersion="$newVersion"
         ;;
 
@@ -95,6 +97,13 @@ case "$command" in
         ;;
 
     *)
-        usage "<command> [options]"
+        # attempt to lookup command function
+        fn="command_$command"
+        if [ `type -t $fn` = 'function' ]; then
+          $fn $*
+        else
+          # give up and complain
+          usage "<command> [options]"
+        fi
         ;;
 esac

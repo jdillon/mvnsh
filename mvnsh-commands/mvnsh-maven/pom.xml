@@ -53,13 +53,13 @@
     </dependency>
 
     <dependency>
-      <groupId>org.eclipse.aether</groupId>
-      <artifactId>aether-connector-basic</artifactId>
+      <groupId>org.apache.maven.resolver</groupId>
+      <artifactId>maven-resolver-connector-basic</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.eclipse.aether</groupId>
-      <artifactId>aether-transport-wagon</artifactId>
+      <groupId>org.apache.maven.resolver</groupId>
+      <artifactId>maven-resolver-transport-wagon</artifactId>
     </dependency>
 
     <dependency>
@@ -77,6 +77,21 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>org.apache.maven</groupId>-->
+      <!--<artifactId>maven-slf4j-provider</artifactId>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.jline</groupId>
+      <artifactId>jline</artifactId>
     </dependency>
 
     <dependency>

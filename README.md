@@ -34,8 +34,8 @@ Building
 
 ### Requirements
 
-* [Maven](http://maven.apache.org) 3+
-* [Java](http://java.sun.com/) 6+
+* [Maven](http://maven.apache.org) 3.3+
+* [Java](http://java.oracle.com/) 7+
 
 Check-out and build:
 
