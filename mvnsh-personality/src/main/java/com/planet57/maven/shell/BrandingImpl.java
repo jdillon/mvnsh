@@ -20,7 +20,7 @@ import java.io.File;
 import com.planet57.gshell.branding.BrandingSupport;
 import com.planet57.gshell.branding.License;
 import com.planet57.gshell.branding.LicenseSupport;
-import com.planet57.gshell.util.PrintBuffer;
+import com.planet57.gshell.util.io.PrintBuffer;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
