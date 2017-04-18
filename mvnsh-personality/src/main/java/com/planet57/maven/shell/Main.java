@@ -38,11 +38,6 @@ public class Main
     extends GuiceMainSupport
 {
   @Override
-  protected Branding createBranding() {
-    return new BrandingImpl();
-  }
-
-  @Override
   protected void configure(final List<Module> modules) {
     super.configure(modules);
 
@@ -53,6 +48,7 @@ public class Main
         bind(LoggingSystem.class).to(LogbackLoggingSystem.class);
         bind(ConsolePrompt.class).to(ShellPrompt.class);
         bind(ConsoleErrorHandler.class).to(ShellErrorHandler.class);
+        bind(Branding.class).to(BrandingImpl.class);
       }
     };
 

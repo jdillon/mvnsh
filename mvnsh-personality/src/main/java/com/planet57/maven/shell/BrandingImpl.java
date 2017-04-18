@@ -22,6 +22,9 @@ import com.planet57.gshell.branding.License;
 import com.planet57.gshell.branding.LicenseSupport;
 import com.planet57.gshell.util.PrintBuffer;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import static com.planet57.gshell.variables.VariableNames.SHELL_GROUP;
 import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
 
@@ -31,6 +34,8 @@ import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.7
  */
+@Named
+@Singleton
 public class BrandingImpl
     extends BrandingSupport
 {
