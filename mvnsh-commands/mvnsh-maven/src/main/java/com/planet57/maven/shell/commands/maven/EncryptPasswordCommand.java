@@ -27,7 +27,7 @@ import com.google.inject.Inject;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
 import com.planet57.gshell.command.IO;
-import com.planet57.gshell.command.support.CommandActionSupport;
+import com.planet57.gshell.command.CommandActionSupport;
 import com.planet57.gshell.plexus.PlexusRuntime;
 import com.planet57.gshell.util.NameValue;
 import com.planet57.gshell.util.cli2.Argument;
