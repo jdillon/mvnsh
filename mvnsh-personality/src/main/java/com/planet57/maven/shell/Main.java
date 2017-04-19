@@ -20,11 +20,9 @@ import java.util.List;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.planet57.gshell.branding.Branding;
-import com.planet57.gshell.console.ConsolePrompt;
 import com.planet57.gshell.guice.GuiceMainSupport;
 import com.planet57.gshell.logging.LoggingSystem;
 import com.planet57.gshell.logging.logback.LogbackLoggingSystem;
-import com.planet57.gshell.shell.ShellPrompt;
 
 /**
  * Command-line bootstrap for Apache Maven Shell (<tt>mvnsh</tt>).
@@ -44,7 +42,6 @@ public class Main
       @Override
       protected void configure() {
         bind(LoggingSystem.class).to(LogbackLoggingSystem.class);
-        bind(ConsolePrompt.class).to(ShellPrompt.class);
         bind(Branding.class).to(BrandingImpl.class);
       }
     };
