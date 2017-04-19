@@ -28,6 +28,7 @@ import com.planet57.gshell.variables.Variables;
 import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
@@ -43,7 +44,7 @@ public class MavenCommand
     implements OpaqueArguments
 {
   public Object execute(final CommandContext context) throws Exception {
-    assert context != null;
+    checkNotNull(context);
 
     Variables vars = context.getVariables();
 
