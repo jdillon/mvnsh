@@ -41,7 +41,7 @@ public class Main
     {
       @Override
       protected void configure() {
-        // FIXME: need to provide a Maven LoggingSystem to adapt
+        // So the reality is that Maven logging, even with slf4j backend is still so flexible that its not possible to effectively configure a backend system
         bind(LoggingSystem.class).to(NopLoggingSystem.class);
         bind(Branding.class).to(BrandingImpl.class);
       }
