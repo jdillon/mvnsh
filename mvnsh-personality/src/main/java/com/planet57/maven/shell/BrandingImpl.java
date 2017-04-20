@@ -20,7 +20,7 @@ import java.io.File;
 import com.planet57.gshell.branding.BrandingSupport;
 import com.planet57.gshell.branding.License;
 import com.planet57.gshell.branding.LicenseSupport;
-import com.planet57.gshell.util.PrintBuffer;
+import com.planet57.gshell.util.io.PrintBuffer;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -74,6 +74,6 @@ public class BrandingImpl
 
   @Override
   public License getLicense() {
-    return new LicenseSupport("Eclipse Public License, 1.0", getClass().getResource("license.txt"));
+    return new LicenseSupport("Eclipse Public License, 1.0", getClass().getResource("license.txt").toExternalForm());
   }
 }

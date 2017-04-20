@@ -17,7 +17,7 @@ package com.planet57.maven.shell.commands.maven;
 
 import java.io.File;
 
-import com.planet57.gshell.command.support.CommandTestSupport;
+import com.planet57.gshell.command.CommandTestSupport;
 import org.junit.Ignore;
 import org.junit.Test;
 
