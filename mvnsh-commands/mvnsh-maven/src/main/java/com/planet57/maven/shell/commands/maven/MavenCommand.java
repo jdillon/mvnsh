@@ -29,6 +29,7 @@ import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.planet57.gshell.variables.VariableNames.SHELL_HOME;
 import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
 
 /**
@@ -58,6 +59,12 @@ public class MavenCommand
       projectDir = findProjectDir(baseDir);
     }
     request.setProjectDirectory(projectDir);
+
+    // a few parts of Maven expect "maven.home" system-property to be set
+    File shellHome = vars.get(SHELL_HOME, File.class);
+    if (shellHome != null) {
+      System.setProperty("maven.home", shellHome.getAbsolutePath());
+    }
 
     MavenCli cli = new MavenCli();
     return cli.doMain(request.build());
