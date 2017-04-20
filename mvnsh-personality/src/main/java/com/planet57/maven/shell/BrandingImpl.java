@@ -16,6 +16,7 @@
 package com.planet57.maven.shell;
 
 import java.io.File;
+import java.net.URI;
 
 import com.planet57.gshell.branding.BrandingSupport;
 import com.planet57.gshell.branding.License;
