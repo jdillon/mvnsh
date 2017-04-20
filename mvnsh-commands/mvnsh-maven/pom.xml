@@ -95,15 +95,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.sonatype.goodies</groupId>
-      <artifactId>goodies-testsupport</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>com.planet57.gshell</groupId>
-      <artifactId>gshell-core</artifactId>
-      <classifier>tests</classifier>
+      <artifactId>gshell-testharness</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
