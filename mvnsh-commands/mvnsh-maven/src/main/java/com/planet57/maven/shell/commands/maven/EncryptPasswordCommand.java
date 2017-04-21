@@ -34,6 +34,8 @@ import com.planet57.gshell.util.cli2.Argument;
 import com.planet57.gshell.util.cli2.Option;
 import com.planet57.gshell.util.pref.Preferences;
 
+import javax.annotation.Nonnull;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -75,8 +77,8 @@ public class EncryptPasswordCommand
     this.plexus = checkNotNull(plexus);
   }
 
-  public Object execute(final CommandContext context) throws Exception {
-    checkNotNull(context);
+  @Override
+  public Object execute(@Nonnull final CommandContext context) throws Exception {
     IO io = context.getIo();
 
     // HACK: Put all props into System, the security muck needs it
