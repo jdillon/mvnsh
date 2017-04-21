@@ -90,11 +90,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.sonatype.jline</groupId>
-      <artifactId>jline</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.planet57.gshell</groupId>
       <artifactId>gshell-testharness</artifactId>
       <scope>test</scope>
