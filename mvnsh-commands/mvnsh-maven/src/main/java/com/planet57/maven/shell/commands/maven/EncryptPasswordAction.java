@@ -46,10 +46,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Command(name = "encrypt-password")
 @Preferences(path = "commands/encrypt-password")
-public class EncryptPasswordCommand
+public class EncryptPasswordAction
     extends CommandActionSupport
 {
-  // FIXME: This may not be the correct configuration, pull out the container setup form MavenCommand and use that?
+  // FIXME: This may not be the correct configuration, pull out the container setup form MavenAction and use that?
   private final PlexusRuntime plexus;
 
   private Properties props;
@@ -73,7 +73,7 @@ public class EncryptPasswordCommand
   private String password;
 
   @Inject
-  public EncryptPasswordCommand(final PlexusRuntime plexus) {
+  public EncryptPasswordAction(final PlexusRuntime plexus) {
     this.plexus = checkNotNull(plexus);
   }
 

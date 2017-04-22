@@ -24,15 +24,15 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the {@link MavenCommand}.
+ * Tests for the {@link MavenAction}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class MavenCommandTest
+public class MavenActionTest
     extends CommandTestSupport
 {
-  public MavenCommandTest() {
-    super(MavenCommand.class);
+  public MavenActionTest() {
+    super(MavenAction.class);
   }
 
   @Override

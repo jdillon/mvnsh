@@ -42,7 +42,7 @@ import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
  */
 @Command(name = "mvn")
 @Preferences(path = "commands/mvn")
-public class MavenCommand
+public class MavenAction
     extends CommandActionSupport
     implements OpaqueArguments
 {
