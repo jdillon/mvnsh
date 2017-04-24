@@ -16,14 +16,36 @@
     You may elect to redistribute this code under either of these licenses.
 
 -->
-<configuration>
+<configuration debug="${shell.logging.debug:-false}" scan="${shell.logging.scan:-false}" scanPeriod="${shell.logging.scan-period:-30 seconds}">
+
+  <contextName>default</contextName>
+
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <target>${shell.logging.console.target:-System.out}</target>
     <encoder>
-      <pattern>[%level] %m%n</pattern>
+      <pattern>${shell.logging.console.pattern:-[%level] %logger{1} - %msg%n}</pattern>
     </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>${shell.logging.console.threshold}</level>
+    </filter>
   </appender>
 
-  <root level="${shell.logging}">
+  <appender name="file" class="ch.qos.logback.core.FileAppender">
+    <file>${shell.logging.file.path:-${shell.home}/log/shell.log}</file>
+    <append>${shell.logging.file.append:-false}</append>
+    <encoder>
+      <pattern>${shell.logging.file.pattern:-%date %level [%thread%X{DC}] %logger - %msg%n}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>${shell.logging.file.threshold}</level>
+    </filter>
+  </appender>
+
+  <logger name="Sisu" level="${shell.logging.logger.Sisu.level:-INFO}"/>
+
+  <root level="${shell.logging.root-level:-INFO}">
     <appender-ref ref="console"/>
+    <appender-ref ref="file"/>
   </root>
+
 </configuration>
