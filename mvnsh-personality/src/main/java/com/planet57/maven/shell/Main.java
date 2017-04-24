@@ -17,12 +17,13 @@ package com.planet57.maven.shell;
 
 import java.util.List;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.planet57.gshell.branding.Branding;
 import com.planet57.gshell.guice.GuiceMainSupport;
 import com.planet57.gshell.logging.LoggingSystem;
 import com.planet57.gshell.logging.NopLoggingSystem;
+
+import javax.annotation.Nonnull;
 
 /**
  * Command-line bootstrap for Apache Maven Shell (<tt>mvnsh</tt>).
@@ -34,20 +35,16 @@ public class Main
     extends GuiceMainSupport
 {
   @Override
-  protected void configure(final List<Module> modules) {
+  protected Branding createBranding() {
+    return new BrandingImpl();
+  }
+
+  @Override
+  protected void configure(@Nonnull final List<Module> modules) {
     super.configure(modules);
-
-    Module custom = new AbstractModule()
-    {
-      @Override
-      protected void configure() {
-        // So the reality is that Maven logging, even with slf4j backend is still so flexible that its not possible to effectively configure a backend system
-        bind(LoggingSystem.class).to(NopLoggingSystem.class);
-        bind(Branding.class).to(BrandingImpl.class);
-      }
-    };
-
-    modules.add(custom);
+    modules.add(binder -> {
+      binder.bind(LoggingSystem.class).to(NopLoggingSystem.class);
+    });
   }
 
   public static void main(final String[] args) throws Exception {
