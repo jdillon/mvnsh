@@ -20,9 +20,14 @@
 
   <contextName>default</contextName>
 
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <target>${shell.logging.console.target:-System.out}</target>
     <encoder>
+      <!-- mvnsh defaults to simpler logging pattern to conform closer to maven standard logging -->
       <pattern>${shell.logging.console.pattern:-[%level] %m%n}</pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
