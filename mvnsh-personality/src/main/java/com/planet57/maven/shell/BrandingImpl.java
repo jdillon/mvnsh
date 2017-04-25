@@ -22,9 +22,6 @@ import com.planet57.gshell.branding.License;
 import com.planet57.gshell.branding.LicenseSupport;
 import com.planet57.gshell.util.io.PrintBuffer;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import static com.planet57.gshell.variables.VariableNames.SHELL_GROUP;
 import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
 
@@ -34,8 +31,6 @@ import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.7
  */
-@Named
-@Singleton
 public class BrandingImpl
     extends BrandingSupport
 {
@@ -47,13 +42,9 @@ public class BrandingImpl
   @Override
   public String getWelcomeMessage() {
     PrintBuffer buff = new PrintBuffer();
-
-    buff.format("%s (%s)", getDisplayName(), getVersion()).println();
-    buff.println();
+    buff.format("%s (%s)%n%n", getDisplayName(), getVersion());
     buff.println("Type '@|bold help|@' for more information.");
-    buff.print(line());
-    buff.flush();
-
+    buff.print(LINE_TOKEN);
     return buff.toString();
   }
 

@@ -28,6 +28,8 @@ import com.planet57.gshell.variables.Variables;
 import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
 
+import javax.annotation.Nonnull;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.planet57.gshell.variables.VariableNames.SHELL_HOME;
 import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
@@ -40,12 +42,12 @@ import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
  */
 @Command(name = "mvn")
 @Preferences(path = "commands/mvn")
-public class MavenCommand
+public class MavenAction
     extends CommandActionSupport
     implements OpaqueArguments
 {
-  public Object execute(final CommandContext context) throws Exception {
-    checkNotNull(context);
+  @Override
+  public Object execute(@Nonnull final CommandContext context) throws Exception {
     Variables vars = context.getVariables();
 
     CliRequestBuilder request = new CliRequestBuilder();

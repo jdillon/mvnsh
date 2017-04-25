@@ -34,6 +34,8 @@ import com.planet57.gshell.util.cli2.Argument;
 import com.planet57.gshell.util.cli2.Option;
 import com.planet57.gshell.util.pref.Preferences;
 
+import javax.annotation.Nonnull;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -44,10 +46,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Command(name = "encrypt-password")
 @Preferences(path = "commands/encrypt-password")
-public class EncryptPasswordCommand
+public class EncryptPasswordAction
     extends CommandActionSupport
 {
-  // FIXME: This may not be the correct configuration, pull out the container setup form MavenCommand and use that?
+  // FIXME: This may not be the correct configuration, pull out the container setup form MavenAction and use that?
   private final PlexusRuntime plexus;
 
   private Properties props;
@@ -71,12 +73,12 @@ public class EncryptPasswordCommand
   private String password;
 
   @Inject
-  public EncryptPasswordCommand(final PlexusRuntime plexus) {
+  public EncryptPasswordAction(final PlexusRuntime plexus) {
     this.plexus = checkNotNull(plexus);
   }
 
-  public Object execute(final CommandContext context) throws Exception {
-    checkNotNull(context);
+  @Override
+  public Object execute(@Nonnull final CommandContext context) throws Exception {
     IO io = context.getIo();
 
     // HACK: Put all props into System, the security muck needs it

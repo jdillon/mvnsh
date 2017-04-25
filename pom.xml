@@ -24,7 +24,7 @@
   <parent>
     <groupId>com.planet57.buildsupport</groupId>
     <artifactId>public-parent</artifactId>
-    <version>1</version>
+    <version>2-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
@@ -73,8 +73,8 @@
   </developers>
 
   <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <gshell.version>3.0.0-SNAPSHOT</gshell.version>
     <apache-maven.version>3.5.0</apache-maven.version>
@@ -174,7 +174,7 @@
                   <version>[3.3,)</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[1.7,)</version>
+                  <version>[1.8,)</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
@@ -207,7 +207,7 @@
             <configuration>
               <signature>
                 <groupId>org.codehaus.mojo.signature</groupId>
-                <artifactId>java17</artifactId>
+                <artifactId>java18</artifactId>
                 <version>1.0</version>
               </signature>
             </configuration>

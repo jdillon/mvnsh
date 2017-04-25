@@ -18,28 +18,20 @@ package com.planet57.maven.shell.commands.maven;
 import java.io.File;
 
 import com.planet57.gshell.testharness.CommandTestSupport;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the {@link MavenCommand}.
+ * Tests for the {@link MavenAction}.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  */
-public class MavenCommandTest
+public class MavenActionTest
     extends CommandTestSupport
 {
-  public MavenCommandTest() {
-    super(MavenCommand.class);
-  }
-
-  @Override
-  @Test
-  @Ignore
-  public void testDefault() throws Exception {
-    // disabled
+  public MavenActionTest() {
+    super(MavenAction.class);
   }
 
   @Test

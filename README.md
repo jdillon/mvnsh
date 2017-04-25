@@ -15,33 +15,30 @@
     You may elect to redistribute this code under either of these licenses.
 
 -->
-Description
------------
+# Description
 
 Maven Shell (`mvnsh`)
 
 [![Build Status](https://travis-ci.org/jdillon/mvnsh.svg?branch=master)](https://travis-ci.org/jdillon/mvnsh)
 
-License
--------
+# License
 
 [Eclipse Public License 1.0](http://www.eclipse.org/org/documents/epl-v10.html)
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-Building
---------
+# Building
 
-### Requirements
+## Requirements
 
-* [Maven](http://maven.apache.org) 3.3+
-* [Java](http://java.oracle.com/) 7+
+* [Maven](http://maven.apache.org) 3.3+ (prefer included maven-wrapper)
+* [Java](http://java.oracle.com/) 8+
 
 Check-out and build:
 
     git clone git://github.com/jdillon/mvnsh.git
     cd mvnsh
-    mvn install
+    ./mvnw install
 
 Extract the assembly and execute the shell:
 
