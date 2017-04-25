@@ -18,8 +18,8 @@ package com.planet57.maven.shell;
 import java.util.List;
 
 import com.google.inject.Module;
+import com.planet57.gshell.MainSupport;
 import com.planet57.gshell.branding.Branding;
-import com.planet57.gshell.guice.GuiceMainSupport;
 import com.planet57.gshell.logging.LoggingSystem;
 import com.planet57.gshell.logging.NopLoggingSystem;
 
@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
  * @since 0.7
  */
 public class Main
-    extends GuiceMainSupport
+    extends MainSupport
 {
   @Override
   protected Branding createBranding() {
