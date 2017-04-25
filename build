@@ -51,12 +51,12 @@ case "$command" in
 
     # check license headers
     license-check)
-        mvn -Plicense-check -N
+        mvn -Plicense-check -N $*
         ;;
 
     # format license headers
     license-format)
-        mvn -Plicense-format -N
+        mvn -Plicense-format -N $*
         ;;
 
     # prepare CI build
@@ -99,7 +99,7 @@ case "$command" in
     *)
         # attempt to lookup command function
         fn="command_$command"
-        if [ `type -t $fn` = 'function' ]; then
+        if [ "$(type -t $fn)" = 'function' ]; then
           $fn $*
         else
           # give up and complain
