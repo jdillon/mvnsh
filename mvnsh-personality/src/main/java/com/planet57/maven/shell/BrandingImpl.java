@@ -42,13 +42,9 @@ public class BrandingImpl
   @Override
   public String getWelcomeMessage() {
     PrintBuffer buff = new PrintBuffer();
-
-    buff.format("%s (%s)", getDisplayName(), getVersion()).println();
-    buff.println();
+    buff.format("%s (%s)%n%n", getDisplayName(), getVersion());
     buff.println("Type '@|bold help|@' for more information.");
-    buff.print(line());
-    buff.flush();
-
+    buff.print(LINE_TOKEN);
     return buff.toString();
   }
 
