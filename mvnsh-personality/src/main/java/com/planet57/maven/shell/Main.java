@@ -21,7 +21,7 @@ import com.google.inject.Module;
 import com.planet57.gshell.MainSupport;
 import com.planet57.gshell.branding.Branding;
 import com.planet57.gshell.logging.LoggingSystem;
-import com.planet57.gshell.logging.NopLoggingSystem;
+import com.planet57.gshell.logging.logback.LogbackLoggingSystem;
 
 import javax.annotation.Nonnull;
 
@@ -43,7 +43,7 @@ public class Main
   protected void configure(@Nonnull final List<Module> modules) {
     super.configure(modules);
     modules.add(binder -> {
-      binder.bind(LoggingSystem.class).to(NopLoggingSystem.class);
+      binder.bind(LoggingSystem.class).to(LogbackLoggingSystem.class);
     });
   }
 
