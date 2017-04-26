@@ -27,8 +27,12 @@ import com.planet57.gshell.util.pref.Preferences;
 import com.planet57.gshell.variables.Variables;
 import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
+import org.jline.reader.Completer;
+import org.jline.reader.impl.completer.AggregateCompleter;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.planet57.gshell.variables.VariableNames.SHELL_HOME;
@@ -46,6 +50,15 @@ public class MavenAction
     extends CommandActionSupport
     implements OpaqueArguments
 {
+  @Inject
+  public void installCompleters(@Named("maven-phase") final Completer c1,
+                                @Named("maven-plugin") final Completer c2)
+  {
+    checkNotNull(c1);
+    checkNotNull(c2);
+    setCompleters(new AggregateCompleter(c1, c2));
+  }
+
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
     Variables vars = context.getVariables();
@@ -58,7 +71,7 @@ public class MavenAction
 
     File projectDir = vars.get(MavenCli.MULTIMODULE_PROJECT_DIRECTORY, File.class, null);
     if (projectDir == null) {
-      projectDir = findProjectDir(baseDir);
+      projectDir = findRootProjectDir(baseDir);
     }
     request.setProjectDirectory(projectDir);
 
@@ -72,15 +85,21 @@ public class MavenAction
     return cli.doMain(request.build());
   }
 
+  /**
+   * Convert object array to list of strings.
+   */
   private List<String> strings(final Object[] input) {
-    List<String> result = new ArrayList<String>(input.length);
+    List<String> result = new ArrayList<>(input.length);
     for (Object value : input) {
       result.add(String.valueOf(value));
     }
     return result;
   }
 
-  private File findProjectDir(final File baseDir) {
+  /**
+   * Find the root project directory for given directory.
+   */
+  private File findRootProjectDir(final File baseDir) {
     File dir = baseDir;
     while (dir != null) {
       File file = new File(dir, ".mvn");
