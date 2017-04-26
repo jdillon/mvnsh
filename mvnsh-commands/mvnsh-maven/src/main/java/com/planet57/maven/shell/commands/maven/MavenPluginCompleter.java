@@ -38,7 +38,7 @@ import com.planet57.gshell.util.jline.StringsCompleter2;
 public class MavenPluginCompleter
   implements Completer
 {
-  private static StringsCompleter2 delegate = new StringsCompleter2();
+  private final StringsCompleter2 delegate = new StringsCompleter2();
 
   public MavenPluginCompleter() {
     delegate.addAll(

@@ -36,7 +36,7 @@ import java.util.List;
 public class MavenPhaseCompleter
   implements Completer
 {
-  private static StringsCompleter2 delegate = new StringsCompleter2();
+  private final StringsCompleter2 delegate = new StringsCompleter2();
 
   public MavenPhaseCompleter() {
     delegate.addAll(
