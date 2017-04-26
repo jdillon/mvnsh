@@ -51,12 +51,14 @@ public class MavenAction
     implements OpaqueArguments
 {
   @Inject
-  public void installCompleters(@Named("maven-phase") final Completer c1,
-                                @Named("maven-plugin") final Completer c2)
+  public void installCompleters(@Named("maven-option") final Completer c1,
+                                @Named("maven-phase") final Completer c2,
+                                @Named("maven-plugin") final Completer c3)
   {
     checkNotNull(c1);
     checkNotNull(c2);
-    setCompleters(new AggregateCompleter(c1, c2));
+    checkNotNull(c3);
+    setCompleters(new AggregateCompleter(c1, c2, c3));
   }
 
   @Override
