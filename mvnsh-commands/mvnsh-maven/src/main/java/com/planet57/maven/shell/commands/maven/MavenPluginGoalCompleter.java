@@ -33,14 +33,14 @@ import com.planet57.gshell.util.jline.StringsCompleter2;
  *
  * @since 3.0
  */
-@Named("maven-plugin")
+@Named("maven-plugin-goal")
 @Singleton
-public class MavenPluginCompleter
+public class MavenPluginGoalCompleter
   implements Completer
 {
   private final StringsCompleter2 delegate = new StringsCompleter2();
 
-  public MavenPluginCompleter() {
+  public MavenPluginGoalCompleter() {
     delegate.addAll(
       "deploy:deploy-file"
     );

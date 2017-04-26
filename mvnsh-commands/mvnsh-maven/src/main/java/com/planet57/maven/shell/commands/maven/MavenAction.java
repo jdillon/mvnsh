@@ -53,7 +53,7 @@ public class MavenAction
   @Inject
   public void installCompleters(@Named("maven-option") final Completer c1,
                                 @Named("maven-phase") final Completer c2,
-                                @Named("maven-plugin") final Completer c3)
+                                @Named("maven-plugin-goal") final Completer c3)
   {
     checkNotNull(c1);
     checkNotNull(c2);
