@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.maven.cli.CLIManager;
 import org.jline.reader.Candidate;
@@ -46,7 +47,7 @@ public class MavenOptionCompleter
   private final StringsCompleter2 delegate = new StringsCompleter2();
 
   public MavenOptionCompleter() {
-    mavenOptions().getOptions().forEach(option -> {
+    mavenOptions().forEach(option -> {
       if (option.hasArg() || option.hasArgs() || option.hasOptionalArg()) {
         // TODO: adjust for options with arguments; for now omit
       }
@@ -60,7 +61,7 @@ public class MavenOptionCompleter
   /**
    * Extract options from {@link CLIManager}.
    */
-  private static Options mavenOptions() {
+  private static Iterable<Option> mavenOptions() {
     AtomicReference<Options> holder = new AtomicReference<>();
     new CLIManager() {
       {
@@ -71,7 +72,7 @@ public class MavenOptionCompleter
 
     Options options = holder.get();
     checkState(options != null);
-    return options;
+    return options.getOptions();
   }
 
   @Override
