@@ -49,7 +49,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class EncryptPasswordAction
     extends CommandActionSupport
 {
-  // FIXME: This may not be the correct configuration, pull out the container setup form MavenAction and use that?
   private final PlexusRuntime plexus;
 
   private Properties props;
