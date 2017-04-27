@@ -23,7 +23,6 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.SecUtil;
 import org.sonatype.plexus.components.sec.dispatcher.model.SettingsSecurity;
 
-import com.google.inject.Inject;
 import com.planet57.gshell.command.Command;
 import com.planet57.gshell.command.CommandContext;
 import com.planet57.gshell.command.IO;
@@ -35,8 +34,11 @@ import com.planet57.gshell.util.cli2.Option;
 import com.planet57.gshell.util.pref.Preferences;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Encrypt passwords.
@@ -49,14 +51,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class EncryptPasswordAction
     extends CommandActionSupport
 {
-  // FIXME: This may not be the correct configuration, pull out the container setup form MavenAction and use that?
   private final PlexusRuntime plexus;
 
+  @Nullable
   private Properties props;
 
   @Option(name = "D", longName = "define")
   protected void setProperty(final String input) {
-    assert input != null;
+    checkNotNull(input);
 
     if (props == null) {
       props = new Properties();
@@ -96,6 +98,7 @@ public class EncryptPasswordAction
     else {
       String configurationFile = dispatcher.getConfigurationFile();
 
+      // FIXME: sort out more general use of this, and user shell variables?
       if (configurationFile.startsWith("~")) {
         configurationFile = System.getProperty("user.home") + configurationFile.substring(1);
       }
@@ -108,10 +111,7 @@ public class EncryptPasswordAction
       if (sec != null) {
         master = sec.getMaster();
       }
-
-      if (master == null) {
-        throw new IllegalStateException("Master password is not set in the setting security file: " + file);
-      }
+      checkState(master != null, "Master password is not set in the setting security file: %s", file);
 
       DefaultPlexusCipher cipher = new DefaultPlexusCipher();
       String masterPasswd = cipher.decryptDecorated(master, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION);
@@ -121,7 +121,7 @@ public class EncryptPasswordAction
 
     io.out.println(result);
 
-    // HACK: Maven core-its need 0 for success
+    // maven core-its need 0 for success
     return Result.SUCCESS;
   }
 }

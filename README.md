@@ -21,6 +21,8 @@ Maven Shell (`mvnsh`)
 
 [![Build Status](https://travis-ci.org/jdillon/mvnsh.svg?branch=master)](https://travis-ci.org/jdillon/mvnsh)
 
+Based on [GShell 3](https://github.com/jdillon/gshell).
+
 # License
 
 [Eclipse Public License 1.0](http://www.eclipse.org/org/documents/epl-v10.html)
