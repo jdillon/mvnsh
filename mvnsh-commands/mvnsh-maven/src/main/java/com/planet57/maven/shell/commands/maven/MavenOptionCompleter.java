@@ -17,16 +17,21 @@
 package com.planet57.maven.shell.commands.maven;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.cli.Options;
+import org.apache.maven.cli.CLIManager;
 import org.jline.reader.Candidate;
 import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
 import org.jline.reader.ParsedLine;
 
 import com.planet57.gshell.util.jline.StringsCompleter2;
+
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Maven option completer.
@@ -41,47 +46,32 @@ public class MavenOptionCompleter
   private final StringsCompleter2 delegate = new StringsCompleter2();
 
   public MavenOptionCompleter() {
-    // TODO: adjust for options with arguments; commented out for now
+    mavenOptions().getOptions().forEach(option -> {
+      if (option.hasArg() || option.hasArgs() || option.hasOptionalArg()) {
+        // TODO: adjust for options with arguments; for now omit
+      }
+      else {
+        delegate.add("-" + option.getOpt());
+        delegate.add("--" + option.getLongOpt());
+      }
+    });
+  }
 
-    delegate.addAll(
-      "-am", "--also-make",
-      "-amd", "--also-make-dependents",
-      "-B", "--batch-mode",
-      // "-b", "--builder",
-      "-C", "--strict-checksums",
-      "-c", "--lax-checksums",
-      "-cpu", "--check-plugin-updates",
-      // "-D", "--define",
-      "-e", "--errors",
-      // "-emp", "--encrypt-master-password",
-      // "-ep", "--encrypt-password",
-      // "-f", "--file",
-      "-fae", "--fail-at-end",
-      "-ff", "--fail-fast",
-      "-fn", "--fail-never",
-      // "-gs", "--global-settings",
-      // "-gt", "--global-toolchains",
-      "-h", "--help",
-      // "-l", "--log-file",
-      "-llr", "--legacy-local-repository",
-      "-N", "--non-recursive",
-      "-npr", "--no-plugin-registry",
-      "-npu", "--no-plugin-updates",
-      "-nsu", "--no-snapshot-updates",
-      "-o", "--offline",
-      // "-P", "--activate-profiles",
-      // "-pl", "--projects",
-      "-q", "--quiet",
-      // "-rf", "--resume-from",
-      // "-s", "--settings",
-      // "-t", "--toolchains",
-      // "-T", "--threads",
-      "-U", "--update-snapshots",
-      "-up", "--update-plugins",
-      "-v", "--version",
-      "-V", "--show-version",
-      "-X", "--debug"
-    );
+  /**
+   * Extract options from {@link CLIManager}.
+   */
+  private static Options mavenOptions() {
+    AtomicReference<Options> holder = new AtomicReference<>();
+    new CLIManager() {
+      {
+        // expose protected options which is setup by super ctor
+        holder.set(options);
+      }
+    };
+
+    Options options = holder.get();
+    checkState(options != null);
+    return options;
   }
 
   @Override
