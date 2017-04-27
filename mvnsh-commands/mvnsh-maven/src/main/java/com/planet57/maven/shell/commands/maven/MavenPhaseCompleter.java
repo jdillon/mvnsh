@@ -16,15 +16,22 @@
 
 package com.planet57.maven.shell.commands.maven;
 
+import com.planet57.gshell.plexus.PlexusRuntime;
 import com.planet57.gshell.util.jline.StringsCompleter2;
+import org.apache.maven.lifecycle.Lifecycle;
+import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.jline.reader.Candidate;
 import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
 import org.jline.reader.ParsedLine;
+import org.sonatype.goodies.common.ComponentSupport;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Maven lifecycle phase completer.
@@ -34,51 +41,29 @@ import java.util.List;
 @Named("maven-phase")
 @Singleton
 public class MavenPhaseCompleter
+  extends ComponentSupport
   implements Completer
 {
   private final StringsCompleter2 delegate = new StringsCompleter2();
 
-  public MavenPhaseCompleter() {
-    delegate.addAll(
-      "validate",
-      "initialize",
-      "generate-sources",
-      "process-sources",
-      "generate-resources",
-      "process-resources",
-      "compile",
-      "process-classes",
-      "generate-test-sources",
-      "process-test-sources",
-      "generate-test-resources",
-      "process-test-resources",
-      "test-compile",
-      "process-test-classes",
-      "test",
-      "prepare-package",
-      "package",
-      "pre-integration-test",
-      "integration-test",
-      "post-integration-test",
-      "verify",
-      "install",
-      "deploy"
-    );
+  @Inject
+  public MavenPhaseCompleter(final PlexusRuntime plexus) {
+    checkNotNull(plexus);
 
-    // clean lifecycle
-    delegate.addAll(
-      "pre-clean",
-      "clean",
-      "post-clean"
-    );
+    try {
+      addPhases(plexus, "default");
+      addPhases(plexus, "clean");
+      addPhases(plexus, "site");
+    }
+    catch (ComponentLookupException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-    // site lifecycle
-    delegate.addAll(
-      "pre-site",
-      "site",
-      "post-site",
-      "site-deploy"
-    );
+  private void addPhases(final PlexusRuntime plexus, final String roleHint) throws ComponentLookupException {
+    Lifecycle lifecycle = plexus.lookup(Lifecycle.class, roleHint);
+    log.debug("Adding phases for lifecycle: {}", lifecycle);
+    delegate.addAll(lifecycle.getPhases());
   }
 
   @Override
