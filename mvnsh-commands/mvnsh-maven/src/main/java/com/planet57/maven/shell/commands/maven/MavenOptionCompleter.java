@@ -59,7 +59,7 @@ public class MavenOptionCompleter
   }
 
   /**
-   * Extract options from {@link CLIManager}.
+   * Extract {@code mvn} options from {@link CLIManager}.
    */
   private static Iterable<Option> mavenOptions() {
     AtomicReference<Options> holder = new AtomicReference<>();
