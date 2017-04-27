@@ -27,12 +27,14 @@ import com.planet57.gshell.util.pref.Preferences;
 import com.planet57.gshell.variables.Variables;
 import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
+import org.codehaus.plexus.classworlds.ClassWorld;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.planet57.gshell.variables.VariableNames.SHELL_HOME;
@@ -50,6 +52,13 @@ public class MavenAction
     extends CommandActionSupport
     implements OpaqueArguments
 {
+  private final Provider<ClassWorld> classWorld;
+
+  @Inject
+  public MavenAction(final Provider<ClassWorld> classWorld) {
+    this.classWorld = checkNotNull(classWorld);
+  }
+
   @Inject
   public void installCompleters(@Named("maven-option") final Completer c1,
                                 @Named("maven-phase") final Completer c2,
@@ -83,7 +92,7 @@ public class MavenAction
       System.setProperty("maven.home", shellHome.getAbsolutePath());
     }
 
-    MavenCli cli = new MavenCli();
+    MavenCli cli = new MavenCli(classWorld.get());
     return cli.doMain(request.build());
   }
 
