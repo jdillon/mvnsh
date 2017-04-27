@@ -17,6 +17,8 @@ package com.planet57.maven.shell.commands.maven;
 
 import java.util.Properties;
 
+import com.planet57.gshell.variables.VariableNames;
+import com.planet57.gshell.variables.Variables;
 import org.sonatype.plexus.components.cipher.DefaultPlexusCipher;
 import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
@@ -39,6 +41,7 @@ import javax.inject.Inject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION;
 
 /**
  * Encrypt passwords.
@@ -82,6 +85,7 @@ public class EncryptPasswordAction
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
     IO io = context.getIo();
+    Variables variables = context.getVariables();
 
     // HACK: Put all props into System, the security muck needs it
     if (props != null) {
@@ -93,28 +97,27 @@ public class EncryptPasswordAction
 
     if (master) {
       DefaultPlexusCipher cipher = new DefaultPlexusCipher();
-      result = cipher.encryptAndDecorate(password, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION);
+      result = cipher.encryptAndDecorate(password, SYSTEM_PROPERTY_SEC_LOCATION);
     }
     else {
-      String configurationFile = dispatcher.getConfigurationFile();
-
-      // FIXME: sort out more general use of this, and user shell variables?
-      if (configurationFile.startsWith("~")) {
-        configurationFile = System.getProperty("user.home") + configurationFile.substring(1);
+      String configFile = System.getProperty(SYSTEM_PROPERTY_SEC_LOCATION);
+      if (configFile == null) {
+        configFile = dispatcher.getConfigurationFile();
+        if (configFile.startsWith("~")) {
+          configFile = variables.get(VariableNames.SHELL_USER_HOME, String.class) + configFile.substring(1);
+        }
       }
 
-      String file = System.getProperty(DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION, configurationFile);
-
+      log.debug("Reading config-file: {}", configFile);
+      SettingsSecurity sec = SecUtil.read(configFile, true);
       String master = null;
-
-      SettingsSecurity sec = SecUtil.read(file, true);
       if (sec != null) {
         master = sec.getMaster();
       }
-      checkState(master != null, "Master password is not set in the setting security file: %s", file);
+      checkState(master != null, "Master password is not set in the setting security file: %s", configFile);
 
       DefaultPlexusCipher cipher = new DefaultPlexusCipher();
-      String masterPasswd = cipher.decryptDecorated(master, DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION);
+      String masterPasswd = cipher.decryptDecorated(master, SYSTEM_PROPERTY_SEC_LOCATION);
 
       result = cipher.encryptAndDecorate(password, masterPasswd);
     }
