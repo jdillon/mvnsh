@@ -23,9 +23,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the {@link MavenAction}.
- *
- * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
+ * Tests for {@link MavenAction}.
  */
 public class MavenActionTest
     extends CommandTestSupport
