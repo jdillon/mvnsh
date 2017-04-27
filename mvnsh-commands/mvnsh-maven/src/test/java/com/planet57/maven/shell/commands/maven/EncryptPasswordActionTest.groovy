@@ -34,17 +34,20 @@ class EncryptPasswordActionTest
   void 'encrypt master password'() {
     Object result = executeWithArgs('--master', 'changeme')
     assertEqualsSuccess(result)
+
     // TODO: verify; result is not the value due to compat with maven core-its
   }
 
   @Test
   void 'encrypt password'() {
-    // prepare configuration file
-    File configFile = util.createTempFile('settings-security-xml')
-    System.setProperty(DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION, configFile.absolutePath)
+    // setup security configuration file required to encrypt
+    File configFile = util.createTempFile('settings-security.xml')
     configFile.text = '<settingsSecurity><master>{ZMqZbaOUj68HIixUY8QipRT6ZCsXviNpcP3X7QvXEDc=}</master></settingsSecurity>' // changeme
+    System.setProperty(DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION, configFile.absolutePath)
 
     Object result = executeWithArgs('foo')
     assertEqualsSuccess(result)
+
+    // TODO: verify; result is not the value due to compat with maven core-its
   }
 }
