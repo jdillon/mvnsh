@@ -32,7 +32,7 @@ class EncryptPasswordActionTest
 
   @Test
   void 'encrypt master password'() {
-    Object result = executeWithArgs('--master', 'changeme')
+    Object result = executeCommand('--master', 'changeme')
     assertEqualsSuccess(result)
 
     // TODO: verify; result is not the value due to compat with maven core-its
@@ -45,7 +45,7 @@ class EncryptPasswordActionTest
     configFile.text = '<settingsSecurity><master>{ZMqZbaOUj68HIixUY8QipRT6ZCsXviNpcP3X7QvXEDc=}</master></settingsSecurity>' // changeme
     System.setProperty(DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION, configFile.absolutePath)
 
-    Object result = executeWithArgs('foo')
+    Object result = executeCommand('foo')
     assertEqualsSuccess(result)
 
     // TODO: verify; result is not the value due to compat with maven core-its
