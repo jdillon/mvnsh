@@ -59,6 +59,11 @@
     <url>https://github.com/jdillon/mvnsh/issues</url>
   </issueManagement>
 
+  <ciManagement>
+    <system>travis</system>
+    <url>https://travis-ci.org/jdillon/mvnsh</url>
+  </ciManagement>
+
   <!--
   TODO: remove once parent is released.
   -->
@@ -111,6 +116,7 @@
         <artifactId>gshell-core</artifactId>
         <version>${gshell.version}</version>
         <exclusions>
+          <!-- mvnsh uses guice no_aop from maven -->
           <exclusion>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
