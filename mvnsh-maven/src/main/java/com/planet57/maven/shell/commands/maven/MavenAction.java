@@ -107,7 +107,7 @@ public class MavenAction
     return result;
   }
 
-  public List<String> strings(final List<Object> input) {
+  public List<String> strings(final List<?> input) {
     return strings(input.toArray());
   }
 
