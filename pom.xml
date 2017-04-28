@@ -173,10 +173,10 @@
   </dependencyManagement>
 
   <modules>
-    <module>mvnsh-commands</module>
+    <module>mvnsh-maven</module>
     <module>mvnsh-bootstrap</module>
     <module>mvnsh-personality</module>
-    <module>mvnsh-dist</module>
+    <module>mvnsh-assembly</module>
   </modules>
 
   <build>
