@@ -107,6 +107,10 @@ public class MavenAction
     return result;
   }
 
+  public List<String> strings(final List<Object> input) {
+    return strings(input.toArray());
+  }
+
   /**
    * Find the root project directory for given directory.
    */
