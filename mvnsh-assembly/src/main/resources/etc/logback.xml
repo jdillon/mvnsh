@@ -47,6 +47,7 @@
   </appender>
 
   <logger name="Sisu" level="${shell.logging.logger.Sisu.level:-INFO}"/>
+  <logger name="org.jline" level="${shell.logging.logger.org.jline.level:-INFO}"/>
 
   <root level="${shell.logging.root-level:-INFO}">
     <appender-ref ref="console"/>
