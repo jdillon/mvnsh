@@ -125,6 +125,6 @@ public class EncryptPasswordAction
     io.out.println(result);
 
     // maven core-its need 0 for success
-    return Result.SUCCESS;
+    return null;
   }
 }
