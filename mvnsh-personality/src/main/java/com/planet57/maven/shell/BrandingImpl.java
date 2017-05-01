@@ -36,7 +36,7 @@ public class BrandingImpl
 {
   @Override
   public String getDisplayName() {
-    return getMessages().format("displayName");
+    return "@|bold,red Maven|@ @|bold Shell|@";
   }
 
   @Override
@@ -50,7 +50,7 @@ public class BrandingImpl
 
   @Override
   public String getGoodbyeMessage() {
-    return getMessages().format("goodbye");
+    return "@|green Goodbye!|@";
   }
 
   @Override
