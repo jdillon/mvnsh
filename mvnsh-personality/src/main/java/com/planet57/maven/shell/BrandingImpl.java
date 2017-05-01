@@ -55,7 +55,8 @@ public class BrandingImpl
 
   @Override
   public String getPrompt() {
-    return String.format("@|bold %s|@(${%s}):${%s}> ", getProgramName(), SHELL_GROUP, SHELL_USER_DIR + "~.");
+    // FIXME: may need to adjust ansi-renderer syntax or pre-render before expanding to avoid needing escapes
+    return String.format("\\@\\|bold %s\\|\\@:${%s}> ", getProgramName(), SHELL_USER_DIR);
   }
 
   @Override
