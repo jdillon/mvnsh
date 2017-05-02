@@ -202,6 +202,19 @@
             <compilerId>groovy-eclipse-compiler</compilerId>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <configuration>
+            <excludes combine.children="append">
+              <!--
+              Assembly resources
+              -->
+              <exclude>mvnsh-assembly/src/main/resources/**</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 

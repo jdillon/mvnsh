@@ -1,19 +1,3 @@
-@REM
-@REM Copyright (c) 2009-present the original author or authors.
-@REM
-@REM All rights reserved. This program and the accompanying materials
-@REM are made available under the terms of the Eclipse Public License v1.0
-@REM and Apache License v2.0 which accompanies this distribution.
-@REM
-@REM The Eclipse Public License is available at
-@REM   http://www.eclipse.org/legal/epl-v10.html
-@REM
-@REM The Apache License v2.0 is available at
-@REM   http://www.apache.org/licenses/LICENSE-2.0.html
-@REM
-@REM You may elect to redistribute this code under either of these licenses.
-@REM
-
 @if "%SHELL_DEBUG%" == "" @echo off
 
 if "%OS%"=="Windows_NT" setlocal enableextensions
