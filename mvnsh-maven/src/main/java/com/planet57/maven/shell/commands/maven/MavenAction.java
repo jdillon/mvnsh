@@ -46,7 +46,7 @@ import static com.planet57.gshell.variables.VariableNames.SHELL_USER_DIR;
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.7
  */
-@Command(name = "mvn")
+@Command(name = "mvn", description = "Execute Maven")
 @Preferences(path = "commands/mvn")
 public class MavenAction
     extends CommandActionSupport
