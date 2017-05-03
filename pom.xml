@@ -115,13 +115,6 @@
         <groupId>com.planet57.gshell</groupId>
         <artifactId>gshell-core</artifactId>
         <version>${gshell.version}</version>
-        <exclusions>
-          <!-- mvnsh uses guice no_aop from maven -->
-          <exclusion>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
 
       <dependency>
