@@ -39,7 +39,7 @@ class MavenActionTest
     //File repoDir = new File(new File(System.getProperty('basedir')), 'target/test-repo')
     //println("Repo Dir: $repoDir")
 
-    Object result = executeWithArgs(
+    Object result = executeCommand(
         '-B', '-e', '-V',
         '-f', pom.absolutePath,
         '-s', settings.absolutePath,
@@ -58,7 +58,7 @@ class MavenActionTest
   @Override
   @Test
   void testHelp() {
-    assert executeWithArgs('--help') == 0
-    assert executeWithArgs('-h') == 0
+    assert executeCommand('--help') == 0
+    assert executeCommand('-h') == 0
   }
 }

@@ -115,13 +115,6 @@
         <groupId>com.planet57.gshell</groupId>
         <artifactId>gshell-core</artifactId>
         <version>${gshell.version}</version>
-        <exclusions>
-          <!-- mvnsh uses guice no_aop from maven -->
-          <exclusion>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
 
       <dependency>
@@ -185,7 +178,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.6.1</version>
           <dependencies>
             <dependency>
               <groupId>org.codehaus.groovy</groupId>
@@ -200,6 +192,19 @@
           </dependencies>
           <configuration>
             <compilerId>groovy-eclipse-compiler</compilerId>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <configuration>
+            <excludes combine.children="append">
+              <!--
+              Assembly resources
+              -->
+              <exclude>mvnsh-assembly/src/main/resources/**</exclude>
+            </excludes>
           </configuration>
         </plugin>
       </plugins>
@@ -232,7 +237,6 @@
       <plugin>
         <groupId>org.eclipse.sisu</groupId>
         <artifactId>sisu-maven-plugin</artifactId>
-        <version>0.3.3</version>
         <executions>
           <execution>
             <goals>

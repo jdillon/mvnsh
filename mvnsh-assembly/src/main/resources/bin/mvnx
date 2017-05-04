@@ -1,11 +1,5 @@
 #!/bin/sh
 
-QUOTED_ARGS=""
-while [ "$1" != "" ] ; do
-    QUOTED_ARGS="$QUOTED_ARGS \"$1\""
-    shift
-done
-
 BOOTSCRIPT="$HOME/.m2/mvnsh.boot"
 if [ -f "$BOOTSCRIPT" ] ; then
     . "$BOOTSCRIPT"
@@ -62,5 +56,5 @@ fi
 
 COMMAND="mvn -- "
 
-exec "$JAVACMD" $MAVEN_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND $QUOTED_ARGS
+exec "$JAVACMD" $MAVEN_OPTS -jar "$BOOTJAR" $SHELL_OPTS $COMMAND "$@"
 

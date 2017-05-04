@@ -49,7 +49,7 @@ import static org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 0.9
  */
-@Command(name = "encrypt-password")
+@Command(name = "encrypt-password", description = "Encrypt passwords")
 @Preferences(path = "commands/encrypt-password")
 public class EncryptPasswordAction
     extends CommandActionSupport
@@ -59,7 +59,7 @@ public class EncryptPasswordAction
   @Nullable
   private Properties props;
 
-  @Option(name = "D", longName = "define")
+  @Option(name = "D", longName = "define", description = "Define a system property", token = "NAME=[VALUE]")
   protected void setProperty(final String input) {
     checkNotNull(input);
 
@@ -71,10 +71,10 @@ public class EncryptPasswordAction
     props.setProperty(nv.name, nv.value);
   }
 
-  @Option(name = "m", longName = "master")
+  @Option(name = "m", longName = "master", description = "Encrypt master security settings")
   private boolean master;
 
-  @Argument(required = true)
+  @Argument(required = true, description = "Password to encrypt", token = "PASSWORD")
   private String password;
 
   @Inject
@@ -125,6 +125,6 @@ public class EncryptPasswordAction
     io.out.println(result);
 
     // maven core-its need 0 for success
-    return Result.SUCCESS;
+    return null;
   }
 }

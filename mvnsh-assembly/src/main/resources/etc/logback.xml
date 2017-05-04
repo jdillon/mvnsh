@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-    Copyright (c) 2009-present the original author or authors.
-
-    All rights reserved. This program and the accompanying materials
-    are made available under the terms of the Eclipse Public License v1.0
-    and Apache License v2.0 which accompanies this distribution.
-
-    The Eclipse Public License is available at
-      http://www.eclipse.org/legal/epl-v10.html
-
-    The Apache License v2.0 is available at
-      http://www.apache.org/licenses/LICENSE-2.0.html
-
-    You may elect to redistribute this code under either of these licenses.
-
--->
 <configuration debug="${shell.logging.debug:-false}" scan="${shell.logging.scan:-false}" scanPeriod="${shell.logging.scan-period:-30 seconds}">
 
   <contextName>default</contextName>
@@ -24,14 +7,13 @@
     <resetJUL>true</resetJUL>
   </contextListener>
 
-  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-    <target>${shell.logging.console.target:-System.out}</target>
+  <appender name="console" class="com.planet57.gshell.logging.logback.TargetConsoleAppender">
     <encoder>
       <!-- mvnsh defaults to simpler logging pattern to conform closer to maven standard logging -->
       <pattern>${shell.logging.console.pattern:-[%level] %m%n}</pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>${shell.logging.console.threshold}</level>
+      <level>${shell.logging.console.threshold:-INFO}</level>
     </filter>
   </appender>
 
@@ -42,11 +24,12 @@
       <pattern>${shell.logging.file.pattern:-%date %level [%thread%X{DC}] %logger - %msg%n}</pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>${shell.logging.file.threshold}</level>
+      <level>${shell.logging.file.threshold:-INFO}</level>
     </filter>
   </appender>
 
   <logger name="Sisu" level="${shell.logging.logger.Sisu.level:-INFO}"/>
+  <logger name="org.jline" level="${shell.logging.logger.org.jline.level:-INFO}"/>
 
   <root level="${shell.logging.root-level:-INFO}">
     <appender-ref ref="console"/>
