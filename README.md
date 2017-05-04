@@ -40,9 +40,8 @@ Check-out and build:
 
     git clone git://github.com/jdillon/mvnsh.git
     cd mvnsh
-    ./mvnw install
+    ./build rebuild
 
 Extract the assembly and execute the shell:
 
-    unzip -d target mvnsh-dist/mvnsh-assembly/target/mvnsh-*-bin.zip
-    ./target/mvnsh-*/bin/mvnsh
+    ./build run
