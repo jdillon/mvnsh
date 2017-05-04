@@ -64,6 +64,11 @@
 
     <dependency>
       <groupId>com.planet57.gshell.commands</groupId>
+      <artifactId>gshell-shell</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.planet57.gshell.commands</groupId>
       <artifactId>gshell-file</artifactId>
     </dependency>
 
