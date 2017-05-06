@@ -122,7 +122,7 @@ public class EncryptPasswordAction
       result = cipher.encryptAndDecorate(password, masterPasswd);
     }
 
-    io.out.println(result);
+    io.println(result);
 
     // maven core-its need 0 for success
     return null;
