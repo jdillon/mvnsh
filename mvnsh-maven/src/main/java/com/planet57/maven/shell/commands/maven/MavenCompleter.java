@@ -51,6 +51,6 @@ public class MavenCompleter
 
   @Override
   public void complete(final LineReader reader, final ParsedLine line, final List<Candidate> candidates) {
-    delegate.complete(reader, line, candidates);;
+    delegate.complete(reader, line, candidates);
   }
 }
