@@ -29,11 +29,9 @@ import org.apache.maven.cli.CliRequestBuilder;
 import org.apache.maven.cli.MavenCli;
 import org.codehaus.plexus.classworlds.ClassWorld;
 import org.jline.reader.Completer;
-import org.jline.reader.impl.completer.AggregateCompleter;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Provider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -52,45 +50,40 @@ public class MavenAction
     extends CommandActionSupport
     implements OpaqueArguments
 {
+  private final MavenCompleter completer;
+
   private final Provider<ClassWorld> classWorld;
 
   @Inject
-  public MavenAction(final Provider<ClassWorld> classWorld) {
+  public MavenAction(final Provider<ClassWorld> classWorld, final MavenCompleter completer) {
     this.classWorld = checkNotNull(classWorld);
+    this.completer = checkNotNull(completer);
   }
 
-  @Inject
-  public void installCompleters(@Named("maven-option") final Completer c1,
-                                @Named("maven-phase") final Completer c2,
-                                @Named("maven-plugin-goal") final Completer c3)
-  {
-    checkNotNull(c1);
-    checkNotNull(c2);
-    checkNotNull(c3);
-    setCompleters(new AggregateCompleter(c1, c2, c3));
+  @Override
+  protected Completer discoverCompleter() {
+    return completer;
   }
 
   @Override
   public Object execute(@Nonnull final CommandContext context) throws Exception {
-    Variables vars = context.getVariables();
+    Variables variables = context.getVariables();
 
     CliRequestBuilder request = new CliRequestBuilder();
     request.setArguments(strings(context.getArguments()));
 
-    File baseDir = vars.get(SHELL_USER_DIR, File.class);
+    File baseDir = variables.require(SHELL_USER_DIR, File.class);
     request.setWorkingDirectory(baseDir);
 
-    File projectDir = vars.get(MavenCli.MULTIMODULE_PROJECT_DIRECTORY, File.class, null);
+    File projectDir = variables.get(MavenCli.MULTIMODULE_PROJECT_DIRECTORY, File.class, null);
     if (projectDir == null) {
       projectDir = findRootProjectDir(baseDir);
     }
     request.setProjectDirectory(projectDir);
 
     // a few parts of Maven expect "maven.home" system-property to be set
-    File shellHome = vars.get(SHELL_HOME, File.class);
-    if (shellHome != null) {
-      System.setProperty("maven.home", shellHome.getAbsolutePath());
-    }
+    File shellHome = variables.require(SHELL_HOME, File.class);
+    System.setProperty("maven.home", shellHome.getAbsolutePath());
 
     MavenCli cli = new MavenCli(classWorld.get());
     return cli.doMain(request.build());
