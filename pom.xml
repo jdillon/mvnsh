@@ -135,7 +135,7 @@
 
       <dependency>
         <groupId>com.planet57.maven.shell</groupId>
-        <artifactId>mvnsh-maven</artifactId>
+        <artifactId>mvnsh-commands</artifactId>
         <version>1.2.0-SNAPSHOT</version>
       </dependency>
 
@@ -154,7 +154,7 @@
   </dependencyManagement>
 
   <modules>
-    <module>mvnsh-maven</module>
+    <module>mvnsh-commands</module>
     <module>mvnsh-bootstrap</module>
     <module>mvnsh-personality</module>
     <module>mvnsh-assembly</module>
