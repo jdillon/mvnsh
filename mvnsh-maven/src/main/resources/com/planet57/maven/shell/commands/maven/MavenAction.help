@@ -16,43 +16,44 @@
 
 @|bold NAME|@
 
-    @{command.name} - @{command.description}
+  @{command.name} - @{command.description}
 
 @|bold SYNOPSIS|@
 
-    @|bold @{command.name}|@ [options] [goal...] [phase...]
+  @|bold @{command.name}|@ [options] [goal...] [phase...]
 
 @|bold DESCRIPTION|@
 
-    Provides a fast embedded execution of Maven.
+  Provides a fast embedded execution of Maven.
 
 @{command.details}
+
 @|bold EXAMPLES|@
 
-    Execute the default goal on the default pom.xml:
+  Execute the default goal on the default pom.xml:
 
-        @{command.name}
+    @{command.name}
 
-    Execute specific goals:
+  Execute specific goals:
 
-        @{command.name} clean install
+    @{command.name} clean install
 
-    Execute a specific project:
+  Execute a specific project:
 
-        @{command.name} -f project/pom.xml
+    @{command.name} -f project/pom.xml
 
 @|bold SEE ALSO|@
 
-    @|bold encrypt-password|@, @|bold pref/set|@
+  @|bold encrypt-password|@, @|bold pref/set|@
 
 @|bold TIPS|@
 
-    Define an alias for @|bold mvn|@ and include common options or arguments:
+  Define an alias for @|bold mvn|@ and include common options or arguments:
 
-        alias build @{command.name} -o
+    alias build @{command.name} -o
 
-    Running @|bold build|@ will now run Maven offline.
+  Running @|bold build|@ will now run Maven offline.
 
-        alias build @{command.name} -o -Dmaven.test.skip
+    alias build @{command.name} -o -Dmaven.test.skip
 
-    Running @|bold build|@ will now run Maven offline and skip tests.
+  Running @|bold build|@ will now run Maven offline and skip tests.
