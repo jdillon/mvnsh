@@ -84,6 +84,8 @@
   </dependencies>
 
   <build>
+    <finalName>mvnsh-${project.version}</finalName>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -95,8 +97,7 @@
               <goal>single</goal>
             </goals>
             <configuration>
-              <finalName>mvnsh-${project.version}</finalName>
-              <tarLongFileMode>gnu</tarLongFileMode>
+              <tarLongFileMode>posix</tarLongFileMode>
               <descriptors>
                 <descriptor>src/main/assembly/bin.xml</descriptor>
               </descriptors>
