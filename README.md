@@ -17,7 +17,9 @@
 -->
 # Description
 
-Maven Shell (`mvnsh`)
+Maven Shell (`mvnsh`).  
+Some introduction: [Intro to Maven Shell](https://ericmiles.wordpress.com/2010/03/23/intro-to-maven-shell/)
+and [Maven Shell Features Explored](https://ericmiles.wordpress.com/2010/03/26/maven-shell-features/)
 
 [![Build Status](https://travis-ci.org/jdillon/mvnsh.svg?branch=master)](https://travis-ci.org/jdillon/mvnsh)
 
