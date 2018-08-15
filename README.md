@@ -20,6 +20,7 @@
 Maven Shell (`mvnsh`)
 
 [![Build Status](https://travis-ci.org/jdillon/mvnsh.svg?branch=master)](https://travis-ci.org/jdillon/mvnsh)
+[![DepShield Badge](https://depshield.sonatype.org/badges/jdillon/mvnsh/depshield.svg)](https://depshield.github.io)
 
 Based on [GShell 3](https://github.com/jdillon/gshell).
 
